@@ -2,3 +2,4 @@
 
 export(convert_beta_to_m)
 export(convert_m_to_beta)
+export(surro_set)
