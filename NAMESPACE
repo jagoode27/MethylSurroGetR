@@ -2,5 +2,7 @@
 
 export(convert_beta_to_m)
 export(convert_m_to_beta)
+export(impute_obs)
 export(methyl_miss)
 export(surro_set)
+importFrom(stats,median)
