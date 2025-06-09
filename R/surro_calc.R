@@ -7,8 +7,7 @@
 #' adds the intercept if specified, and applies the specified transformation to the results.
 #'
 #' @param methyl_surro An object of class \code{methyl_surro}.
-#' @param transform A character string specifying the transformation to apply. It can be \code{"linear"},
-#'                  \code{"count"}, or \code{"probability"}.
+#' @param transform A character string specifying the transformation to apply. It can be \code{"linear"}, \code{"count"}, or \code{"probability"}.
 #'
 #' @return A named vector of predicted values with names corresponding to the sample names in the methylation matrix.
 #'
