@@ -171,7 +171,8 @@ wts_vec_cnt <- wts_df |>
 # Create a complete methyl_surro object
 methyl_surro_comp <- surro_set(methyl = beta_matrix_comp,
                                weights = wts_vec_lin,
-                               intercept = "Intercept")
+                               intercept = "Intercept") |>
+  reference_fill(reference = ref_vec_mean)
 
 # Create a methyl_surro object with missing values
 methyl_surro_miss <- surro_set(methyl = beta_matrix_miss,
