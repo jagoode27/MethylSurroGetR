@@ -1,5 +1,3 @@
-library(testthat)
-
 # Create Expected Values ----
 
 # complete beta matrix
