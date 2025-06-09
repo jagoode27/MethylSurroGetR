@@ -112,9 +112,24 @@ NULL
 #' @name wts_vec_cnt
 NULL
 
-#' Reference Beta Values
+#' Reference Beta Values Data Frame
 #'
 #' A data frame containing the mean and median beta values for 20 reference probes.
+#'
+#' @format A data frame with 20 rows and 2 columns:
+#' \describe{
+#'   \item{mean}{Mean beta value across reference samples}
+#'   \item{median}{Median beta value across reference samples}
+#' }
+#' @examples
+#' data(ref_df)
+#' str(ref_df)
+#' @name ref_df
+NULL
+
+#' Reference Beta Values Matrix
+#'
+#' A matrix containing the mean and median beta values for 20 reference probes.
 #'
 #' @format A data frame with 20 rows and 2 columns:
 #' \describe{
@@ -122,9 +137,31 @@ NULL
 #'   \item{median}{Median beta value across samples}
 #' }
 #' @examples
-#' data(reference)
-#' str(reference)
-#' @name reference
+#' data(ref_mat)
+#' str(ref_mat)
+#' @name ref_mat
+NULL
+
+#' Reference Beta Values Vector of Mean Values
+#'
+#' A named vector containing the mean for 20 reference probes.
+#'
+#' @format A named vector with 20 items.
+#' @examples
+#' data(ref_vec_mean)
+#' str(ref_vec_mean)
+#' @name ref_vec_mean
+NULL
+
+#' Reference Beta Values Vector of Median Values
+#'
+#' A named vector containing the median for 20 reference probes.
+#'
+#' @format A named vector with 20 items.
+#' @examples
+#' data(ref_vec_median)
+#' str(ref_vec_median)
+#' @name ref_vec_median
 NULL
 
 #' Constructed \code{methyl_surro} Object with Missing Values

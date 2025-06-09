@@ -133,8 +133,8 @@ rm(miss_index)
 mval_matrix_comp <- log2(beta_matrix_comp / (1 - beta_matrix_comp))
 mval_matrix_miss <- log2(beta_matrix_miss / (1 - beta_matrix_miss))
 
-# Generate reference beta values
-reference <- full_matrix |>
+# Generate data frame version of reference values
+ref_df <- full_matrix |>
   column_to_rownames(var = "probe") |>
   apply(1, function(x) {
     cbind(mean = mean(x), median = median(x)) |>
@@ -142,6 +142,17 @@ reference <- full_matrix |>
   }) |>
   bind_rows() |>
   `rownames<-`(paste0("cg", sprintf(paste0("%0", 2, "d"), 1:sim$n_ref)))
+
+# Generate matrix version of reference values
+ref_mat <- as.matrix(ref_df)
+
+# Generate vector versions of reference values
+ref_vec_mean <- ref_df |>
+  pull(mean) |>
+  `names<-`(rownames(ref_df))
+ref_vec_median <- ref_df |>
+  pull(median) |>
+  `names<-`(rownames(ref_df))
 
 # Generate matrix version of weights
 wts_mat <- as.matrix(wts_df)
@@ -165,8 +176,10 @@ methyl_surro_miss <- surro_set(methyl = beta_matrix_miss,
 # Clean up
 rm(list = setdiff(ls(), c("beta_matrix_comp", "beta_matrix_miss",
                           "mval_matrix_comp", "mval_matrix_miss",
-                          "reference", "wts_df", "wts_mat",
-                          "wts_vec_lin", "wts_vec_prb", "wts_vec_cnt",
+                          "wts_df", "wts_mat", "wts_vec_lin",
+                          "wts_vec_prb", "wts_vec_cnt",
+                          "ref_df", "ref_mat",
+                          "ref_vec_mean", "ref_vec_median",
                           "methyl_surro_miss")))
 
 # Export to package
@@ -179,6 +192,9 @@ usethis::use_data(beta_matrix_comp,
                   wts_vec_lin,
                   wts_vec_prb,
                   wts_vec_cnt,
-                  reference,
+                  ref_df,
+                  ref_mat,
+                  ref_vec_mean,
+                  ref_vec_median,
                   methyl_surro_miss,
                   overwrite = TRUE)
