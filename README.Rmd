@@ -1,0 +1,33 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# MethylSurroGetR
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+### 🚧 Under Development 🚧
+**This package is still in development and not yet ready for general use. Proceed with caution!**
+
+The goal of MethylSummarizR is to offer user-friendly tools and functions for generating predicted values from existing DNA methylation surrogates. It aims to enhance the accessibility and reproducibility of methylation data analysis.
+
+## Installation
+
+You can install the development version of MethylSurroGetR from GitHub with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("jagoode27/MethylSurroGetR")
+```
