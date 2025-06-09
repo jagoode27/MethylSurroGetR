@@ -2,4 +2,5 @@
 
 export(convert_beta_to_m)
 export(convert_m_to_beta)
+export(methyl_miss)
 export(surro_set)
