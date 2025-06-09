@@ -157,11 +157,17 @@ wts_vec_cnt <- wts_df |>
   pull(wt_cnt) |>
   `names<-`(rownames(wts_df))
 
+# Create a complete methyl_surro object
+methyl_surro_miss <- surro_set(methyl = beta_matrix_miss,
+                               weights = wts_vec_lin,
+                               intercept = "Intercept")
+
 # Clean up
 rm(list = setdiff(ls(), c("beta_matrix_comp", "beta_matrix_miss",
                           "mval_matrix_comp", "mval_matrix_miss",
                           "reference", "wts_df", "wts_mat",
-                          "wts_vec_lin", "wts_vec_prb", "wts_vec_cnt")))
+                          "wts_vec_lin", "wts_vec_prb", "wts_vec_cnt",
+                          "methyl_surro_miss")))
 
 # Export to package
 usethis::use_data(beta_matrix_comp,
@@ -174,4 +180,5 @@ usethis::use_data(beta_matrix_comp,
                   wts_vec_prb,
                   wts_vec_cnt,
                   reference,
+                  methyl_surro_miss,
                   overwrite = TRUE)

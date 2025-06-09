@@ -126,3 +126,19 @@ NULL
 #' str(reference)
 #' @name reference
 NULL
+
+#' Constructed \code{methyl_surro} Object with Missing Values
+#'
+#' A \code{methyl_surro} object constructed from \code{beta_matrix_comp} and \code{wts_vec_lin}.
+#'
+#' @format An object of class \code{methyl_surro}, containing the following components:
+#' \describe{
+#'   \item{methyl}{A matrix of methylation data with CpG sites as row names. Some values are missing, simulating incomplete data scenarios.}
+#'   \item{weights}{A named numeric vector representing the weights for the CpG sites, excluding the intercept.}
+#'   \item{intercept}{The numeric value of the intercept term, or \code{NULL} if not applicable.}
+#' }
+#' @examples
+#' data(methyl_surro_miss)
+#' str(methyl_surro_miss)
+#' @name methyl_surro_miss
+NULL
