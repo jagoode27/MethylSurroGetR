@@ -21,7 +21,7 @@ test_that("reference_fill() function correctly handles 'probes' type with refere
   expect_equal(function_vals, expected_vals)
 })
 
-test_that("reference_fill() function correctly handles 'cases' type with reference vector", {
+test_that("reference_fill() function correctly handles 'obs' type with reference vector", {
 
   # load sample data
   data(methyl_surro_miss)
@@ -40,7 +40,7 @@ test_that("reference_fill() function correctly handles 'cases' type with referen
   # run function
   function_vals <- reference_fill(methyl_surro = methyl_surro_miss,
                                 reference = ref_vec_mean,
-                                type = "cases")
+                                type = "obs")
   # compare results
   expect_equal(function_vals, expected_vals)
 })
@@ -93,7 +93,7 @@ test_that("reference_fill() function correctly handles 'probes' type with refere
   expect_equal(function_vals, expected_vals)
 })
 
-test_that("reference_fill() function correctly handles 'cases' type with reference matrix", {
+test_that("reference_fill() function correctly handles 'obs' type with reference matrix", {
 
   # load sample data
   data(methyl_surro_miss)
@@ -113,7 +113,7 @@ test_that("reference_fill() function correctly handles 'cases' type with referen
   function_vals <- reference_fill(methyl_surro = methyl_surro_miss,
                                   reference = ref_mat,
                                   col_name = "mean",
-                                  type = "cases")
+                                  type = "obs")
   # compare results
   expect_equal(function_vals, expected_vals)
 })
@@ -167,7 +167,7 @@ test_that("reference_fill() function correctly handles 'probes' type with refere
   expect_equal(function_vals, expected_vals)
 })
 
-test_that("reference_fill() function correctly handles 'cases' type with reference data frame", {
+test_that("reference_fill() function correctly handles 'obs' type with reference data frame", {
 
   # load sample data
   data(methyl_surro_miss)
@@ -187,7 +187,7 @@ test_that("reference_fill() function correctly handles 'cases' type with referen
   function_vals <- reference_fill(methyl_surro = methyl_surro_miss,
                                   reference = ref_df,
                                   col_name = "mean",
-                                  type = "cases")
+                                  type = "obs")
   # compare results
   expect_equal(function_vals, expected_vals)
 })

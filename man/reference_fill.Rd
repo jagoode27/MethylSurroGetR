@@ -8,7 +8,7 @@ reference_fill(
   methyl_surro,
   reference,
   col_name = NULL,
-  type = c("probes", "cases", "all")
+  type = c("probes", "obs", "all")
 )
 }
 \arguments{
@@ -22,8 +22,8 @@ If a matrix or data frame is provided, specify the column using the \code{col_na
 \item{type}{A character string specifying the scope for filling missing data:
 \itemize{
 \item \code{"probes"}: Fill in only missing probes.
-\item \code{"cases"}: Fill in only missing cases.
-\item \code{"all"}: Fill in missing probes and cases.
+\item \code{"obs"}: Fill in only missing observations
+\item \code{"all"}: Fill in missing probes and observations
 }}
 }
 \value{

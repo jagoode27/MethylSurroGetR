@@ -9,8 +9,8 @@
 #' @param col_name Optional; character string specifying the column to use if \code{reference} is a matrix or data frame.
 #' @param type A character string specifying the scope for filling missing data:
 #'   - \code{"probes"}: Fill in only missing probes.
-#'   - \code{"cases"}: Fill in only missing cases.
-#'   - \code{"all"}: Fill in missing probes and cases.
+#'   - \code{"obs"}: Fill in only missing observations
+#'   - \code{"all"}: Fill in missing probes and observations
 #'
 #' @return A \code{methyl_surro} object with its methylation matrix updated by filling in the specified missing probes based on the reference data.
 #'
@@ -29,7 +29,7 @@
 #' print(result$methyl)
 #'
 #' @export
-reference_fill <- function(methyl_surro, reference, col_name = NULL, type = c("probes", "cases", "all")) {
+reference_fill <- function(methyl_surro, reference, col_name = NULL, type = c("probes", "obs", "all")) {
   # Handle reference data input for data frame or matrix
   if (is.data.frame(reference) || is.matrix(reference)) {
     if (is.null(col_name) || !col_name %in% colnames(reference)) {
@@ -57,7 +57,7 @@ reference_fill <- function(methyl_surro, reference, col_name = NULL, type = c("p
         methyl[probe, ] <- named_reference[probe]
       }
     }
-  } else if (type == "cases") {
+  } else if (type == "obs") {
     not_completely_missing_probes <- setdiff(rownames(methyl), completely_missing_probes)
     for (probe in not_completely_missing_probes) {
       missing_indices <- is.na(methyl[probe, ])
