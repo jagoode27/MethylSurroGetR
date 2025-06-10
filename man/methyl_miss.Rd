@@ -12,13 +12,13 @@ methyl_miss(methyl_surro)
 \value{
 A list with two elements:
 \describe{
-\item{missing_cases}{A named numeric vector with the proportion of missing cases for each probe where this value is greater than 0.}
-\item{missing_probes}{A character vector of probes that are missing in all cases.}
+\item{missing_obs}{A named numeric vector with the proportion of missing observations for each probe where this value is greater than 0.}
+\item{missing_probes}{A character vector of probes that are missing in all samples}
 }
 }
 \description{
 This function summarizes the missing data in a methyl_surro object.
-It identifies probes with partial missing data (missing cases) and probes missing
+It identifies probes with partial missing data (missing observations) and probes missing
 from all samples (missing probes).
 }
 \examples{

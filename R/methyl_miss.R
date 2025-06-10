@@ -1,15 +1,15 @@
 #' Summarize Missing Data in methyl_surro Object
 #'
 #' This function summarizes the missing data in a methyl_surro object.
-#' It identifies probes with partial missing data (missing cases) and probes missing
+#' It identifies probes with partial missing data (missing observations) and probes missing
 #' from all samples (missing probes).
 #'
 #' @param methyl_surro An object of class \code{methyl_surro}.
 #'
 #' @return A list with two elements:
 #' \describe{
-#'   \item{missing_cases}{A named numeric vector with the proportion of missing cases for each probe where this value is greater than 0.}
-#'   \item{missing_probes}{A character vector of probes that are missing in all cases.}
+#'   \item{missing_obs}{A named numeric vector with the proportion of missing observations for each probe where this value is greater than 0.}
+#'   \item{missing_probes}{A character vector of probes that are missing in all samples}
 #' }
 #'
 #' @examples
@@ -38,14 +38,14 @@ methyl_miss <- function(methyl_surro) {
 
   methyl <- methyl_surro$methyl
 
-  # Identify missing cases
-  missing_cases <- rowSums(is.na(methyl)) / ncol(methyl)
-  missing_probes <- names(missing_cases[missing_cases == 1])
-  missing_cases <- missing_cases[missing_cases > 0 & missing_cases < 1]
+  # Identify missing observations
+  missing_obs <- rowSums(is.na(methyl)) / ncol(methyl)
+  missing_probes <- names(missing_obs[missing_obs == 1])
+  missing_obs <- missing_obs[missing_obs > 0 & missing_obs < 1]
 
   # Create the result list
   result <- list(
-    missing_cases = missing_cases,
+    missing_obs = missing_obs,
     missing_probes = missing_probes
   )
 
