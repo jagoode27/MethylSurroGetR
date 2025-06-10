@@ -86,7 +86,7 @@ wts_df_expected <- data.frame(wts_mat_expected)
 rm("wts_names")
 
 # reference data frame
-reference_expected = data.frame(
+ref_df_expected = data.frame(
   mean = c(0.3992, 0.6616, 0.4948, 0.5278,
            0.6770, 0.5526, 0.4940, 0.7745,
            0.5281, 0.4982, 0.4566, 0.3856,
@@ -145,10 +145,10 @@ test_that("mval_matrix_comp is correct", {
 test_that("refernce data frame is correct", {
 
   # load sample data
-  data(reference)
+  data(ref_df)
 
   # compare result
-  expect_equal(reference, reference_expected, tolerance = 0.0001)
+  expect_equal(ref_df, ref_df_expected, tolerance = 0.0001)
 })
 
 test_that("wts_vec_lin is correct", {

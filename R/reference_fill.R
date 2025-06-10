@@ -17,11 +17,11 @@
 #' @examples
 #' # Load the sample data
 #' data(methyl_surro_miss)
-#' data(reference)
+#' data(ref_df)
 #'
 #' # Apply reference filling using a specific column of the reference data
 #' result <- reference_fill(methyl_surro = methyl_surro_miss,
-#'                          reference = reference,
+#'                          reference = ref_df,
 #'                          col_name = "mean",
 #'                          type = "probes")
 #'
