@@ -109,7 +109,7 @@ test_that("surro_calc() function works with missing samples and linear transform
   methyl_sub <- methyl_surro_miss_lin$methyl[, -c(2, 3, 5)]
   expected_vals <- as.numeric(
     t(methyl_sub) %*%
-      methyl_surro_comp_lin$weights[rownames(methyl_sub)]
+      methyl_surro_miss_lin$weights[rownames(methyl_sub)]
   ) |>
     `names<-`(paste0("samp", c(1, 4)))
   expected_vals <- expected_vals + methyl_surro_miss_lin$intercept
@@ -145,7 +145,7 @@ test_that("surro_calc() function works with missing probes and linear transforma
   }
   expected_vals <- as.numeric(
     t(methyl_sub) %*%
-      methyl_surro_comp_lin$weights[rownames(methyl_sub)]
+      methyl_surro_miss_lin$weights[rownames(methyl_sub)]
   ) |>
     `names<-`(paste0("samp", c(1:5)))
   expected_vals <- expected_vals + methyl_surro_miss_lin$intercept
@@ -182,7 +182,7 @@ test_that("surro_calc() function works with missing probes, missing samples, and
   }
   expected_vals <- as.numeric(
     t(methyl_sub) %*%
-      methyl_surro_comp_lin$weights[rownames(methyl_sub)]
+      methyl_surro_miss_lin$weights[rownames(methyl_sub)]
   ) |>
     `names<-`(paste0("samp", c(1, 4)))
   expected_vals <- expected_vals + methyl_surro_miss_lin$intercept

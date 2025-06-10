@@ -9,8 +9,7 @@ surro_calc(methyl_surro, transform = c("linear", "count", "probability"))
 \arguments{
 \item{methyl_surro}{An object of class \code{methyl_surro}.}
 
-\item{transform}{A character string specifying the transformation to apply. It can be \code{"linear"},
-\code{"count"}, or \code{"probability"}.}
+\item{transform}{A character string specifying the transformation to apply. It can be \code{"linear"}, \code{"count"}, or \code{"probability"}.}
 }
 \value{
 A named vector of predicted values with names corresponding to the sample names in the methylation matrix.
