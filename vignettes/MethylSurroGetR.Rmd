@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r, include = FALSE}
 library(tidyverse)
+library(kableExtra)
 ```
 
 # Installing & Loading Package
@@ -99,8 +100,11 @@ my_surrogate$methyl |>
   knitr::kable(format = "html",
                escape = FALSE,
                row.names = TRUE,
-               align = rep("c", 5))
+               align = rep("c", 5)) |>
+kableExtra::kable_styling(full_width = FALSE,
+                          position = "center")
 ```
+
 ## Checking for Missing Values
 
 Next, we can check our new methylation matrix for missing values. This seems silly with our small example, but can be much more helpful when working with real data.
