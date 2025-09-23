@@ -72,7 +72,8 @@ It applies row-wise imputation based on a specified non-missing data proportion 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Apply mean imputation with a specified threshold for non-missing data in probes</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">impute_obs</span><span class="op">(</span><span class="va">methyl_surro_miss</span>, <span class="st">"mean"</span>, min_nonmiss_prop <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 probes were not imputed because they did not meet the threshold. Please use methyl_miss() to see details.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Imputed 1 values in 1 probes using mean method.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 probes were not imputed because they did not meet the threshold. Use methyl_miss() to see missing probes.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check the imputed result</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">methyl</span><span class="op">)</span></span></span>
