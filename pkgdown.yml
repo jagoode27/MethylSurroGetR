@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   MethylSurroGetR: MethylSurroGetR.html
-last_built: 2025-06-10T03:57Z
+last_built: 2025-09-23T20:55Z
 urls:
   reference: https://jagoode27.github.io/MethylSurroGetR/reference
   article: https://jagoode27.github.io/MethylSurroGetR/articles
