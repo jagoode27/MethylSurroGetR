@@ -115,6 +115,8 @@ and with additional empty rows added for weights not present in the methylation 
 <span class="r-in"><span><span class="va">surrogate_vec</span> <span class="op">&lt;-</span> <span class="fu">surro_set</span><span class="op">(</span>methyl <span class="op">=</span> <span class="va">beta_matrix_comp</span>,</span></span>
 <span class="r-in"><span>                           weights <span class="op">=</span> <span class="va">wts_vec_lin</span>,</span></span>
 <span class="r-in"><span>                           intercept <span class="op">=</span> <span class="st">"Intercept"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Added 5 missing probes with NA values (50.0% of weight probes missing from methylation data).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtered methylation matrix from 15 to 10 probes to match weights.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">surrogate_vec</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $methyl</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          samp1     samp2      samp3     samp4      samp5</span>
@@ -162,32 +164,9 @@ and with additional empty rows added for weights not present in the methylation 
 <span class="r-in"><span><span class="va">surrogate_df</span> <span class="op">&lt;-</span> <span class="fu">surro_set</span><span class="op">(</span>methyl <span class="op">=</span> <span class="va">beta_matrix_comp</span>,</span></span>
 <span class="r-in"><span>                       weights <span class="op">=</span> <span class="va">wts_df</span><span class="op">[</span><span class="st">"wt_lin"</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span>                       intercept <span class="op">=</span> <span class="st">"Intercept"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in surro_set(methyl = beta_matrix_comp, weights = wts_df["wt_lin"],     intercept = "Intercept"):</span> Weights must be a named numeric vector with CpG site names.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">surrogate_df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $methyl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          samp1     samp2      samp3     samp4      samp5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg02 0.2875775 0.7883051 0.40897692 0.8830174 0.94046728</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg07 0.8998250 0.2460877 0.04205953 0.3279207 0.95450365</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg08 0.8895393 0.6928034 0.64050681 0.9942698 0.65570580</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg13 0.9630242 0.9022990 0.69070528 0.7954674 0.02461368</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg17 0.1428000 0.4145463 0.41372433 0.3688455 0.15244475</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg03        NA        NA         NA        NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg06        NA        NA         NA        NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg11        NA        NA         NA        NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg15        NA        NA         NA        NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cg18        NA        NA         NA        NA         NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $weights</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         cg02         cg03         cg06         cg07         cg08         cg11 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.009083377 -0.001155999  0.005978497 -0.007562015  0.001218960 -0.005869372 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         cg13         cg15         cg17         cg18 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -0.007449367  0.005066157  0.007900907 -0.002510744 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Intercept </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     1.211 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "methyl_surro"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'surrogate_df' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Specify Weights from a Matrix</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">wts_mat</span>, package <span class="op">=</span> <span class="st">"MethylSurroGetR"</span><span class="op">)</span></span></span>
@@ -209,6 +188,8 @@ and with additional empty rows added for weights not present in the methylation 
 <span class="r-in"><span><span class="va">surrogate_mat</span> <span class="op">&lt;-</span> <span class="fu">surro_set</span><span class="op">(</span>methyl <span class="op">=</span> <span class="va">beta_matrix_comp</span>,</span></span>
 <span class="r-in"><span>                           weights <span class="op">=</span> <span class="va">wts_mat</span><span class="op">[</span>, <span class="st">"wt_lin"</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span>                           intercept <span class="op">=</span> <span class="st">"Intercept"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Added 5 missing probes with NA values (50.0% of weight probes missing from methylation data).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtered methylation matrix from 15 to 10 probes to match weights.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">surrogate_mat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $methyl</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          samp1     samp2      samp3     samp4      samp5</span>

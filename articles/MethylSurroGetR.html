@@ -136,6 +136,8 @@ applicable) with the <code>intercept</code> option.</p>
 <code class="sourceCode R"><span><span class="va">my_surrogate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surro_set.html">surro_set</a></span><span class="op">(</span>methyl <span class="op">=</span> <span class="va">beta_matrix_miss</span>,</span>
 <span>                          weights <span class="op">=</span> <span class="va">wts_vec_lin</span>,</span>
 <span>                          intercept <span class="op">=</span> <span class="st">"Intercept"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Added 5 missing probes with NA values (50.0% of weight probes missing from methylation data).</span></span>
+<span><span class="co">#&gt; Filtered methylation matrix from 15 to 10 probes to match weights.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_surrogate</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $methyl</span></span>
 <span><span class="co">#&gt;          samp1     samp2     samp3     samp4      samp5</span></span>
@@ -445,7 +447,39 @@ when working with real data.</p>
 <span><span class="co">#&gt;  0.6  0.2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $missing_probes</span></span>
-<span><span class="co">#&gt; [1] "cg03" "cg06" "cg11" "cg15" "cg18"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "cg03" "cg06" "cg11" "cg15" "cg18"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary</span></span>
+<span><span class="co">#&gt; $summary$total_probes</span></span>
+<span><span class="co">#&gt; [1] 10</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$total_samples</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$n_complete_probes</span></span>
+<span><span class="co">#&gt; [1] 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$n_missing_obs</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$n_missing_probes</span></span>
+<span><span class="co">#&gt; [1] 5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$overall_missing_rate</span></span>
+<span><span class="co">#&gt; [1] 0.58</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$missing_obs_rate</span></span>
+<span><span class="co">#&gt; [1] 0.2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$missing_probes_rate</span></span>
+<span><span class="co">#&gt; [1] 0.5</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $summary$complete_probes_rate</span></span>
+<span><span class="co">#&gt; [1] 0.3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "methyl_miss"</span></span></code></pre></div>
 <p>Notice that the object created by <code><a href="../reference/methyl_miss.html">methyl_miss()</a></code> contains
 an element for each type of missing data:</p>
 <ul>
@@ -585,6 +619,8 @@ can pipe the commands in a single string to clean up our code.</p>
 <span>  <span class="fu"><a href="../reference/impute_obs.html">impute_obs</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/reference_fill.html">reference_fill</a></span><span class="op">(</span>reference <span class="op">=</span> <span class="va">ref_vec_mean</span>, type <span class="op">=</span> <span class="st">"probes"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/surro_calc.html">surro_calc</a></span><span class="op">(</span>transform <span class="op">=</span> <span class="st">"linear"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Added 5 missing probes with NA values (50.0% of weight probes missing from methylation data).</span></span>
+<span><span class="co">#&gt; Filtered methylation matrix from 15 to 10 probes to match weights.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">estimates</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    samp1    samp2    samp3    samp4    samp5 </span></span>
 <span><span class="co">#&gt; 1.197718 1.202317 1.201093 1.199796 1.201382</span></span></code></pre></div>
