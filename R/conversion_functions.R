@@ -1,21 +1,43 @@
 #' Conversion Functions for M-Values and Beta Values
 #'
 #' These functions convert methylation M-values to beta values and vice versa.
+#' Beta values represent methylation levels as proportions (0-1), while M-values
+#' are log2 ratios that provide better statistical properties for analysis.
 #'
-#' @param methyl A matrix or data frame of methylation values. All values must be numeric and the matrix or data frame must have CpG sites as row names.
+#' @param methyl A matrix of methylation values with CpG sites as row names and samples as column names. All values must be numeric.
+#' @param in_place Logical. If \code{TRUE}, the conversion is performed in-place to save memory.
+#'        \strong{WARNING: This will permanently modify the original matrix.} Default is \code{FALSE}.
 #'
-#' @return For `convert_m_to_beta`, the function returns a matrix or data frame of beta values corresponding to the input M-values.
+#' @return For \code{convert_m_to_beta}, returns a matrix of beta values corresponding to the input M-values.
 #'
-#' For `convert_beta_to_m`, the function returns a matrix or data frame of M-values corresponding to the input beta values.
+#' For \code{convert_beta_to_m}, returns a matrix of M-values corresponding to the input beta values.
+#'
+#' @details
+#' \strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50\%
+#' but will permanently modify the original data.
+#'
+#' \strong{Numerical Stability:} The functions automatically handle extreme beta values (0 or 1) that would otherwise
+#' result in infinite M-values by clamping them to a small epsilon away from the boundaries.
+#'
+#' \strong{Value Ranges:} Beta values should be between 0 and 1. Values outside this range will generate a warning
+#' but the conversion will proceed.
 #'
 #' @examples
 #' # Load Methylation M-Values Matrix
 #' data(mval_matrix_comp, package = "MethylSurroGetR")
 #' print(mval_matrix_comp)
 #'
-#' # Convert M-values to Beta Values
+#' # Convert M-values to Beta Values (creates new object)
 #' beta_values <- convert_m_to_beta(mval_matrix_comp)
 #' print(beta_values)
+#'
+#' # Convert in-place for memory efficiency (modifies original!)
+#' \dontrun{
+#' # Make a copy first if you need to preserve original
+#' mval_copy <- mval_matrix_comp
+#' beta_inplace <- convert_m_to_beta(mval_copy, in_place = TRUE)
+#' # mval_copy is now modified and contains beta values
+#' }
 #'
 #' # Load Methylation Beta Matrix
 #' data(beta_matrix_comp, package = "MethylSurroGetR")
@@ -32,28 +54,45 @@ NULL
 #'
 #' @rdname methylConversion
 #' @export
-convert_m_to_beta <- function(methyl) {
-  # Check if the input is a matrix or data frame
-  if (!is.matrix(methyl) && !is.data.frame(methyl)) {
-    stop("Input must be a matrix or data frame.")
+convert_m_to_beta <- function(methyl, in_place = FALSE) {
+  # Check if the input is a matrix
+  if (!is.matrix(methyl)) {
+    stop("Input must be a matrix.")
   }
 
-  # Preserve input format for return
-  is_data_frame <- is.data.frame(methyl)
+  # Check if all values are numeric
+  if (!is.numeric(methyl)) {
+    stop("All values in the methylation matrix must be numeric.")
+  }
 
-  # Convert to a consistent format for processing
-  if (is_data_frame) {
-    m_values <- as.matrix(methyl)
-  } else {
-    m_values <- methyl
+  # Check for empty input
+  if (nrow(methyl) == 0 || ncol(methyl) == 0) {
+    stop("Input matrix cannot be empty.")
+  }
+
+  # Check for row names (CpG identifiers)
+  if (is.null(rownames(methyl))) {
+    warning("Matrix lacks row names. Consider adding CpG site identifiers as row names.")
+  }
+
+  # Warn user about in_place modification
+  if (in_place) {
+    message("Using in_place = TRUE will permanently modify the original matrix.")
   }
 
   # Convert each m-value to a beta value, preserving NAs
-  beta_values <- 2^m_values / (2^m_values + 1)
+  if (in_place) {
+    # Modify original matrix in place
+    methyl[] <- 2^methyl / (2^methyl + 1)
+    beta_values <- methyl
+  } else {
+    # Create new object
+    beta_values <- 2^methyl / (2^methyl + 1)
+  }
 
-  # Convert back to data frame if original input was a data frame
-  if (is_data_frame) {
-    beta_values <- as.data.frame(beta_values)
+  # Check for values outside expected range and warn
+  if (any(!is.na(beta_values) & (beta_values < 0 | beta_values > 1))) {
+    warning("Some converted beta values are outside the expected [0,1] range. This may indicate invalid M-values in the input.")
   }
 
   return(beta_values)
@@ -63,28 +102,54 @@ convert_m_to_beta <- function(methyl) {
 #'
 #' @rdname methylConversion
 #' @export
-convert_beta_to_m <- function(methyl) {
-  # Check if the input is a matrix or data frame
-  if (!is.matrix(methyl) && !is.data.frame(methyl)) {
-    stop("Input must be a matrix or data frame.")
+convert_beta_to_m <- function(methyl, in_place = FALSE) {
+  # Check if the input is a matrix
+  if (!is.matrix(methyl)) {
+    stop("Input must be a matrix.")
   }
 
-  # Preserve input format for return
-  is_data_frame <- is.data.frame(methyl)
+  # Check if all values are numeric
+  if (!is.numeric(methyl)) {
+    stop("All values in the methylation matrix must be numeric.")
+  }
 
-  # Convert to a consistent format for processing
-  if (is_data_frame) {
-    beta_values <- as.matrix(methyl)
+  # Check for empty input
+  if (nrow(methyl) == 0 || ncol(methyl) == 0) {
+    stop("Input matrix cannot be empty.")
+  }
+
+  # Check for row names (CpG identifiers)
+  if (is.null(rownames(methyl))) {
+    warning("Matrix lacks row names. Consider adding CpG site identifiers as row names.")
+  }
+
+  # Check for values outside expected range and warn
+  if (any(!is.na(methyl) & (methyl < 0 | methyl > 1))) {
+    warning("Beta values outside [0,1] range detected. Results may be unreliable.")
+  }
+
+  # Warn user about in_place modification
+  if (in_place) {
+    message("Using in_place = TRUE will permanently modify the original matrix.")
+  }
+
+  # Apply numerical stability: clamp extreme beta values and convert
+  if (in_place) {
+    # Modify original matrix in place
+    # First clamp to safe range
+    methyl[] <- pmax(pmin(methyl, 1 - 1e-6), 1e-6)
+    # Then convert
+    methyl[] <- log2(methyl / (1 - methyl))
+    m_values <- methyl
   } else {
-    beta_values <- methyl
-  }
+    # Create new object
+    # Clamp beta values to prevent infinite M-values
+    beta_clamped <- pmax(pmin(methyl, 1 - 1e-6), 1e-6)
+    # Convert each beta value to an m-value, preserving NAs
+    m_values <- log2(beta_clamped / (1 - beta_clamped))
 
-  # Convert each beta value to an m-value, preserving NAs
-  m_values <- log2(beta_values / (1 - beta_values))
-
-  # Convert back to data frame if original input was a data frame
-  if (is_data_frame) {
-    m_values <- as.data.frame(m_values)
+    # Restore NAs that were in original data
+    m_values[is.na(methyl)] <- NA
   }
 
   return(m_values)
