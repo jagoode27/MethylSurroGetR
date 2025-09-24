@@ -7,8 +7,6 @@
 #' @param method A character string indicating the imputation method. Must be either \code{"mean"} or \code{"median"}.
 #' @param min_nonmiss_prop The minimum proportion of non-missing data required in a probe (row) for the imputation to proceed. Must be a numeric value between 0 and 1.
 #' @param return_stats Logical. If \code{TRUE}, detailed imputation statistics are added to the returned object. Default is \code{FALSE}.
-#' @param in_place Logical. If \code{TRUE}, the original \code{methyl_surro} object is modified directly to save memory.
-#'        \strong{WARNING: This will permanently modify the original object.} Default is \code{FALSE}.
 #' @param verbose Logical. If \code{TRUE}, detailed progress messages are displayed. Default is \code{FALSE}.
 #'
 #' @return A \code{methyl_surro} object with missing observations imputed, updating the methylation matrix as per the given method and threshold.
@@ -18,28 +16,17 @@
 #' The function uses vectorized operations for efficient processing of large matrices. Probes are only imputed if they meet the
 #' minimum non-missing data threshold and are not completely missing.
 #'
-#' \strong{Memory Usage:} For large datasets, setting \code{in_place = TRUE} can reduce memory usage by approximately 50%
-#' but will permanently modify the original object.
-#'
 #' @importFrom stats median
 #'
 #' @examples
 #' # Load the sample data
 #' data(methyl_surro_miss)
 #'
-#' # Apply mean imputation with a specified threshold (creates new object)
+#' # Apply mean imputation with a specified threshold
 #' result <- impute_obs(methyl_surro_miss, "mean", min_nonmiss_prop = 0.5)
 #'
 #' # Check the imputed result
 #' print(result$methyl)
-#'
-#' # For memory efficiency with large datasets (modifies original!)
-#' \dontrun{
-#' # Make a copy first if you need to preserve original
-#' surro_copy <- methyl_surro_miss
-#' result <- impute_obs(surro_copy, "mean", min_nonmiss_prop = 0.5, in_place = TRUE)
-#' # surro_copy is now modified
-#' }
 #'
 #' # Get detailed imputation statistics
 #' result_with_stats <- impute_obs(methyl_surro_miss, "mean",
@@ -53,7 +40,6 @@ impute_obs <- function(methyl_surro,
                        method = c("mean", "median"),
                        min_nonmiss_prop = 0,
                        return_stats = FALSE,
-                       in_place = FALSE,
                        verbose = FALSE) {
 
   method <- match.arg(method)
@@ -71,25 +57,16 @@ impute_obs <- function(methyl_surro,
     stop("min_nonmiss_prop must be a numeric value between 0 and 1.")
   }
 
-  # Warn user about in_place modification
-  if (in_place) {
-    message("Using in_place = TRUE will permanently modify the original methyl_surro object.")
-  }
+  # Create copy to avoid modifying original
+  if (verbose) message("Creating copy of methyl_surro object")
+  result_surro <- list(
+    methyl = methyl_surro$methyl,
+    weights = methyl_surro$weights,
+    intercept = methyl_surro$intercept
+  )
+  class(result_surro) <- "methyl_surro"
 
-  # Create copy if not in_place (default behavior)
-  if (!in_place) {
-    if (verbose) message("Creating copy of methyl_surro object (in_place = FALSE)")
-    methyl_surro <- list(
-      methyl = methyl_surro$methyl,
-      weights = methyl_surro$weights,
-      intercept = methyl_surro$intercept
-    )
-    class(methyl_surro) <- "methyl_surro"
-  } else if (verbose) {
-    message("Modifying original methyl_surro object (in_place = TRUE)")
-  }
-
-  methyl <- methyl_surro$methyl
+  methyl <- result_surro$methyl
 
   # Check for empty matrix
   if (nrow(methyl) == 0 || ncol(methyl) == 0) {
@@ -99,7 +76,7 @@ impute_obs <- function(methyl_surro,
   # Check if there's any missing data to impute
   if (!any(is.na(methyl))) {
     if (verbose) message("No missing values found. Returning original object unchanged.")
-    return(methyl_surro)
+    return(result_surro)
   }
 
   # Store original for statistics
@@ -149,14 +126,14 @@ impute_obs <- function(methyl_surro,
   if (n_eligible == 0) {
     if (verbose) message("No probes meet the imputation threshold.")
     if (return_stats) {
-      methyl_surro$imputation_stats <- create_imputation_stats(
+      result_surro$imputation_stats <- create_imputation_stats(
         method, min_nonmiss_prop, methyl, missing_mask,
         n_complete, n_completely_missing, n_partially_missing,
         0, n_skipped, character(0), rownames(methyl)[partially_missing_probes & !eligible_for_imputation],
         0, original_missing_count, original_missing_count
       )
     }
-    return(methyl_surro)
+    return(result_surro)
   }
 
   # Calculate imputation values efficiently
@@ -236,8 +213,8 @@ impute_obs <- function(methyl_surro,
     }
   }
 
-  # Update the methyl_surro object
-  methyl_surro$methyl <- methyl
+  # Update the result object
+  result_surro$methyl <- methyl
 
   # Add imputation statistics if requested
   if (return_stats) {
@@ -246,7 +223,7 @@ impute_obs <- function(methyl_surro,
                               "% < ", round(100 * min_nonmiss_prop, 1), "%")
     names(skipped_reasons) <- skipped_probes
 
-    methyl_surro$imputation_stats <- create_imputation_stats(
+    result_surro$imputation_stats <- create_imputation_stats(
       method, min_nonmiss_prop, methyl, missing_mask,
       n_complete, n_completely_missing, n_partially_missing,
       length(imputed_probes), n_skipped, imputed_probes, skipped_probes,
@@ -255,7 +232,7 @@ impute_obs <- function(methyl_surro,
     )
   }
 
-  return(methyl_surro)
+  return(result_surro)
 }
 
 # Helper function to create imputation statistics
@@ -331,9 +308,7 @@ print.imputation_stats <- function(x, ...) {
   }
 
   if (x$n_missing_after_imputation > 0) {
-    cat(sprintf("- Remaining missing: %d values (%.1f%% of total)\n",
-                x$n_missing_after_imputation,
-                100 * x$n_missing_after_imputation / (x$n_total_probes * ncol(x))))
+    cat(sprintf("- Remaining missing: %d values\n", x$n_missing_after_imputation))
   } else {
     cat("- No missing values remaining\n")
   }
