@@ -606,6 +606,16 @@ generated with <code>transform = "count"</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estimates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/surro_calc.html">surro_calc</a></span><span class="op">(</span>methyl_surro <span class="op">=</span> <span class="va">my_surrogate</span>,</span>
 <span>                        transform <span class="op">=</span> <span class="st">"linear"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Starting surrogate calculation with linear transformation...</span></span>
+<span><span class="co">#&gt; Input: 10 probes x 5 samples</span></span>
+<span><span class="co">#&gt; Weights: 10 probe weights available</span></span>
+<span><span class="co">#&gt; Intercept: 1.211000</span></span>
+<span><span class="co">#&gt; Calculating weighted sum...</span></span>
+<span><span class="co">#&gt; Added intercept: 1.211000</span></span>
+<span><span class="co">#&gt; Applying linear transformation...</span></span>
+<span><span class="co">#&gt; Calculation completed successfully:</span></span>
+<span><span class="co">#&gt; - Final sample count: 5</span></span>
+<span><span class="co">#&gt; - Result range: 1.1977 to 1.2023</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">estimates</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    samp1    samp2    samp3    samp4    samp5 </span></span>
 <span><span class="co">#&gt; 1.197718 1.202317 1.201093 1.199796 1.201382</span></span></code></pre></div>
@@ -625,6 +635,16 @@ can pipe the commands in a single string to clean up our code.</p>
 <span><span class="co">#&gt; Filtered methylation matrix from 15 to 10 probes to match weights.</span></span>
 <span><span class="co">#&gt; Imputed 4 values in 2 probes using mean method.</span></span>
 <span><span class="co">#&gt; Filled 25 values using reference data (probes strategy).</span></span>
+<span><span class="co">#&gt; Starting surrogate calculation with linear transformation...</span></span>
+<span><span class="co">#&gt; Input: 10 probes x 5 samples</span></span>
+<span><span class="co">#&gt; Weights: 10 probe weights available</span></span>
+<span><span class="co">#&gt; Intercept: 1.211000</span></span>
+<span><span class="co">#&gt; Calculating weighted sum...</span></span>
+<span><span class="co">#&gt; Added intercept: 1.211000</span></span>
+<span><span class="co">#&gt; Applying linear transformation...</span></span>
+<span><span class="co">#&gt; Calculation completed successfully:</span></span>
+<span><span class="co">#&gt; - Final sample count: 5</span></span>
+<span><span class="co">#&gt; - Result range: 1.1977 to 1.2023</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">estimates</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    samp1    samp2    samp3    samp4    samp5 </span></span>
 <span><span class="co">#&gt; 1.197718 1.202317 1.201093 1.199796 1.201382</span></span></code></pre></div>
