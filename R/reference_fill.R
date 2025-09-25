@@ -4,9 +4,7 @@
 #' Users can specify if imputation should consider only fully missing rows, partially missing rows, or the entire dataset.
 #'
 #' @param methyl_surro An object of class \code{methyl_surro}, containing a methylation matrix.
-#' @param reference A named numeric vector or a matrix/data frame with row names, containing reference values for probes to impute missing data.
-#'        If a matrix or data frame is provided, specify the column using the \code{col_name} argument.
-#' @param col_name Optional; character string specifying the column to use if \code{reference} is a matrix or data frame.
+#' @param reference A named numeric vector containing reference values for probes to impute missing data.
 #' @param type A character string specifying the scope for filling missing data:
 #'   - \code{"probes"}: Fill in only missing probes (completely missing rows).
 #'   - \code{"obs"}: Fill in only missing observations (partially missing values).
@@ -29,10 +27,13 @@
 #' data(methyl_surro_miss)
 #' data(ref_df)
 #'
-#' # Apply reference filling using a specific column of the reference data
+#' # Extract specific reference columns as named vectors
+#' ref_mean <- setNames(ref_df$mean, rownames(ref_df))
+#' ref_median <- setNames(ref_df$median, rownames(ref_df))
+#'
+#' # Apply reference filling using reference vector
 #' result <- reference_fill(methyl_surro = methyl_surro_miss,
-#'                          reference = ref_df,
-#'                          col_name = "mean",
+#'                          reference = ref_mean,
 #'                          type = "probes",
 #'                          verbose = TRUE)
 #'
@@ -40,13 +41,13 @@
 #' print(result$methyl)
 #'
 #' # Get detailed filling statistics
-#' result_with_stats <- reference_fill(methyl_surro_miss, ref_df,
-#'                                      col_name = "mean", type = "all",
+#' result_with_stats <- reference_fill(methyl_surro_miss, ref_median,
+#'                                      type = "all",
 #'                                      return_stats = TRUE, verbose = TRUE)
 #' print(result_with_stats$reference_fill_stats)
 #'
 #' @export
-reference_fill <- function(methyl_surro, reference, col_name = NULL,
+reference_fill <- function(methyl_surro, reference,
                            type = c("probes", "obs", "all"),
                            return_stats = FALSE, verbose = FALSE) {
 
@@ -77,30 +78,11 @@ reference_fill <- function(methyl_surro, reference, col_name = NULL,
   type <- match.arg(type)
 
   # Handle reference data input validation and conversion
-  if (is.data.frame(reference) || is.matrix(reference)) {
-    if (is.null(col_name)) {
-      stop("col_name must be specified when reference is a matrix or data frame.")
-    }
-    if (!col_name %in% colnames(reference)) {
-      stop(sprintf("Column '%s' not found in reference data. Available columns: %s",
-                   col_name, paste(colnames(reference), collapse = ", ")))
-    }
-    if (is.null(rownames(reference))) {
-      stop("Reference matrix/data frame must have row names (probe identifiers).")
-    }
-
-    reference_vector <- reference[, col_name]
-    if (!is.numeric(reference_vector)) {
-      stop(sprintf("Reference column '%s' must be numeric.", col_name))
-    }
-
-    named_reference <- setNames(reference_vector, rownames(reference))
-
-  } else if (is.numeric(reference) && !is.null(names(reference))) {
-    named_reference <- reference
-  } else {
-    stop("Reference must be a named numeric vector or a matrix/data frame with row names.")
+  if (!is.numeric(reference) || !is.vector(reference) || is.null(names(reference))) {
+    stop("Reference must be a named numeric vector with probe identifiers.")
   }
+
+  named_reference <- reference
 
   # Remove NA values from reference and warn
   na_ref_count <- sum(is.na(named_reference))
