@@ -1,197 +1,167 @@
+#' Sample Methylation Data for MethylSurroGetR Package
+#'
+#' This file contains sample datasets used in examples and testing for the MethylSurroGetR package.
+#' All datasets are designed to demonstrate package functionality with realistic but manageable data sizes.
+#'
+#' @name sample_data
+#' @docType data
+#' @keywords datasets
+NULL
+
+#' @section Methylation Data Matrices:
+#' The package includes four methylation data matrices demonstrating different data scenarios:
+#' \describe{
+#'   \item{\code{\link{beta_matrix_comp}}}{Complete beta values without missing data}
+#'   \item{\code{\link{beta_matrix_miss}}}{Beta values with strategic missing data patterns}
+#'   \item{\code{\link{mval_matrix_comp}}}{Complete M-values derived from beta_matrix_comp}
+#'   \item{\code{\link{mval_matrix_miss}}}{M-values with missing data derived from beta_matrix_miss}
+#' }
+
 #' Complete Beta Matrix without Missing Values
 #'
-#' A 15 x 5 matrix of methylation beta values for sampled probes without any missing data.
-#' (Probes are in rows and samples are in columns.)
+#' A 15 × 5 matrix of methylation beta values representing complete data without missing observations.
 #'
-#' @format A matrix with 15 rows and 5 columns.
+#' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
+#' \describe{
+#'   \item{Rows}{CpG probe identifiers (e.g., "cg01", "cg02", etc.)}
+#'   \item{Columns}{Sample identifiers ("samp1" through "samp5")}
+#' }
+#'
+#' @source Simulated data
+#' @seealso \code{\link{beta_matrix_miss}}, \code{\link{mval_matrix_comp}}, \code{\link{convert_beta_to_m}}
+#'
 #' @examples
 #' data(beta_matrix_comp)
 #' str(beta_matrix_comp)
-#' @name beta_matrix_comp
-NULL
+#'
+#' @keywords datasets
+"beta_matrix_comp"
 
 #' Beta Matrix with Missing Values
 #'
-#' A 15 x 5 matrix of methylation beta values for sampled probes with some missing data.
-#' (Probes are in rows and samples are in columns.)
+#' A 15 × 5 matrix of methylation beta values containing missing values.
 #'
+#' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
+#' \describe{
+#'   \item{Rows}{CpG probe identifiers matching \code{\link{beta_matrix_comp}}}
+#'   \item{Columns}{Sample identifiers matching \code{\link{beta_matrix_comp}}}
+#' }
 #'
-#' @format A matrix with 15 rows and 5 columns.
+#' @source Derived from \code{\link{beta_matrix_comp}} with simulated missing data patterns
+#' @seealso \code{\link{beta_matrix_comp}}, \code{\link{impute_obs}}, \code{\link{methyl_miss}}, \code{\link{reference_fill}}
+#'
 #' @examples
 #' data(beta_matrix_miss)
 #' str(beta_matrix_miss)
-#' @name beta_matrix_miss
-NULL
+#'
+#' @keywords datasets
+"beta_matrix_miss"
 
-#' Complete M-Values Matrix without Missing Values and its Associated Elements
+#' Complete M-Values Matrix
 #'
-#' A 15 x 5 matrix of methylation M-values without any missing data.
-#' (Probes are in rows and samples are in columns.)
+#' A 15 × 5 matrix of methylation M-values representing complete data without missing observations.
 #'
-#' @format A matrix with 15 rows and 5 columns.
+#' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
+#' \describe{
+#'   \item{Rows}{CpG probe identifiers matching \code{\link{beta_matrix_comp}}}
+#'   \item{Columns}{Sample identifiers matching \code{\link{beta_matrix_comp}}}
+#' }
+#'
+#' @source Converted from \code{\link{beta_matrix_comp}} using \code{convert_beta_to_m()}
+#' @seealso \code{\link{beta_matrix_comp}}, \code{\link{mval_matrix_miss}}, \code{\link{convert_beta_to_m}}, \code{\link{convert_m_to_beta}}
+#'
 #' @examples
 #' data(mval_matrix_comp)
 #' str(mval_matrix_comp)
-#' @name mval_matrix_comp
-NULL
+#'
+#' @keywords datasets
+"mval_matrix_comp"
 
 #' M-Values Matrix with Missing Values
 #'
-#' A 15 x 5 matrix of methylation M-values with some missing data.
-#' (Probes are in rows and samples are in columns.)
+#' A 15 × 5 matrix of methylation M-values with the same missing values.
 #'
-#' @format A matrix with 15 rows and 5 columns.
+#' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
+#' \describe{
+#'   \item{Rows}{CpG probe identifiers matching other methylation matrices}
+#'   \item{Columns}{Sample identifiers matching other methylation matrices}
+#' }
+#'
+#' @source Converted from \code{\link{beta_matrix_miss}} using \code{convert_beta_to_m()}
+#' @seealso \code{\link{mval_matrix_comp}}, \code{\link{beta_matrix_miss}}, \code{\link{convert_beta_to_m}}
+#'
 #' @examples
 #' data(mval_matrix_miss)
 #' str(mval_matrix_miss)
-#' @name mval_matrix_miss
-NULL
+#'
+#' @keywords datasets
+"mval_matrix_miss"
 
-#' Weights Data Frame
+#' Regression Weights Data Frame
 #'
-#' A data frame containing regression weights for linear, logistic, and Poisson regression models for 10 probes.
+#' A data frame containing regression weights for three different simulated statistical models.
 #'
-#' @format A data frame with 10 rows and 3 columns:
+#' @format A data frame with 11 rows and 3 columns:
 #' \describe{
-#'   \item{wt_lin}{Weights for linear regression}
-#'   \item{wt_prb}{Weights for logistic (probability) regression}
-#'   \item{wt_cnt}{Weights for Poisson (count) regression}
+#'   \item{wt_lin}{Linear regression weights for continuous outcomes}
+#'   \item{wt_prb}{Logistic regression weights for binary outcomes (log-odds scale)}
+#'   \item{wt_cnt}{Poisson regression weights for count outcomes (log scale)}
 #' }
+#'
+#' Row names represent 10 CpG probe identifiers plus "Intercept" term.
+#'
+#' Model types demonstrated:
+#' \itemize{
+#'   \item Linear: Continuous phenotype prediction
+#'   \item Logistic: Binary classification (disease status, etc.)
+#'   \item Poisson: Count-based outcomes (cell counts, etc.)
+#' }
+#'
+#' @source Simulated data
+#'
 #' @examples
 #' data(wts_df)
 #' str(wts_df)
-#' @name wts_df
-NULL
+#'
+#' # Extract weights vectors
+#' linear_weights <- setNames(wts_df$wt_lin, rownames(wts_df))
+#' logistic_weights <- setNames(wts_df$wt_prb, rownames(wts_df))
+#' poisson_weights <- setNames(wts_df$wt_cnt, rownames(wts_df))
+#'
+#' @keywords datasets
+"wts_df"
 
-#' Weights Matrix
+#' Reference Values Data Frame
 #'
-#' A 10 x 3 matrix of regression weights.
+#' A data frame containing population-level reference values for methylation probes,
+#' used for imputing completely missing probes when target data lacks specific CpG sites.
+#' Values derived from large-scale population methylation studies.
 #'
-#' @format A matrix with 10 rows and 3 columns.
+#' @format A data frame with 20 rows (CpG probes) and 2 columns:
 #' \describe{
-#'   \item{wt_lin}{Weights for linear regression}
-#'   \item{wt_prb}{Weights for logistic (probability) regression}
-#'   \item{wt_cnt}{Weights for Poisson (count) regression}
+#'   \item{mean}{Population mean beta values for each probe}
+#'   \item{median}{Population median beta values for each probe}
 #' }
-#' @examples
-#' data(wts_mat)
-#' str(wts_mat)
-#' @name wts_mat
-NULL
-
-#' Linear Regression Weights Vector
 #'
-#' A named vector of weights for the linear regression model.
+#' Row names represent CpG probe identifiers covering both probes present in the
 #'
-#' @format A named vector with 10 elements.
-#' @examples
-#' data(wts_vec_lin)
-#' str(wts_vec_lin)
-#' @name wts_vec_lin
-NULL
-
-#' Logistic Regression Weights Vector
-#'
-#' A named vector of weights for the logistic (probability) regression model.
-#'
-#' @format A named vector with 10 elements.
-#' @examples
-#' data(wts_vec_prb)
-#' str(wts_vec_prb)
-#' @name wts_vec_prb
-NULL
-
-#' Poisson Regression Weights Vector
-#'
-#' A named vector of weights for the Poisson (count) regression model.
-#'
-#' @format A named vector with 10 elements.
-#' @examples
-#' data(wts_vec_cnt)
-#' str(wts_vec_cnt)
-#' @name wts_vec_cnt
-NULL
-
-#' Reference Beta Values Data Frame
-#'
-#' A data frame containing the mean and median beta values for 20 reference probes.
-#'
-#' @format A data frame with 20 rows and 2 columns:
-#' \describe{
-#'   \item{mean}{Mean beta value across reference samples}
-#'   \item{median}{Median beta value across reference samples}
+#' Primary applications:
+#' \itemize{
+#'   \item Filling completely missing probes with \code{\link{reference_fill}}
+#'   \item Providing population baselines for comparison
+#'   \item Supporting quality control and outlier detection
 #' }
+#'
+#' @source Simulated data
+#' @seealso \code{\link{reference_fill}}
+#'
 #' @examples
 #' data(ref_df)
 #' str(ref_df)
-#' @name ref_df
-NULL
-
-#' Reference Beta Values Matrix
 #'
-#' A matrix containing the mean and median beta values for 20 reference probes.
+#' # Extract columns as named vectors
+#' ref_mean <- setNames(ref_df$mean, rownames(ref_df))
+#' ref_median <- setNames(ref_df$median, rownames(ref_df))
 #'
-#' @format A data frame with 20 rows and 2 columns:
-#' \describe{
-#'   \item{mean}{Mean beta value across samples}
-#'   \item{median}{Median beta value across samples}
-#' }
-#' @examples
-#' data(ref_mat)
-#' str(ref_mat)
-#' @name ref_mat
-NULL
-
-#' Reference Beta Values Vector of Mean Values
-#'
-#' A named vector containing the mean for 20 reference probes.
-#'
-#' @format A named vector with 20 items.
-#' @examples
-#' data(ref_vec_mean)
-#' str(ref_vec_mean)
-#' @name ref_vec_mean
-NULL
-
-#' Reference Beta Values Vector of Median Values
-#'
-#' A named vector containing the median for 20 reference probes.
-#'
-#' @format A named vector with 20 items.
-#' @examples
-#' data(ref_vec_median)
-#' str(ref_vec_median)
-#' @name ref_vec_median
-NULL
-
-#' Constructed \code{methyl_surro} Object with Complete Data
-#'
-#' A \code{methyl_surro} object constructed from \code{beta_matrix_comp} and \code{wts_vec_lin}.
-#'
-#' @format An object of class \code{methyl_surro}, containing the following components:
-#' \describe{
-#'   \item{methyl}{A matrix of methylation data with CpG sites as row names. Some values are missing, simulating incomplete data scenarios.}
-#'   \item{weights}{A named numeric vector representing the weights for the CpG sites, excluding the intercept.}
-#'   \item{intercept}{The numeric value of the intercept term, or \code{NULL} if not applicable.}
-#' }
-#' @examples
-#' data(methyl_surro_comp)
-#' str(methyl_surro_comp)
-#' @name methyl_surro_comp
-NULL
-
-#' Constructed \code{methyl_surro} Object with Missing Values
-#'
-#' A \code{methyl_surro} object constructed from \code{beta_matrix_miss} and \code{wts_vec_lin}.
-#'
-#' @format An object of class \code{methyl_surro}, containing the following components:
-#' \describe{
-#'   \item{methyl}{A matrix of methylation data with CpG sites as row names. Some values are missing, simulating incomplete data scenarios.}
-#'   \item{weights}{A named numeric vector representing the weights for the CpG sites, excluding the intercept.}
-#'   \item{intercept}{The numeric value of the intercept term, or \code{NULL} if not applicable.}
-#' }
-#' @examples
-#' data(methyl_surro_miss)
-#' str(methyl_surro_miss)
-#' @name methyl_surro_miss
-NULL
+#' @keywords datasets
+"ref_df"
