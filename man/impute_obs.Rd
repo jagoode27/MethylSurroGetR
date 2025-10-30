@@ -4,7 +4,13 @@
 \alias{impute_obs}
 \title{Impute Missing Observations in methyl_surro Object}
 \usage{
-impute_obs(methyl_surro, method = c("mean", "median"), min_nonmiss_prop = 0)
+impute_obs(
+  methyl_surro,
+  method = c("mean", "median"),
+  min_nonmiss_prop = 0,
+  return_stats = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{methyl_surro}{An object of class \code{methyl_surro}, containing a methylation matrix.}
@@ -12,22 +18,43 @@ impute_obs(methyl_surro, method = c("mean", "median"), min_nonmiss_prop = 0)
 \item{method}{A character string indicating the imputation method. Must be either \code{"mean"} or \code{"median"}.}
 
 \item{min_nonmiss_prop}{The minimum proportion of non-missing data required in a probe (row) for the imputation to proceed. Must be a numeric value between 0 and 1.}
+
+\item{return_stats}{Logical. If \code{TRUE}, detailed imputation statistics are added to the returned object. Default is \code{FALSE}.}
+
+\item{verbose}{Logical. If \code{TRUE}, detailed progress messages are displayed. Default is \code{FALSE}.}
 }
 \value{
 A \code{methyl_surro} object with missing observations imputed, updating the methylation matrix as per the given method and threshold.
+If \code{return_stats = TRUE}, an additional \code{imputation_stats} component is added containing detailed statistics about the imputation process.
 }
 \description{
 This function imputes missing values in the methylation matrix of a \code{methyl_surro} object using either mean or median imputation.
 It applies row-wise imputation based on a specified non-missing data proportion threshold.
 }
+\details{
+The function uses vectorized operations for efficient processing of large matrices. Probes are only imputed if they meet the
+minimum non-missing data threshold and are not completely missing.
+}
 \examples{
 # Load the sample data
-data(methyl_surro_miss)
+data(beta_matrix_miss)
+data(wts_df)
 
-# Apply mean imputation with a specified threshold for non-missing data in probes
+# Create weight vector and methyl_surro object
+wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+methyl_surro_miss <- surro_set(beta_matrix_miss, wts_vec_lin, "Intercept")
+
+# Apply mean imputation with a specified threshold
 result <- impute_obs(methyl_surro_miss, "mean", min_nonmiss_prop = 0.5)
 
 # Check the imputed result
 print(result$methyl)
+
+# Get detailed imputation statistics
+result_with_stats <- impute_obs(methyl_surro_miss, "mean",
+                                min_nonmiss_prop = 0.5,
+                                return_stats = TRUE,
+                                verbose = TRUE)
+print(result_with_stats$imputation_stats)
 
 }

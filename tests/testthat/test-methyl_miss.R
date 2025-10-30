@@ -3,7 +3,10 @@
 test_that("methyl_miss() function works", {
   # load sample data
   data(beta_matrix_miss)
-  data(wts_vec_lin)
+  data(wts_df)
+  
+  # create vector from data frame
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # generate expected values
   expected_vals <- list(
@@ -15,7 +18,7 @@ test_that("methyl_miss() function works", {
   # run function
   function_vals <- surro_set(
     methyl = beta_matrix_miss,
-    weights = wts_vec_lin,  # Fixed: was wts_vec_cnt
+    weights = wts_vec_lin,
     intercept = "Intercept"
   ) |>
     methyl_miss()
@@ -24,8 +27,6 @@ test_that("methyl_miss() function works", {
   expect_identical(function_vals$missing_obs, expected_vals$missing_obs)
   expect_identical(function_vals$missing_probes, expected_vals$missing_probes)
 })
-
-# NEW TESTS FOR COMPLETE COVERAGE
 
 test_that("methyl_miss() input validation works", {
   # Test non-methyl_surro object
@@ -89,11 +90,23 @@ test_that("methyl_miss() handles all missing data correctly", {
   expect_length(result$missing_obs, 0)  # No partial missing
   expect_length(result$missing_probes, 3)  # All probes completely missing
   expect_equal(result$summary$overall_missing_rate, 1.0)
-  expect_equal(result$summary$n_completely_missing_probes, 3)
+  # Check the actual field name that exists
+  expect_equal(result$summary$n_missing_probes, 3)  # Use the correct field name
 })
 
 test_that("methyl_miss() summary statistics are correct", {
-  data(methyl_surro_miss)
+  data(beta_matrix_miss)
+  data(wts_df)
+  
+  # create vector from data frame
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+  
+  # create methyl_surro object
+  methyl_surro_miss <- surro_set(
+    methyl = beta_matrix_miss,
+    weights = wts_vec_lin,
+    intercept = "Intercept"
+  )
 
   result <- methyl_miss(methyl_surro_miss)
 
@@ -127,7 +140,18 @@ test_that("methyl_miss() summary statistics are correct", {
 })
 
 test_that("methyl_miss() print method works", {
-  data(methyl_surro_miss)
+  data(beta_matrix_miss)
+  data(wts_df)
+  
+  # create vector from data frame
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+  
+  # create methyl_surro object
+  methyl_surro_miss <- surro_set(
+    methyl = beta_matrix_miss,
+    weights = wts_vec_lin,
+    intercept = "Intercept"
+  )
 
   result <- methyl_miss(methyl_surro_miss)
 
@@ -139,27 +163,28 @@ test_that("methyl_miss() print method works", {
 })
 
 test_that("methyl_miss() print method handles long lists correctly", {
-  # Create a surro object with many missing probes to test truncation
-  large_matrix <- matrix(rnorm(200), nrow = 20, ncol = 10,
-                         dimnames = list(paste0("cg", 1:20), paste0("s", 1:10)))
+  # Create a surro object with 15 missing probes to ensure truncation
+  large_matrix <- matrix(rnorm(250), nrow = 25, ncol = 10,
+                         dimnames = list(paste0("cg", 1:25), paste0("s", 1:10)))
 
-  # Make many probes completely missing
-  large_matrix[11:20, ] <- NA
+  # Make 15 probes completely missing (more than the 10 limit)
+  large_matrix[11:25, ] <- NA
 
   # Make some probes partially missing
   large_matrix[1:5, 1:3] <- NA
 
   large_surro <- list(
     methyl = large_matrix,
-    weights = setNames(rep(1, 20), paste0("cg", 1:20)),
+    weights = setNames(rep(1, 25), paste0("cg", 1:25)),
     intercept = 0
   )
   class(large_surro) <- "methyl_surro"
 
   result <- methyl_miss(large_surro)
 
-  # Test that print method truncates long lists
-  expect_output(print(result), "... and \\d+ more")
+  # Test that print method truncates long lists (15 > 10 so should truncate)
+  output <- capture.output(print(result))
+  expect_true(any(grepl("and \\d+ more", output)))
 })
 
 test_that("methyl_miss() handles edge cases with missing proportions", {
@@ -182,10 +207,10 @@ test_that("methyl_miss() handles edge cases with missing proportions", {
 
   result <- methyl_miss(edge_surro)
 
-  # Check specific missing proportions
-  expect_equal(result$missing_obs["cg1"], 0.25)
-  expect_equal(result$missing_obs["cg2"], 0.50)
-  expect_equal(result$missing_obs["cg3"], 0.25)
+  # Check specific missing proportions (using as.numeric to remove names)
+  expect_equal(as.numeric(result$missing_obs["cg1"]), 0.25, tolerance = 1e-10)
+  expect_equal(as.numeric(result$missing_obs["cg2"]), 0.50, tolerance = 1e-10)
+  expect_equal(as.numeric(result$missing_obs["cg3"]), 0.25, tolerance = 1e-10)
   expect_true("cg4" %in% result$missing_probes)
   expect_false("cg5" %in% names(result$missing_obs))  # complete probe
 })
@@ -204,7 +229,7 @@ test_that("methyl_miss() works with single row/column matrices", {
   result1 <- methyl_miss(single_row_surro)
   expect_equal(result1$summary$total_probes, 1)
   expect_equal(result1$summary$total_samples, 3)
-  expect_equal(result1$missing_obs["cg1"], 1/3)
+  expect_equal(as.numeric(result1$missing_obs["cg1"]), 1/3, tolerance = 1e-10)
 
   # Single column matrix
   single_col <- matrix(c(0.2, NA, 0.8), ncol = 1,
@@ -223,7 +248,18 @@ test_that("methyl_miss() works with single row/column matrices", {
 })
 
 test_that("methyl_miss() class assignment works correctly", {
-  data(methyl_surro_miss)
+  data(beta_matrix_miss)
+  data(wts_df)
+  
+  # create vector from data frame
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+  
+  # create methyl_surro object
+  methyl_surro_miss <- surro_set(
+    methyl = beta_matrix_miss,
+    weights = wts_vec_lin,
+    intercept = "Intercept"
+  )
 
   result <- methyl_miss(methyl_surro_miss)
 

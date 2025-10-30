@@ -151,42 +151,6 @@ test_that("refernce data frame is correct", {
   expect_equal(ref_df, ref_df_expected, tolerance = 0.0001)
 })
 
-test_that("wts_vec_lin is correct", {
-
-  # load sample data
-  data(wts_vec_lin)
-
-  # compare result
-  expect_equal(wts_vec_lin, wts_vec_lin_expected, tolerance = 0.0001)
-})
-
-test_that("wts_vec_prb is correct", {
-
-  # load sample data
-  data(wts_vec_prb)
-
-  # compare result
-  expect_equal(wts_vec_prb, wts_vec_prb_expected, tolerance = 0.0001)
-})
-
-test_that("wts_vec_cnt is correct", {
-
-  # load sample data
-  data(wts_vec_cnt)
-
-  # compare result
-  expect_equal(wts_vec_cnt, wts_vec_cnt_expected, tolerance = 0.0001)
-})
-
-test_that("wts_mat is correct", {
-
-  # load sample data
-  data(wts_mat)
-
-  # compare result
-  expect_equal(wts_mat, wts_mat_expected, tolerance = 0.0001)
-})
-
 test_that("wts_df is correct", {
 
   # load sample data

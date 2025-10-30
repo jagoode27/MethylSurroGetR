@@ -11,10 +11,14 @@ expected_methyl <- rbind(
 )
 
 # Run Original Tests ----
+
 test_that("surro_set() function works with weights vector", {
   # load sample data
   data(beta_matrix_comp)
-  data(wts_vec_cnt)
+  data(wts_df)
+  
+  # create vector from data frame
+  wts_vec_cnt <- setNames(wts_df$wt_cnt, rownames(wts_df))
 
   # generate expected values
   expected_vals <- list(
@@ -41,26 +45,29 @@ test_that("surro_set() function works with weights vector", {
 
 test_that("surro_set() input validation works", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+
+  # create vectors from data frames
+  wts_vec_cnt <- setNames(wts_df$wt_cnt, rownames(wts_df))
 
   # Test non-matrix methylation input
-  expect_error(surro_set(c(1, 2, 3, 4), wts_vec_lin),
+  expect_error(surro_set(c(1, 2, 3, 4), wts_vec_cnt),
                "must be a matrix")
 
   # Test non-numeric matrix
   char_matrix <- matrix(c("a", "b", "c", "d"), nrow = 2)
-  expect_error(surro_set(char_matrix, wts_vec_lin),
+  expect_error(surro_set(char_matrix, wts_vec_cnt),
                "must be numeric")
 
   # Test empty matrix
   empty_matrix <- matrix(numeric(0), nrow = 0, ncol = 0)
-  expect_error(surro_set(empty_matrix, wts_vec_lin),
+  expect_error(surro_set(empty_matrix, wts_vec_cnt),
                "cannot be empty")
 
   # Test matrix without row names
   no_names_matrix <- beta_matrix_comp
   rownames(no_names_matrix) <- NULL
-  expect_error(surro_set(no_names_matrix, wts_vec_lin),
+  expect_error(surro_set(no_names_matrix, wts_vec_cnt),
                "must have CpG sites as row names")
 
   # Test non-numeric weights
@@ -76,8 +83,8 @@ test_that("surro_set() input validation works", {
   expect_error(surro_set(beta_matrix_comp, unnamed_weights),
                "must be a named numeric vector")
 
-  # Test empty weights
-  expect_error(surro_set(beta_matrix_comp, numeric(0)),
+  # Test empty weights - corrected error message
+  expect_error(surro_set(beta_matrix_comp, setNames(numeric(0), character(0))),
                "cannot be empty")
 
   # Test weights with duplicate names
@@ -97,10 +104,10 @@ test_that("surro_set() input validation works", {
   expect_error(surro_set(beta_matrix_comp, empty_names_weights),
                "no missing or empty names")
 })
-
 test_that("surro_set() intercept handling works correctly", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # Test with valid intercept
   result_with_int <- surro_set(beta_matrix_comp, wts_vec_lin, "Intercept")
@@ -131,7 +138,8 @@ test_that("surro_set() intercept handling works correctly", {
 
 test_that("surro_set() handles probe alignment correctly", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # Test with perfect alignment
   aligned_result <- surro_set(beta_matrix_comp[c("cg02", "cg07", "cg08", "cg13", "cg17"), ],
@@ -156,7 +164,8 @@ test_that("surro_set() handles probe alignment correctly", {
 
 test_that("surro_set() creates proper methyl_surro object", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   result <- surro_set(beta_matrix_comp, wts_vec_lin, "Intercept")
 
@@ -174,7 +183,8 @@ test_that("surro_set() creates proper methyl_surro object", {
 })
 
 test_that("surro_set() handles edge cases with matrix dimensions", {
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # Single row matrix
   single_row <- matrix(c(0.3, 0.4, 0.5), nrow = 1,
@@ -195,7 +205,8 @@ test_that("surro_set() handles edge cases with matrix dimensions", {
 
 test_that("surro_set() preserves matrix structure and names", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   result <- surro_set(beta_matrix_comp, wts_vec_lin, "Intercept")
 
@@ -212,7 +223,8 @@ test_that("surro_set() preserves matrix structure and names", {
 
 test_that("surro_set() handles missing probes correctly", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # Create weights that require probes not in methylation matrix
   extended_weights <- c(wts_vec_lin, c(missing_probe = 1.5))
@@ -258,7 +270,8 @@ test_that("surro_set() handles special characters in probe names", {
 
 test_that("surro_set() preserves data types and precision", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   result <- surro_set(beta_matrix_comp, wts_vec_lin, "Intercept")
 
@@ -285,14 +298,17 @@ test_that("surro_set() works with minimal valid input", {
   expect_s3_class(result, "methyl_surro")
   expect_equal(dim(result$methyl), c(1, 1))
   expect_length(result$weights, 1)
-  expect_equal(result$intercept, 0.0)
+  expect_equal(as.numeric(result$intercept), 0.0)  # Remove names for comparison
 })
 
 test_that("surro_set() handles matrices with missing values", {
-  data(wts_vec_lin)
+  data(wts_df)
+
+  # create vectors from data frames
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # Create matrix with some NA values
-  matrix_with_na <- matrix(c(0.1, NA, 0.3, 0.4, NA, 0.6), nrow = 2,
+  matrix_with_na <- matrix(c(0.1, NA, 0.3, 0.4, NA, 0.6), nrow = 2, byrow = TRUE,
                            dimnames = list(c("cg02", "cg07"), c("s1", "s2", "s3")))
 
   result <- surro_set(matrix_with_na, wts_vec_lin[c("cg02", "cg07", "Intercept")], "Intercept")
@@ -310,7 +326,8 @@ test_that("surro_set() handles matrices with missing values", {
 
 test_that("surro_set() error messages are informative", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # Test specific error message content
   expect_error(surro_set("not_a_matrix", wts_vec_lin),
@@ -331,7 +348,8 @@ test_that("surro_set() error messages are informative", {
 
 test_that("surro_set() messaging provides useful information", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+  wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
   # Should provide information about added missing probes
   expect_message(surro_set(beta_matrix_comp, wts_vec_lin, "Intercept"),
@@ -348,21 +366,24 @@ test_that("surro_set() messaging provides useful information", {
 
 test_that("surro_set() return value structure is consistent", {
   data(beta_matrix_comp)
-  data(wts_vec_lin)
+  data(wts_df)
+
+  # create vectors from data frames
+  wts_vec_cnt <- setNames(wts_df$wt_cnt, rownames(wts_df))
 
   # Test multiple different input scenarios
   scenarios <- list(
-    # Scenario 1: Perfect alignment
-    list(methyl = beta_matrix_comp[1:5, ],
-         weights = wts_vec_lin[c(rownames(beta_matrix_comp)[1:5], "Intercept")]),
+    # Scenario 1: Perfect alignment with specific probes
+    list(methyl = beta_matrix_comp[c("cg02", "cg07", "cg08", "cg13", "cg17"), ],
+         weights = wts_vec_cnt[c("cg02", "cg07", "cg08", "cg13", "cg17", "Intercept")]),
 
     # Scenario 2: Missing probes need to be added
     list(methyl = beta_matrix_comp[1:3, ],
-         weights = wts_vec_lin),
+         weights = wts_vec_cnt),
 
     # Scenario 3: Extra methylation probes need to be filtered
     list(methyl = beta_matrix_comp,
-         weights = wts_vec_lin[1:5])  # Only first 4 weights + intercept
+         weights = wts_vec_cnt[c("cg02", "cg07", "cg08", "Intercept")])  # Only unique weights
   )
 
   for (i in seq_along(scenarios)) {

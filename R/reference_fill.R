@@ -24,9 +24,14 @@
 #'
 #' @examples
 #' # Load the sample data
-#' data(methyl_surro_miss)
+#' data(beta_matrix_miss)
+#' data(wts_df)
 #' data(ref_df)
 #'
+#' # Create weight vector and methyl_surro object
+#' wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+#' methyl_surro_miss <- surro_set(beta_matrix_miss, wts_vec_lin, "Intercept")
+#' 
 #' # Extract specific reference columns as named vectors
 #' ref_mean <- setNames(ref_df$mean, rownames(ref_df))
 #' ref_median <- setNames(ref_df$median, rownames(ref_df))
@@ -106,12 +111,6 @@ reference_fill <- function(methyl_surro, reference,
     warning("Reference values outside typical methylation range detected. Please verify data type (beta vs M-values).")
   }
 
-  if (ref_min >= 0 && ref_max <= 1) {
-    if (verbose) message("Reference values appear to be beta values (0-1 range).")
-  } else if (ref_min >= -10 && ref_max <= 10) {
-    if (verbose) message("Reference values appear to be M-values.")
-  }
-
   # Pre-compute missing patterns for efficiency
   missing_mask <- is.na(methyl)
   probe_missing_counts <- rowSums(missing_mask)
@@ -171,8 +170,6 @@ reference_fill <- function(methyl_surro, reference,
         filled_probes <- c(filled_probes, probe)
         values_filled_probes <- values_filled_probes + n_samples
       }
-    } else if (length(completely_missing_probe_names) > 0 && verbose) {
-      message("No reference data available for completely missing probes.")
     }
   }
 
@@ -196,8 +193,6 @@ reference_fill <- function(methyl_surro, reference,
           values_filled_obs <- values_filled_obs + n_missing_this_probe
         }
       }
-    } else if (length(partially_missing_probe_names) > 0 && verbose) {
-      message("No reference data available for partially missing probes.")
     }
   }
 
@@ -206,21 +201,24 @@ reference_fill <- function(methyl_surro, reference,
   original_missing_count <- total_missing
   total_values_filled <- values_filled_probes + values_filled_obs
 
-  # User feedback
-  if (verbose) {
-    if (total_values_filled > 0) {
-      message(sprintf("Reference filling completed successfully:"))
-      if (length(filled_probes) > 0) {
-        message(sprintf("- Filled %d completely missing probes (%d values)",
-                        length(filled_probes), values_filled_probes))
-      }
-      if (length(filled_obs) > 0) {
-        message(sprintf("- Filled missing observations in %d probes (%d values)",
-                        length(filled_obs), values_filled_obs))
-      }
-      message(sprintf("- Total values filled: %d (%.1f%% of originally missing)",
-                      total_values_filled, 100 * total_values_filled / original_missing_count))
+  # User feedback - simplified messaging
+  if (total_values_filled > 0) {
+    message(sprintf("Filled %d values using reference data (%s strategy).",
+                    total_values_filled, type))
+  }
+
+  if (verbose && total_values_filled > 0) {
+    message(sprintf("Reference filling completed successfully:"))
+    if (length(filled_probes) > 0) {
+      message(sprintf("- Filled %d completely missing probes (%d values)",
+                      length(filled_probes), values_filled_probes))
     }
+    if (length(filled_obs) > 0) {
+      message(sprintf("- Filled missing observations in %d probes (%d values)",
+                      length(filled_obs), values_filled_obs))
+    }
+    message(sprintf("- Total values filled: %d (%.1f%% of originally missing)",
+                    total_values_filled, 100 * total_values_filled / original_missing_count))
 
     if (final_missing_count > 0) {
       message(sprintf("- Remaining missing values: %d (%.1f%% of total)",
@@ -228,27 +226,14 @@ reference_fill <- function(methyl_surro, reference,
     } else {
       message("- No missing values remaining")
     }
-  } else if (!verbose && total_values_filled > 0) {
-    # Minimal feedback for non-verbose mode
-    message(sprintf("Filled %d values using reference data (%s strategy).",
-                    total_values_filled, type))
   }
 
-  # Check for still completely missing probes after filling and provide guidance
+  # Check for still completely missing probes after filling
   still_missing_probes <- rownames(methyl)[rowSums(is.na(methyl)) == ncol(methyl)]
-  if (length(still_missing_probes) > 0) {
+  if (length(still_missing_probes) > 0 && !verbose) {
     num_still_missing <- format(length(still_missing_probes), big.mark = ",")
-    if (verbose) {
-      unavailable_probes <- setdiff(still_missing_probes, names(named_reference))
-      if (length(unavailable_probes) > 0) {
-        message(sprintf("Note: %d probes remain completely missing (no reference data available).",
-                        length(unavailable_probes)))
-        message("Consider using impute_obs() for remaining missing observations or obtaining additional reference data.")
-      }
-    } else {
-      message(sprintf("%s probes remain missing. Use methyl_miss() to see missing probes.",
-                      num_still_missing))
-    }
+    message(sprintf("%s probes remain missing. Use methyl_miss() to see missing probes.",
+                    num_still_missing))
   }
 
   # Update the methyl_surro object
@@ -276,7 +261,7 @@ create_reference_fill_stats <- function(type, filled_methyl, reference_data,
   probe_missing_counts <- rowSums(final_missing_mask)
   n_samples <- ncol(filled_methyl)
 
-  # Calculate original patterns (reconstruct from filled data and statistics)
+  # Calculate original patterns
   completely_missing <- probe_missing_counts == n_samples
   partially_missing <- probe_missing_counts > 0 & probe_missing_counts < n_samples
 

@@ -3,11 +3,6 @@
 #' This file contains sample datasets used in examples and testing for the MethylSurroGetR package.
 #' All datasets are designed to demonstrate package functionality with realistic but manageable data sizes.
 #'
-#' @name sample_data
-#' @docType data
-#' @keywords datasets
-NULL
-
 #' @section Methylation Data Matrices:
 #' The package includes four methylation data matrices demonstrating different data scenarios:
 #' \describe{
@@ -16,10 +11,15 @@ NULL
 #'   \item{\code{\link{mval_matrix_comp}}}{Complete M-values derived from beta_matrix_comp}
 #'   \item{\code{\link{mval_matrix_miss}}}{M-values with missing data derived from beta_matrix_miss}
 #' }
+#'
+#' @name sample_data
+#' @docType data
+#' @keywords datasets
+NULL
 
 #' Complete Beta Matrix without Missing Values
 #'
-#' A 15 × 5 matrix of methylation beta values representing complete data without missing observations.
+#' A 15 x 5 matrix of methylation beta values representing complete data without missing observations.
 #'
 #' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
 #' \describe{
@@ -39,7 +39,7 @@ NULL
 
 #' Beta Matrix with Missing Values
 #'
-#' A 15 × 5 matrix of methylation beta values containing missing values.
+#' A 15 x 5 matrix of methylation beta values containing missing values.
 #'
 #' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
 #' \describe{
@@ -59,7 +59,7 @@ NULL
 
 #' Complete M-Values Matrix
 #'
-#' A 15 × 5 matrix of methylation M-values representing complete data without missing observations.
+#' A 15 x 5 matrix of methylation M-values representing complete data without missing observations.
 #'
 #' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
 #' \describe{
@@ -79,7 +79,7 @@ NULL
 
 #' M-Values Matrix with Missing Values
 #'
-#' A 15 × 5 matrix of methylation M-values with the same missing values.
+#' A 15 x 5 matrix of methylation M-values with the same missing values.
 #'
 #' @format A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
 #' \describe{
@@ -142,8 +142,6 @@ NULL
 #'   \item{mean}{Population mean beta values for each probe}
 #'   \item{median}{Population median beta values for each probe}
 #' }
-#'
-#' Row names represent CpG probe identifiers covering both probes present in the
 #'
 #' Primary applications:
 #' \itemize{

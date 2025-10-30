@@ -8,7 +8,7 @@
 #'
 #' @param methyl_surro An object of class \code{methyl_surro}.
 #' @param transform A character string specifying the transformation to apply. Can be \code{"linear"}, \code{"count"}, or \code{"probability"}.
-#' @param verbose Logical. If \code{TRUE}, detailed progress and diagnostic messages are displayed. Default is \code{TRUE}.
+#' @param verbose Logical. If \code{TRUE}, detailed progress and diagnostic messages are displayed. Default is \code{FALSE}.
 #' @param return_diagnostics Logical. If \code{TRUE}, returns additional diagnostic information. Default is \code{FALSE}.
 #'
 #' @return If \code{return_diagnostics = FALSE}: A named vector of predicted values with names corresponding to the sample names.
@@ -30,7 +30,12 @@
 #'
 #' @examples
 #' # Load sample data
-#' data(methyl_surro_comp, package = "MethylSurroGetR")
+#' data(beta_matrix_comp, package = "MethylSurroGetR")
+#' data(wts_df, package = "MethylSurroGetR")
+#' 
+#' # Create weight vector and methyl_surro object
+#' wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+#' methyl_surro_comp <- surro_set(beta_matrix_comp, wts_vec_lin, "Intercept")
 #'
 #' # Basic calculation
 #' pred_lin <- surro_calc(methyl_surro_comp, transform = "linear")
@@ -46,7 +51,7 @@
 #' @export
 surro_calc <- function(methyl_surro,
                        transform = c("linear", "count", "probability"),
-                       verbose = TRUE,
+                       verbose = FALSE,
                        return_diagnostics = FALSE) {
 
   transform <- match.arg(transform)
@@ -152,12 +157,12 @@ surro_calc <- function(methyl_surro,
 
   # Display messages about missing data handling
   if (missing_probes > 0 && omitted_samples > 0) {
-    message(sprintf("%d probes were set to zero due to missing values, and %d samples were omitted due to missing data.\nIt is strongly recommended that missing probes be filled in with reference_fill() and missing observations be imputed in with impute_obs().",
+    message(sprintf("%d probes set to zero, %d samples omitted. Use reference_fill() and impute_obs().",
                     missing_probes, omitted_samples))
   } else if (missing_probes > 0) {
-    message(sprintf("%d probes were set to zero due to missing values.\nIt is strongly recommended that missing probes be filled in with reference_fill().", missing_probes))
+    message(sprintf("%d probes set to zero. Use reference_fill().", missing_probes))
   } else if (omitted_samples > 0) {
-    message(sprintf("%d samples were omitted due to missing data.\nIt is strongly recommended that missing observations be imputed in with impute_obs().", omitted_samples))
+    message(sprintf("%d samples omitted. Use impute_obs().", omitted_samples))
   }
 
   # Sort the weights to match the order of the rows in the methylation matrix

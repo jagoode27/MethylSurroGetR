@@ -20,7 +20,12 @@
 #'
 #' @examples
 #' # Load the sample data
-#' data(methyl_surro_miss)
+#' data(beta_matrix_miss)
+#' data(wts_df)
+#' 
+#' # Create weight vector and methyl_surro object
+#' wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+#' methyl_surro_miss <- surro_set(beta_matrix_miss, wts_vec_lin, "Intercept")
 #'
 #' # Apply mean imputation with a specified threshold
 #' result <- impute_obs(methyl_surro_miss, "mean", min_nonmiss_prop = 0.5)

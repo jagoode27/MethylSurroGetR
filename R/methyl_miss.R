@@ -30,8 +30,9 @@
 #' # Load Methylation Beta Matrix
 #' data(beta_matrix_miss, package = "MethylSurroGetR")
 #'
-#' # Load Weights from a Named Vector
-#' data(wts_vec_lin, package = "MethylSurroGetR")
+#' # Load Weights Data Frame and create vector
+#' data(wts_df, package = "MethylSurroGetR")
+#' wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 #'
 #' # Build the methyl_surro Object
 #' surrogate <- surro_set(methyl = beta_matrix_miss,
@@ -112,6 +113,7 @@ methyl_miss <- function(methyl_surro) {
 #'
 #' @param x An object of class \code{methyl_miss}.
 #' @param ... Additional arguments passed to print methods.
+#' @importFrom utils head
 #' @export
 print.methyl_miss <- function(x, ...) {
   cat("Missing Data Summary for methyl_surro Object\n")

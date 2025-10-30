@@ -7,11 +7,9 @@
 surro_set(methyl, weights, intercept = NULL)
 }
 \arguments{
-\item{methyl}{A matrix of methylation data. All values must be numeric and the matrix
-must have CpG sites as row names.}
+\item{methyl}{A matrix of methylation data with CpG sites as row names and samples as column names. All values must be numeric.}
 
-\item{weights}{A named numeric vector or a single-column data frame or matrix
-with CpGs as row names, representing the weights.}
+\item{weights}{A named numeric vector with CpG site names, representing the regression weights.}
 
 \item{intercept}{An optional name of the intercept term within the weights. If provided,
 the specified intercept will be separated from the weights and stored separately.}
@@ -19,50 +17,49 @@ the specified intercept will be separated from the weights and stored separately
 \value{
 An object of class \code{methyl_surro} containing the following components:
 \describe{
-\item{methyl}{The input methylation matrix, filtered to include only probes present in the weights,
-and with additional empty rows added for weights not present in the methylation data.}
-\item{weights}{A named numeric vector of weights.}
+\item{methyl}{The methylation matrix, filtered to include only probes present in the weights,
+with additional rows of NAs added for weights not present in the methylation data.}
+\item{weights}{A named numeric vector of weights (excluding intercept if specified).}
 \item{intercept}{The numeric value of the intercept, if provided. \code{NULL} otherwise.}
 }
 }
 \description{
-This function takes a methylation matrix and a set of weights (provided as a named vector,
-a single-column data frame, or a single-column matrix with row names) and returns an object
-of class \code{methyl_surro}.
+This function takes a methylation matrix and a named vector of weights and returns an object
+of class \code{methyl_surro}. The function aligns the methylation data with the weights,
+adding missing probes as needed.
+}
+\details{
+The function performs the following operations:
+\itemize{
+\item Validates input format and structure
+\item Extracts intercept from weights if specified
+\item Filters methylation matrix to include only probes present in weights
+\item Adds rows of NA values for weight probes not present in methylation data
+\item Returns a properly structured \code{methyl_surro} object
+}
+
+Missing probes (those in weights but not in methylation data) should be handled using
+\code{\link{reference_fill}} before calculating surrogate values.
 }
 \examples{
 # Load Methylation Beta Matrix
 data(beta_matrix_comp, package = "MethylSurroGetR")
 print(beta_matrix_comp)
 
-# Specify Weights from a Named Vector
-data(wts_vec_lin, package = "MethylSurroGetR")
+# Load Weights Data Frame and create vector
+data(wts_df, package = "MethylSurroGetR")
+wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 print(wts_vec_lin)
 
 # Build the methyl_surro Object
-surrogate_vec <- surro_set(methyl = beta_matrix_comp,
-                           weights = wts_vec_lin,
-                           intercept = "Intercept")
-print(surrogate_vec)
-
-# Specify Weights from a Data Frame
-data(wts_df, package = "MethylSurroGetR")
-print(wts_df)
-
-# Build the methyl_surro Object
-surrogate_df <- surro_set(methyl = beta_matrix_comp,
-                       weights = wts_df["wt_lin"],
+surrogate <- surro_set(methyl = beta_matrix_comp,
+                       weights = wts_vec_lin,
                        intercept = "Intercept")
-print(surrogate_df)
+print(surrogate)
 
-# Specify Weights from a Matrix
-data(wts_mat, package = "MethylSurroGetR")
-print(wts_mat)
-
-# Build the methyl_surro Object
-surrogate_mat <- surro_set(methyl = beta_matrix_comp,
-                           weights = wts_mat[, "wt_lin"],
-                           intercept = "Intercept")
-print(surrogate_mat)
+# Example without intercept
+surrogate_no_int <- surro_set(methyl = beta_matrix_comp,
+                              weights = wts_vec_lin[-which(names(wts_vec_lin) == "Intercept")])
+print(surrogate_no_int)
 
 }

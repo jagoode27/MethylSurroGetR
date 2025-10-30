@@ -10,23 +10,38 @@ methyl_miss(methyl_surro)
 \item{methyl_surro}{An object of class \code{methyl_surro}.}
 }
 \value{
-A list with two elements:
+A list of class \code{methyl_miss} with the following elements:
 \describe{
-\item{missing_obs}{A named numeric vector with the proportion of missing observations for each probe where this value is greater than 0.}
-\item{missing_probes}{A character vector of probes that are missing in all samples}
+\item{missing_obs}{A named numeric vector with the proportion of missing observations for each probe where this value is greater than 0 but less than 1.}
+\item{missing_probes}{A character vector of probes that are missing in all samples.}
+\item{summary}{A list containing summary statistics about the missing data patterns.}
+}
+
+The \code{summary} component contains:
+\describe{
+\item{total_probes}{Total number of probes in the methylation matrix.}
+\item{total_samples}{Total number of samples in the methylation matrix.}
+\item{n_complete_probes}{Number of probes with no missing values.}
+\item{n_missing_obs}{Number of probes with partial missing data.}
+\item{n_missing_probes}{Number of completely missing probes.}
+\item{overall_missing_rate}{Proportion of all matrix values that are missing.}
+\item{missing_obs_rate}{Proportion of probes that have partial missing data.}
+\item{missing_probes_rate}{Proportion of probes that are completely missing.}
+\item{complete_probes_rate}{Proportion of probes that are complete.}
 }
 }
 \description{
 This function summarizes the missing data in a methyl_surro object.
 It identifies probes with partial missing data (missing observations) and probes missing
-from all samples (missing probes).
+from all samples (missing probes), along with comprehensive summary statistics.
 }
 \examples{
 # Load Methylation Beta Matrix
 data(beta_matrix_miss, package = "MethylSurroGetR")
 
-# Load Weights from a Named Vector
-data(wts_vec_lin, package = "MethylSurroGetR")
+# Load Weights Data Frame and create vector
+data(wts_df, package = "MethylSurroGetR")
+wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 
 # Build the methyl_surro Object
 surrogate <- surro_set(methyl = beta_matrix_miss,
@@ -36,5 +51,9 @@ surrogate <- surro_set(methyl = beta_matrix_miss,
 # Summarizing Missing Values
 missing_summary <- methyl_miss(methyl_surro = surrogate)
 print(missing_summary)
+
+# Access specific components
+missing_summary$missing_obs
+missing_summary$summary$overall_missing_rate
 
 }

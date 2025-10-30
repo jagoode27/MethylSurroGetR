@@ -7,44 +7,69 @@
 reference_fill(
   methyl_surro,
   reference,
-  col_name = NULL,
-  type = c("probes", "obs", "all")
+  type = c("probes", "obs", "all"),
+  return_stats = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
 \item{methyl_surro}{An object of class \code{methyl_surro}, containing a methylation matrix.}
 
-\item{reference}{A named numeric vector or a matrix/data frame with row names, containing reference values for probes to impute missing data.
-If a matrix or data frame is provided, specify the column using the \code{col_name} argument.}
-
-\item{col_name}{Optional; character string specifying the column to use if \code{reference} is a matrix or data frame.}
+\item{reference}{A named numeric vector containing reference values for probes to impute missing data.}
 
 \item{type}{A character string specifying the scope for filling missing data:
 \itemize{
-\item \code{"probes"}: Fill in only missing probes.
-\item \code{"obs"}: Fill in only missing observations
-\item \code{"all"}: Fill in missing probes and observations
+\item \code{"probes"}: Fill in only missing probes (completely missing rows).
+\item \code{"obs"}: Fill in only missing observations (partially missing values).
+\item \code{"all"}: Fill in missing probes and observations.
 }}
+
+\item{return_stats}{Logical. If \code{TRUE}, detailed filling statistics are added to the returned object. Default is \code{FALSE}.}
+
+\item{verbose}{Logical. If \code{TRUE}, detailed progress messages are displayed. Default is \code{FALSE}.}
 }
 \value{
 A \code{methyl_surro} object with its methylation matrix updated by filling in the specified missing probes based on the reference data.
+If \code{return_stats = TRUE}, an additional \code{reference_fill_stats} component is added containing detailed statistics about the filling process.
 }
 \description{
 This function fills in missing probes in the methylation matrix of a \code{methyl_surro} object based on external reference data.
 Users can specify if imputation should consider only fully missing rows, partially missing rows, or the entire dataset.
 }
+\details{
+The function uses vectorized operations for efficient processing of large matrices. Reference values are validated to ensure they
+fall within reasonable ranges for methylation data (0-1 for beta values, typically -10 to 10 for M-values).
+
+\strong{Filling Strategy:} The function applies reference values consistently across all samples for each probe, which is
+appropriate for population-level reference data but may not capture individual-level variation.
+}
 \examples{
 # Load the sample data
-data(methyl_surro_miss)
+data(beta_matrix_miss)
+data(wts_df)
 data(ref_df)
 
-# Apply reference filling using a specific column of the reference data
+# Create weight vector and methyl_surro object
+wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+methyl_surro_miss <- surro_set(beta_matrix_miss, wts_vec_lin, "Intercept")
+
+# Extract specific reference columns as named vectors
+ref_mean <- setNames(ref_df$mean, rownames(ref_df))
+ref_median <- setNames(ref_df$median, rownames(ref_df))
+
+# Apply reference filling using reference vector
 result <- reference_fill(methyl_surro = methyl_surro_miss,
-                         reference = ref_df,
-                         col_name = "mean",
-                         type = "probes")
+                         reference = ref_mean,
+                         type = "probes",
+                         verbose = TRUE)
 
 # Check the result after filling
 print(result$methyl)
+
+# Get detailed filling statistics
+result_with_stats <- reference_fill(methyl_surro_miss, ref_median,
+                                     type = "all",
+                                     return_stats = TRUE, verbose = TRUE)
+print(result_with_stats$reference_fill_stats)
 
 }

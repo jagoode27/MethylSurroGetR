@@ -82,8 +82,15 @@ convert_m_to_beta <- function(methyl, in_place = FALSE) {
 
   # Convert each m-value to a beta value, preserving NAs
   if (in_place) {
+    # Store original NA positions
+    original_na <- is.na(methyl)
+
     # Modify original matrix in place
     methyl[] <- 2^methyl / (2^methyl + 1)
+
+    # Restore NAs that were in original data
+    methyl[original_na] <- NA
+
     beta_values <- methyl
   } else {
     # Create new object
@@ -135,11 +142,18 @@ convert_beta_to_m <- function(methyl, in_place = FALSE) {
 
   # Apply numerical stability: clamp extreme beta values and convert
   if (in_place) {
-    # Modify original matrix in place
+    # Store original NA positions
+    original_na <- is.na(methyl)
+
     # First clamp to safe range
     methyl[] <- pmax(pmin(methyl, 1 - 1e-6), 1e-6)
+
     # Then convert
     methyl[] <- log2(methyl / (1 - methyl))
+
+    # Restore NAs that were in original data
+    methyl[original_na] <- NA
+
     m_values <- methyl
   } else {
     # Create new object

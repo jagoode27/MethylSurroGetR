@@ -6,29 +6,52 @@
 \alias{convert_beta_to_m}
 \title{Conversion Functions for M-Values and Beta Values}
 \usage{
-convert_m_to_beta(methyl)
+convert_m_to_beta(methyl, in_place = FALSE)
 
-convert_beta_to_m(methyl)
+convert_beta_to_m(methyl, in_place = FALSE)
 }
 \arguments{
-\item{methyl}{A matrix or data frame of methylation values. All values must be numeric and the matrix or data frame must have CpG sites as row names.}
+\item{methyl}{A matrix of methylation values with CpG sites as row names and samples as column names. All values must be numeric.}
+
+\item{in_place}{Logical. If \code{TRUE}, the conversion is performed in-place to save memory.
+\strong{WARNING: This will permanently modify the original matrix.} Default is \code{FALSE}.}
 }
 \value{
-For \code{convert_m_to_beta}, the function returns a matrix or data frame of beta values corresponding to the input M-values.
+For \code{convert_m_to_beta}, returns a matrix of beta values corresponding to the input M-values.
 
-For \code{convert_beta_to_m}, the function returns a matrix or data frame of M-values corresponding to the input beta values.
+For \code{convert_beta_to_m}, returns a matrix of M-values corresponding to the input beta values.
 }
 \description{
 These functions convert methylation M-values to beta values and vice versa.
+Beta values represent methylation levels as proportions (0-1), while M-values
+are log2 ratios that provide better statistical properties for analysis.
+}
+\details{
+\strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50\\%
+but will permanently modify the original data.
+
+\strong{Numerical Stability:} The functions automatically handle extreme beta values (0 or 1) that would otherwise
+result in infinite M-values by clamping them to a small epsilon away from the boundaries.
+
+\strong{Value Ranges:} Beta values should be between 0 and 1. Values outside this range will generate a warning
+but the conversion will proceed.
 }
 \examples{
 # Load Methylation M-Values Matrix
 data(mval_matrix_comp, package = "MethylSurroGetR")
 print(mval_matrix_comp)
 
-# Convert M-values to Beta Values
+# Convert M-values to Beta Values (creates new object)
 beta_values <- convert_m_to_beta(mval_matrix_comp)
 print(beta_values)
+
+# Convert in-place for memory efficiency (modifies original!)
+\dontrun{
+# Make a copy first if you need to preserve original
+mval_copy <- mval_matrix_comp
+beta_inplace <- convert_m_to_beta(mval_copy, in_place = TRUE)
+# mval_copy is now modified and contains beta values
+}
 
 # Load Methylation Beta Matrix
 data(beta_matrix_comp, package = "MethylSurroGetR")

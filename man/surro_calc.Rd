@@ -4,30 +4,65 @@
 \alias{surro_calc}
 \title{Calculate Predicted Values from methyl_surro Object}
 \usage{
-surro_calc(methyl_surro, transform = c("linear", "count", "probability"))
+surro_calc(
+  methyl_surro,
+  transform = c("linear", "count", "probability"),
+  verbose = FALSE,
+  return_diagnostics = FALSE
+)
 }
 \arguments{
 \item{methyl_surro}{An object of class \code{methyl_surro}.}
 
-\item{transform}{A character string specifying the transformation to apply. It can be \code{"linear"}, \code{"count"}, or \code{"probability"}.}
+\item{transform}{A character string specifying the transformation to apply. Can be \code{"linear"}, \code{"count"}, or \code{"probability"}.}
+
+\item{verbose}{Logical. If \code{TRUE}, detailed progress and diagnostic messages are displayed. Default is \code{FALSE}.}
+
+\item{return_diagnostics}{Logical. If \code{TRUE}, returns additional diagnostic information. Default is \code{FALSE}.}
 }
 \value{
-A named vector of predicted values with names corresponding to the sample names in the methylation matrix.
+If \code{return_diagnostics = FALSE}: A named vector of predicted values with names corresponding to the sample names.
+If \code{return_diagnostics = TRUE}: A list containing:
+\describe{
+\item{predictions}{The named vector of predicted values}
+\item{diagnostics}{A list of diagnostic information including missing data handling and calculation details}
+}
 }
 \description{
 This function calculates predicted values based on the provided methyl_surro object.
-If any probes (rows) are completely missing, their values are set to zero, and a count of these
-probes is stored. Columns (samples) with any missing values are removed, and a count of these
-is also recorded. The function aligns and multiplies the weights with the methylation matrix,
-adds the intercept if specified, and applies the specified transformation to the results.
+If any probes (rows) are completely missing, their values are set to zero.
+Samples with any missing values are removed from the calculation. The function aligns
+and multiplies the weights with the methylation matrix, adds the intercept if specified,
+and applies the specified transformation to the results.
+}
+\details{
+The function performs validation and processing steps:
+\itemize{
+\item Validates probe-weight alignment between methylation data and weights
+\item Sets completely missing probes to zero
+\item Removes samples with any missing values
+\item Calculates weighted sums and applies transformations
+\item Provides detailed feedback about data processing
+}
 }
 \examples{
-# Load \code{methyl_surro} Object
+# Load sample data
 data(beta_matrix_comp, package = "MethylSurroGetR")
+data(wts_df, package = "MethylSurroGetR")
 
-# Generating Surrogate Estimates from Linear Model Weights
-pred_lin <- surro_calc(methyl_surro = methyl_surro_comp,
-                       transform = "linear")
+# Create weight vector and methyl_surro object
+wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
+methyl_surro_comp <- surro_set(beta_matrix_comp, wts_vec_lin, "Intercept")
+
+# Basic calculation
+pred_lin <- surro_calc(methyl_surro_comp, transform = "linear")
 print(pred_lin)
+
+# With diagnostic information
+result_detailed <- surro_calc(methyl_surro_comp,
+                              transform = "linear",
+                              return_diagnostics = TRUE,
+                              verbose = TRUE)
+print(result_detailed$diagnostics)
 
 }

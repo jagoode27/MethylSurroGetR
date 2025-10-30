@@ -35,8 +35,9 @@
 #' data(beta_matrix_comp, package = "MethylSurroGetR")
 #' print(beta_matrix_comp)
 #'
-#' # Load Weights as Named Vector
-#' data(wts_vec_lin, package = "MethylSurroGetR")
+#' # Load Weights Data Frame and create vector
+#' data(wts_df, package = "MethylSurroGetR")
+#' wts_vec_lin <- setNames(wts_df$wt_lin, rownames(wts_df))
 #' print(wts_vec_lin)
 #'
 #' # Build the methyl_surro Object
@@ -70,7 +71,7 @@ surro_set <- function(methyl, weights, intercept = NULL) {
     stop("Methylation matrix must have CpG sites as row names.")
   }
 
-  # Validate weights - now restricted to named vectors only
+  # Validate weights
   if (!is.numeric(weights) || !is.vector(weights) || is.null(names(weights))) {
     stop("Weights must be a named numeric vector with CpG site names.")
   }
@@ -90,7 +91,7 @@ surro_set <- function(methyl, weights, intercept = NULL) {
   }
 
   # Handle intercept extraction
-  weights_vector <- weights  # No conversion needed since it's already a vector
+  weights_vector <- weights
   intercept_val <- NULL
 
   if (!is.null(intercept)) {
@@ -119,7 +120,6 @@ surro_set <- function(methyl, weights, intercept = NULL) {
   missing_cpg <- setdiff(names(weights_vector), rownames(methyl))
 
   if (length(missing_cpg) > 0) {
-    # More efficient approach for large matrices
     missing_matrix <- matrix(NA_real_,
                              nrow = length(missing_cpg),
                              ncol = ncol(methyl),
