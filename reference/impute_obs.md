@@ -121,7 +121,7 @@ print(result_with_stats$imputation_stats)
 #> =====================
 #> Method: mean
 #> Threshold: 50.0% non-missing data required
-#> Date: 2025-11-10 20:46:09.732577
+#> Date: 2025-11-10 20:53:45.676545
 #> 
 #> Probe Summary:
 #> - Total probes: 10
