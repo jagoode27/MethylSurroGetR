@@ -22,6 +22,7 @@ navbar:
     home:
       icon: fas fa-home fa-lg
       href: index.html
+      aria-label: Home
     reference:
       text: Reference
       href: reference/index.html
@@ -57,6 +58,18 @@ reference:
     contents:
     - convert_beta_to_m
     - convert_m_to_beta
+
+  - title: "Print Methods"
+    desc: "S3 print methods for package objects"
+    contents:
+    - print.imputation_stats
+    - print.methyl_miss
+    - print.reference_fill_stats
+
+  - title: "Utility Functions"
+    desc: "Helper functions for data generation"
+    contents:
+    - sample_data
 
   - title: "Example Data"
     desc: "Sample datasets included with the package"
