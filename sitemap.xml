@@ -8,9 +8,10 @@
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/news/index.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/beta_matrix_comp.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/beta_matrix_miss.html</loc></url>
+<url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/convert_beta_to_m.html</loc></url>
+<url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/convert_m_to_beta.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/impute_obs.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/index.html</loc></url>
-<url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/methylConversion.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/methyl_miss.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/mval_matrix_comp.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/mval_matrix_miss.html</loc></url>
@@ -19,7 +20,6 @@
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/print.reference_fill_stats.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/ref_df.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/reference_fill.html</loc></url>
-<url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/sample_data.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/surro_calc.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/surro_set.html</loc></url>
 <url><loc>https://jagoode27.github.io/MethylSurroGetR/reference/wts_df.html</loc></url>

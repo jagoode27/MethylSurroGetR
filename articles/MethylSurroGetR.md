@@ -120,9 +120,11 @@ my_surro <- reference_fill(
 #> Filled 25 values using reference data (probes strategy).
 ```
 
-**Fill types:** - `"probes"` - Only fill completely missing probes
-(recommended) - `"obs"` - Only fill individual missing observations -
-`"all"` - Fill both missing probes and observations
+**Fill types:**
+
+- `"probes"` - Only fill completely missing probes (recommended)
+- `"obs"` - Only fill individual missing observations
+- `"all"` - Fill both missing probes and observations
 
 ### Step 4: Calculate Predictions
 
@@ -186,8 +188,12 @@ print(missing_info)
 #> cg03, cg06, cg11, cg15, cg18
 ```
 
-This shows: - Number of complete probes - Probes with partial
-missingness - Completely missing probes - Overall missing data rate
+This shows:
+
+- Number of complete probes
+- Probes with partial missingness
+- Completely missing probes
+- Overall missing data rate
 
 ### Imputing Missing Observations
 
@@ -226,9 +232,12 @@ surro_imputed <- impute_obs(
 #> Note: 5 completely missing probes detected. Use reference_fill() to address these before calculating surrogate values.
 ```
 
-**Parameters:** - `method` - “mean” or “median” imputation -
-`min_nonmiss_prop` - Minimum proportion of non-missing values required
-(0-1) - `return_stats` - Get detailed imputation statistics
+**Parameters:**
+
+- `method` - “mean” or “median” imputation
+- `min_nonmiss_prop` - Minimum proportion of non-missing values required
+  (0-1)
+- `return_stats` - Get detailed imputation statistics
 
 ### Complete Workflow with Missing Data
 
@@ -343,9 +352,6 @@ all.equal(beta_matrix_comp,
 #> [1] TRUE
 ```
 
-**Note:** Surrogates are typically developed using beta values, so
-convert to beta before calculation if your data is in M-values.
-
 ## Advanced Features
 
 ### Getting Diagnostic Information
@@ -395,7 +401,7 @@ print(surro_with_stats$imputation_stats)
 #> =====================
 #> Method: mean
 #> Threshold: 0.0% non-missing data required
-#> Date: 2025-11-10 20:16:18.969536
+#> Date: 2025-11-10 20:43:19.434648
 #> 
 #> Probe Summary:
 #> - Total probes: 10
@@ -447,32 +453,39 @@ predictions_verbose <- surro_calc(
 ### Issue: “No common probes found”
 
 **Solution:** Ensure your CpG names match between methylation data and
-weights. Check for: - Different naming conventions (e.g., “cg12345678”
-vs “cg12345678_1”) - Leading/trailing whitespace - Case sensitivity
+weights. Check for:
+
+- Different naming conventions (e.g., “cg12345678” vs “cg12345678_1”)
+- Leading/trailing whitespace
+- Case sensitivity
 
 ### Issue: Many samples removed due to missing data
 
-**Solution:** - Use
-[`impute_obs()`](https://jagoode27.github.io/MethylSurroGetR/reference/impute_obs.md)
-before
-[`surro_calc()`](https://jagoode27.github.io/MethylSurroGetR/reference/surro_calc.md) -
-Lower `min_nonmiss_prop` threshold if appropriate - Use reference values
-to fill missing probes
+**Solution:**
+
+- Use
+  [`impute_obs()`](https://jagoode27.github.io/MethylSurroGetR/reference/impute_obs.md)
+  before
+  [`surro_calc()`](https://jagoode27.github.io/MethylSurroGetR/reference/surro_calc.md)
+- Lower `min_nonmiss_prop` threshold if appropriate
+- Use reference values to fill missing probes
 
 ### Issue: Predictions outside expected range
 
-**Solution:** - Verify you’re using the correct transformation - Check
-that input data is on the correct scale (beta vs M-values) - Ensure
-reference values are appropriate for your data
+**Solution:**
+
+- Verify you’re using the correct transformation
+- Check that input data is on the correct scale (beta vs M-values)
+- Ensure reference values are appropriate for your data
 
 ## Summary
 
 MethylSurroGetR provides a complete workflow for:
 
-- [x] Organizing methylation data and surrogate weights
-- [x] Handling missing probes and observations
-- [x] Calculating predictions with various transformations
-- [x] Diagnosing and documenting the analysis process
+- Organizing methylation data and surrogate weights
+- Handling missing probes and observations
+- Calculating predictions with various transformations
+- Diagnosing and documenting the analysis process
 
 For more information, see the function documentation
 ([`?surro_calc`](https://jagoode27.github.io/MethylSurroGetR/reference/surro_calc.md),

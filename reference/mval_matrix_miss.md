@@ -25,13 +25,13 @@ A numeric matrix with 15 rows (CpG probes) and 5 columns (samples):
 Converted from
 [`beta_matrix_miss`](https://jagoode27.github.io/MethylSurroGetR/reference/beta_matrix_miss.md)
 using
-[`convert_beta_to_m()`](https://jagoode27.github.io/MethylSurroGetR/reference/methylConversion.md)
+[`convert_beta_to_m()`](https://jagoode27.github.io/MethylSurroGetR/reference/convert_beta_to_m.md)
 
 ## See also
 
 [`mval_matrix_comp`](https://jagoode27.github.io/MethylSurroGetR/reference/mval_matrix_comp.md),
 [`beta_matrix_miss`](https://jagoode27.github.io/MethylSurroGetR/reference/beta_matrix_miss.md),
-[`convert_beta_to_m`](https://jagoode27.github.io/MethylSurroGetR/reference/methylConversion.md)
+[`convert_beta_to_m`](https://jagoode27.github.io/MethylSurroGetR/reference/convert_beta_to_m.md)
 
 ## Examples
 

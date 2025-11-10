@@ -29,7 +29,7 @@ Simulated data
 
 [`beta_matrix_miss`](https://jagoode27.github.io/MethylSurroGetR/reference/beta_matrix_miss.md),
 [`mval_matrix_comp`](https://jagoode27.github.io/MethylSurroGetR/reference/mval_matrix_comp.md),
-[`convert_beta_to_m`](https://jagoode27.github.io/MethylSurroGetR/reference/methylConversion.md)
+[`convert_beta_to_m`](https://jagoode27.github.io/MethylSurroGetR/reference/convert_beta_to_m.md)
 
 ## Examples
 

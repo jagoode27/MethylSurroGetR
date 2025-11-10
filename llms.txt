@@ -51,9 +51,10 @@ Compute surrogate predictions from methylation data
 
 Convert between beta values and M-values
 
-- [`convert_m_to_beta()`](https://jagoode27.github.io/MethylSurroGetR/reference/methylConversion.md)
-  [`convert_beta_to_m()`](https://jagoode27.github.io/MethylSurroGetR/reference/methylConversion.md)
-  : Conversion Functions for M-Values and Beta Values
+- [`convert_beta_to_m()`](https://jagoode27.github.io/MethylSurroGetR/reference/convert_beta_to_m.md)
+  : Convert Beta Values to M-Values
+- [`convert_m_to_beta()`](https://jagoode27.github.io/MethylSurroGetR/reference/convert_m_to_beta.md)
+  : Convert M-Values to Beta Values
 
 ## Print Methods
 
@@ -65,13 +66,6 @@ S3 print methods for package objects
   : Print Method for methyl_miss Objects
 - [`print(`*`<reference_fill_stats>`*`)`](https://jagoode27.github.io/MethylSurroGetR/reference/print.reference_fill_stats.md)
   : Print Method for reference_fill_stats Objects
-
-## Utility Functions
-
-Helper functions for data generation
-
-- [`sample_data`](https://jagoode27.github.io/MethylSurroGetR/reference/sample_data.md)
-  : Sample Methylation Data for MethylSurroGetR Package
 
 ## Example Data
 

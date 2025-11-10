@@ -191,10 +191,16 @@ values:</p>
 <span>  type <span class="op">=</span> <span class="st">"probes"</span>  <span class="co"># Only fill completely missing probes</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; Filled 25 values using reference data (probes strategy).</span></span></code></pre></div>
-<p><strong>Fill types:</strong> - <code>"probes"</code> - Only fill
-completely missing probes (recommended) - <code>"obs"</code> - Only fill
-individual missing observations - <code>"all"</code> - Fill both missing
-probes and observations</p>
+<p><strong>Fill types:</strong></p>
+<ul>
+<li>
+<code>"probes"</code> - Only fill completely missing probes
+(recommended)</li>
+<li>
+<code>"obs"</code> - Only fill individual missing observations</li>
+<li>
+<code>"all"</code> - Fill both missing probes and observations</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="step-4-calculate-predictions">Step 4: Calculate Predictions<a class="anchor" aria-label="anchor" href="#step-4-calculate-predictions"></a>
@@ -255,8 +261,13 @@ transformation (exp(x))</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Completely missing probes:</span></span>
 <span><span class="co">#&gt; cg03, cg06, cg11, cg15, cg18</span></span></code></pre></div>
-<p>This shows: - Number of complete probes - Probes with partial
-missingness - Completely missing probes - Overall missing data rate</p>
+<p>This shows:</p>
+<ul>
+<li>Number of complete probes</li>
+<li>Probes with partial missingness</li>
+<li>Completely missing probes</li>
+<li>Overall missing data rate</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="imputing-missing-observations">Imputing Missing Observations<a class="anchor" aria-label="anchor" href="#imputing-missing-observations"></a>
@@ -293,10 +304,16 @@ missingness - Completely missing probes - Overall missing data rate</p>
 <span><span class="co">#&gt; - Lowering min_nonmiss_prop threshold to 0.3</span></span>
 <span><span class="co">#&gt; - Checking data quality with methyl_miss()</span></span>
 <span><span class="co">#&gt; Note: 5 completely missing probes detected. Use reference_fill() to address these before calculating surrogate values.</span></span></code></pre></div>
-<p><strong>Parameters:</strong> - <code>method</code> - “mean” or
-“median” imputation - <code>min_nonmiss_prop</code> - Minimum proportion
-of non-missing values required (0-1) - <code>return_stats</code> - Get
-detailed imputation statistics</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li>
+<code>method</code> - “mean” or “median” imputation</li>
+<li>
+<code>min_nonmiss_prop</code> - Minimum proportion of non-missing
+values required (0-1)</li>
+<li>
+<code>return_stats</code> - Get detailed imputation statistics</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="complete-workflow-with-missing-data">Complete Workflow with Missing Data<a class="anchor" aria-label="anchor" href="#complete-workflow-with-missing-data"></a>
@@ -401,18 +418,15 @@ provides conversion functions:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mval_matrix_comp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Convert M-values to beta values</span></span>
-<span><span class="va">beta_from_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/methylConversion.html">convert_m_to_beta</a></span><span class="op">(</span><span class="va">mval_matrix_comp</span><span class="op">)</span></span>
+<span><span class="va">beta_from_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/convert_m_to_beta.html">convert_m_to_beta</a></span><span class="op">(</span><span class="va">mval_matrix_comp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Or convert beta values to M-values</span></span>
-<span><span class="va">m_from_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/methylConversion.html">convert_beta_to_m</a></span><span class="op">(</span><span class="va">beta_matrix_comp</span><span class="op">)</span></span>
+<span><span class="va">m_from_beta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/convert_beta_to_m.html">convert_beta_to_m</a></span><span class="op">(</span><span class="va">beta_matrix_comp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Verify round-trip conversion</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">beta_matrix_comp</span>, </span>
-<span>          <span class="fu"><a href="../reference/methylConversion.html">convert_m_to_beta</a></span><span class="op">(</span><span class="fu"><a href="../reference/methylConversion.html">convert_beta_to_m</a></span><span class="op">(</span><span class="va">beta_matrix_comp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>          <span class="fu"><a href="../reference/convert_m_to_beta.html">convert_m_to_beta</a></span><span class="op">(</span><span class="fu"><a href="../reference/convert_beta_to_m.html">convert_beta_to_m</a></span><span class="op">(</span><span class="va">beta_matrix_comp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
-<p><strong>Note:</strong> Surrogates are typically developed using beta
-values, so convert to beta before calculation if your data is in
-M-values.</p>
 </div>
 <div class="section level2">
 <h2 id="advanced-features">Advanced Features<a class="anchor" aria-label="anchor" href="#advanced-features"></a>
@@ -465,7 +479,7 @@ M-values.</p>
 <span><span class="co">#&gt; =====================</span></span>
 <span><span class="co">#&gt; Method: mean</span></span>
 <span><span class="co">#&gt; Threshold: 0.0% non-missing data required</span></span>
-<span><span class="co">#&gt; Date: 2025-11-10 20:16:18.969536</span></span>
+<span><span class="co">#&gt; Date: 2025-11-10 20:43:19.434648</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Probe Summary:</span></span>
 <span><span class="co">#&gt; - Total probes: 10</span></span>
@@ -516,24 +530,35 @@ versions and parameters</p></li>
 <h3 id="issue-no-common-probes-found">Issue: “No common probes found”<a class="anchor" aria-label="anchor" href="#issue-no-common-probes-found"></a>
 </h3>
 <p><strong>Solution:</strong> Ensure your CpG names match between
-methylation data and weights. Check for: - Different naming conventions
-(e.g., “cg12345678” vs “cg12345678_1”) - Leading/trailing whitespace -
-Case sensitivity</p>
+methylation data and weights. Check for:</p>
+<ul>
+<li>Different naming conventions (e.g., “cg12345678” vs
+“cg12345678_1”)</li>
+<li>Leading/trailing whitespace</li>
+<li>Case sensitivity</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="issue-many-samples-removed-due-to-missing-data">Issue: Many samples removed due to missing data<a class="anchor" aria-label="anchor" href="#issue-many-samples-removed-due-to-missing-data"></a>
 </h3>
-<p><strong>Solution:</strong> - Use <code><a href="../reference/impute_obs.html">impute_obs()</a></code> before
-<code><a href="../reference/surro_calc.html">surro_calc()</a></code> - Lower <code>min_nonmiss_prop</code>
-threshold if appropriate - Use reference values to fill missing
-probes</p>
+<p><strong>Solution:</strong></p>
+<ul>
+<li>Use <code><a href="../reference/impute_obs.html">impute_obs()</a></code> before <code><a href="../reference/surro_calc.html">surro_calc()</a></code>
+</li>
+<li>Lower <code>min_nonmiss_prop</code> threshold if appropriate</li>
+<li>Use reference values to fill missing probes</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="issue-predictions-outside-expected-range">Issue: Predictions outside expected range<a class="anchor" aria-label="anchor" href="#issue-predictions-outside-expected-range"></a>
 </h3>
-<p><strong>Solution:</strong> - Verify you’re using the correct
-transformation - Check that input data is on the correct scale (beta vs
-M-values) - Ensure reference values are appropriate for your data</p>
+<p><strong>Solution:</strong></p>
+<ul>
+<li>Verify you’re using the correct transformation</li>
+<li>Check that input data is on the correct scale (beta vs
+M-values)</li>
+<li>Ensure reference values are appropriate for your data</li>
+</ul>
 </div>
 </div>
 <div class="section level2">
@@ -541,10 +566,10 @@ M-values) - Ensure reference values are appropriate for your data</p>
 </h2>
 <p>MethylSurroGetR provides a complete workflow for:</p>
 <ul>
-<li>✓ Organizing methylation data and surrogate weights</li>
-<li>✓ Handling missing probes and observations</li>
-<li>✓ Calculating predictions with various transformations</li>
-<li>✓ Diagnosing and documenting the analysis process</li>
+<li>Organizing methylation data and surrogate weights</li>
+<li>Handling missing probes and observations</li>
+<li>Calculating predictions with various transformations</li>
+<li>Diagnosing and documenting the analysis process</li>
 </ul>
 <p>For more information, see the function documentation
 (<code><a href="../reference/surro_calc.html">?surro_calc</a></code>, etc.) or visit the <a href="https://github.com/jagoode27/MethylSurroGetR" class="external-link">package
