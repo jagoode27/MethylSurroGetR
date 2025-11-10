@@ -1,3 +1,78 @@
 url: https://jagoode27.github.io/MethylSurroGetR/
 template:
   bootstrap: 5
+  bootswatch: flatly
+
+logo: man/figures/logo.png
+
+development:
+  mode: auto
+
+home:
+  title: "MethylSurroGetR • DNA Methylation Surrogate Calculator"
+  description: >
+    Calculate predicted values from DNA methylation surrogates with
+    comprehensive missing data handling and flexible transformations.
+
+navbar:
+  structure:
+    left:  [home, reference, articles, news]
+    right: [search, github]
+  components:
+    home:
+      icon: fas fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: Getting Started
+        href: articles/MethylSurroGetR.html
+    news:
+      text: News
+      href: news/index.html
+
+reference:
+  - title: "Setting Up Surrogates"
+    desc: "Initialize your surrogate object"
+    contents:
+    - surro_set
+
+  - title: "Missing Data Handling"
+    desc: "Assess and address missing methylation data"
+    contents:
+    - methyl_miss
+    - reference_fill
+    - impute_obs
+
+  - title: "Calculate Predictions"
+    desc: "Compute surrogate predictions from methylation data"
+    contents:
+    - surro_calc
+
+  - title: "Data Conversion"
+    desc: "Convert between beta values and M-values"
+    contents:
+    - convert_beta_to_m
+    - convert_m_to_beta
+
+  - title: "Example Data"
+    desc: "Sample datasets included with the package"
+    contents:
+    - beta_matrix_comp
+    - beta_matrix_miss
+    - mval_matrix_comp
+    - mval_matrix_miss
+    - wts_df
+    - ref_df
+
+authors:
+  Joshua A. Goode:
+    href: https://github.com/jagoode27
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with

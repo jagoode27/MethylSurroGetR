@@ -1,8 +1,8 @@
 ---
-title: "MethylSurroGetR"
+title: "Getting Started with MethylSurroGetR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{MethylSurroGetR}
+  %\VignetteIndexEntry{Getting Started with MethylSurroGetR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -10,10 +10,354 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
 )
 ```
 
+# Introduction
+
+DNA methylation surrogates are statistical models that predict biological or clinical outcomes using methylation values from specific CpG sites. **MethylSurroGetR** provides a comprehensive toolkit for working with these surrogates, handling common challenges like missing data and providing flexible calculation methods.
+
+This vignette demonstrates the main features of the package using example data.
+
+## Installation
+
 ```{r setup}
 library(MethylSurroGetR)
+```
+
+# Basic Workflow
+
+The typical workflow involves four main steps:
+
+1. **Create a surrogate object** with `surro_set()`
+2. **Handle missing probes** with `reference_fill()`
+3. **Impute missing observations** with `impute_obs()` (if needed)
+4. **Calculate predictions** with `surro_calc()`
+
+Let's walk through each step with examples.
+
+# Working with Complete Data
+
+## Step 1: Load Your Data
+
+The package includes sample datasets for demonstration:
+
+```{r load-data}
+# Load example methylation data (beta values)
+data(beta_matrix_comp)
+
+# Load surrogate weights
+data(wts_df)
+
+# Load reference values for missing probes
+data(ref_df)
+
+# Preview the data
+head(beta_matrix_comp)
+```
+
+The methylation matrix should have:
+- CpG sites as **rows** (with CpG names as row names)
+- Samples as **columns**
+- Beta values (0-1 scale) as entries
+
+## Step 2: Create a Surrogate Object
+
+Use `surro_set()` to combine your methylation data with surrogate weights:
+
+```{r surro-set}
+# Extract weights as a named vector
+wts_vec <- setNames(wts_df$wt_lin, rownames(wts_df))
+
+# Create surrogate object
+my_surro <- surro_set(
+  methyl = beta_matrix_comp,
+  weights = wts_vec,
+  intercept = "Intercept"
+)
+
+# View the structure
+str(my_surro)
+```
+
+**Key points:**
+- `weights` should be a named numeric vector with CpG names
+- `intercept` specifies which weight element is the intercept term
+- The function automatically aligns probes and adds missing ones as NA
+
+## Step 3: Fill Missing Probes
+
+If your data is missing probes needed by the surrogate, use reference values:
+
+```{r reference-fill}
+# Extract reference values
+ref_vec <- setNames(ref_df$mean, rownames(ref_df))
+
+# Fill missing probes with reference values
+my_surro <- reference_fill(
+  methyl_surro = my_surro,
+  reference = ref_vec,
+  type = "probes"  # Only fill completely missing probes
+)
+```
+
+**Fill types:**
+- `"probes"` - Only fill completely missing probes (recommended)
+- `"obs"` - Only fill individual missing observations
+- `"all"` - Fill both missing probes and observations
+
+## Step 4: Calculate Predictions
+
+Now calculate the surrogate predictions:
+
+```{r surro-calc}
+# Calculate linear predictions
+predictions <- surro_calc(
+  methyl_surro = my_surro,
+  transform = "linear"
+)
+
+print(predictions)
+```
+
+**Available transformations:**
+- `"linear"` - No transformation (default)
+- `"probability"` - Logistic transformation (1 / (1 + exp(-x)))
+- `"count"` - Exponential transformation (exp(x))
+
+# Handling Missing Data
+
+## Checking for Missing Data
+
+Use `methyl_miss()` to assess missing data patterns:
+
+```{r missing-check}
+# Load data with missing values
+data(beta_matrix_miss)
+
+# Create surrogate object
+surro_miss <- surro_set(
+  methyl = beta_matrix_miss,
+  weights = wts_vec,
+  intercept = "Intercept"
+)
+
+# Analyze missing data
+missing_info <- methyl_miss(surro_miss)
+print(missing_info)
+```
+
+This shows:
+- Number of complete probes
+- Probes with partial missingness
+- Completely missing probes
+- Overall missing data rate
+
+## Imputing Missing Observations
+
+For probes with partial missingness, use `impute_obs()`:
+
+```{r impute-obs}
+# Impute using row means
+surro_imputed <- impute_obs(
+  methyl_surro = surro_miss,
+  method = "mean",
+  min_nonmiss_prop = 0.5,  # Only impute if ≥50% observed
+  verbose = TRUE
+)
+```
+
+**Parameters:**
+- `method` - "mean" or "median" imputation
+- `min_nonmiss_prop` - Minimum proportion of non-missing values required (0-1)
+- `return_stats` - Get detailed imputation statistics
+
+## Complete Workflow with Missing Data
+
+```{r complete-workflow}
+# Start with missing data
+data(beta_matrix_miss)
+data(wts_df)
+data(ref_df)
+
+# Create vectors
+wts_vec <- setNames(wts_df$wt_lin, rownames(wts_df))
+ref_vec <- setNames(ref_df$mean, rownames(ref_df))
+
+# Full pipeline
+predictions_miss <- beta_matrix_miss |>
+  surro_set(weights = wts_vec, intercept = "Intercept") |>
+  reference_fill(reference = ref_vec, type = "probes") |>
+  impute_obs(method = "mean", min_nonmiss_prop = 0.5) |>
+  surro_calc(transform = "linear")
+
+print(predictions_miss)
+```
+
+# Different Surrogate Types
+
+## Linear Surrogates
+
+For continuous outcomes (e.g., estimated white blood cell counts):
+
+```{r linear-example}
+wts_linear <- setNames(wts_df$wt_lin, rownames(wts_df))
+
+predictions_linear <- beta_matrix_comp |>
+  surro_set(weights = wts_linear, intercept = "Intercept") |>
+  reference_fill(reference = ref_vec, type = "probes") |>
+  surro_calc(transform = "linear")
+
+print(predictions_linear)
+```
+
+## Probability Surrogates
+
+For binary outcomes (e.g., disease risk):
+
+```{r probability-example}
+wts_prob <- setNames(wts_df$wt_prb, rownames(wts_df))
+
+predictions_prob <- beta_matrix_comp |>
+  surro_set(weights = wts_prob, intercept = "Intercept") |>
+  reference_fill(reference = ref_vec, type = "probes") |>
+  surro_calc(transform = "probability")
+
+print(predictions_prob)
+```
+
+## Count Surrogates
+
+For count outcomes (e.g., cell counts):
+
+```{r count-example}
+wts_count <- setNames(wts_df$wt_cnt, rownames(wts_df))
+
+predictions_count <- beta_matrix_comp |>
+  surro_set(weights = wts_count, intercept = "Intercept") |>
+  reference_fill(reference = ref_vec, type = "probes") |>
+  surro_calc(transform = "count")
+
+print(predictions_count)
+```
+
+# Working with M-values
+
+Some analyses use M-values instead of beta values. The package provides conversion functions:
+
+```{r m-values}
+# Load M-value data
+data(mval_matrix_comp)
+
+# Convert M-values to beta values
+beta_from_m <- convert_m_to_beta(mval_matrix_comp)
+
+# Or convert beta values to M-values
+m_from_beta <- convert_beta_to_m(beta_matrix_comp)
+
+# Verify round-trip conversion
+all.equal(beta_matrix_comp, 
+          convert_m_to_beta(convert_beta_to_m(beta_matrix_comp)))
+```
+
+**Note:** Surrogates are typically developed using beta values, so convert to beta before calculation if your data is in M-values.
+
+# Advanced Features
+
+## Getting Diagnostic Information
+
+```{r diagnostics}
+# Get detailed diagnostics
+results <- surro_calc(
+  my_surro,
+  transform = "linear",
+  return_diagnostics = TRUE
+)
+
+# View diagnostics
+str(results$diagnostics)
+```
+
+## Getting Imputation Statistics
+
+```{r imputation-stats}
+# Get detailed imputation statistics
+surro_with_stats <- impute_obs(
+  surro_miss,
+  method = "mean",
+  return_stats = TRUE
+)
+
+# View statistics
+print(surro_with_stats$imputation_stats)
+```
+
+## Verbose Output
+
+For detailed information during processing:
+
+```{r verbose, eval=FALSE}
+# Verbose mode for debugging
+predictions_verbose <- surro_calc(
+  my_surro,
+  transform = "linear",
+  verbose = TRUE
+)
+```
+
+# Best Practices
+
+1. **Always check for missing data** using `methyl_miss()` before calculation
+
+2. **Use appropriate reference values** when filling missing probes (ideally from the same platform and tissue type)
+
+3. **Set reasonable thresholds** for imputation (e.g., `min_nonmiss_prop = 0.5`)
+
+4. **Choose the correct transformation** based on how the surrogate was developed
+
+5. **Validate results** by comparing to known values or expected ranges
+
+6. **Document your workflow** including software versions and parameters
+
+# Common Issues and Solutions
+
+## Issue: "No common probes found"
+
+**Solution:** Ensure your CpG names match between methylation data and weights. Check for:
+- Different naming conventions (e.g., "cg12345678" vs "cg12345678_1")
+- Leading/trailing whitespace
+- Case sensitivity
+
+## Issue: Many samples removed due to missing data
+
+**Solution:** 
+- Use `impute_obs()` before `surro_calc()`
+- Lower `min_nonmiss_prop` threshold if appropriate
+- Use reference values to fill missing probes
+
+## Issue: Predictions outside expected range
+
+**Solution:**
+- Verify you're using the correct transformation
+- Check that input data is on the correct scale (beta vs M-values)
+- Ensure reference values are appropriate for your data
+
+# Summary
+
+MethylSurroGetR provides a complete workflow for:
+
+- ✓ Organizing methylation data and surrogate weights
+- ✓ Handling missing probes and observations
+- ✓ Calculating predictions with various transformations
+- ✓ Diagnosing and documenting the analysis process
+
+For more information, see the function documentation (`?surro_calc`, etc.) or visit the [package website](https://github.com/jagoode27/MethylSurroGetR).
+
+# Session Information
+
+```{r session-info}
+sessionInfo()
 ```
