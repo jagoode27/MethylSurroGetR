@@ -105,6 +105,7 @@ my_surro <- reference_fill(
 ```
 
 **Fill types:**
+
 - `"probes"` - Only fill completely missing probes (recommended)
 - `"obs"` - Only fill individual missing observations
 - `"all"` - Fill both missing probes and observations
@@ -151,6 +152,7 @@ print(missing_info)
 ```
 
 This shows:
+
 - Number of complete probes
 - Probes with partial missingness
 - Completely missing probes
@@ -171,6 +173,7 @@ surro_imputed <- impute_obs(
 ```
 
 **Parameters:**
+
 - `method` - "mean" or "median" imputation
 - `min_nonmiss_prop` - Minimum proportion of non-missing values required (0-1)
 - `return_stats` - Get detailed imputation statistics
@@ -263,8 +266,6 @@ all.equal(beta_matrix_comp,
           convert_m_to_beta(convert_beta_to_m(beta_matrix_comp)))
 ```
 
-**Note:** Surrogates are typically developed using beta values, so convert to beta before calculation if your data is in M-values.
-
 # Advanced Features
 
 ## Getting Diagnostic Information
@@ -327,13 +328,15 @@ predictions_verbose <- surro_calc(
 ## Issue: "No common probes found"
 
 **Solution:** Ensure your CpG names match between methylation data and weights. Check for:
+
 - Different naming conventions (e.g., "cg12345678" vs "cg12345678_1")
 - Leading/trailing whitespace
 - Case sensitivity
 
 ## Issue: Many samples removed due to missing data
 
-**Solution:** 
+**Solution:**
+
 - Use `impute_obs()` before `surro_calc()`
 - Lower `min_nonmiss_prop` threshold if appropriate
 - Use reference values to fill missing probes
@@ -341,6 +344,7 @@ predictions_verbose <- surro_calc(
 ## Issue: Predictions outside expected range
 
 **Solution:**
+
 - Verify you're using the correct transformation
 - Check that input data is on the correct scale (beta vs M-values)
 - Ensure reference values are appropriate for your data
@@ -349,10 +353,10 @@ predictions_verbose <- surro_calc(
 
 MethylSurroGetR provides a complete workflow for:
 
-- ✓ Organizing methylation data and surrogate weights
-- ✓ Handling missing probes and observations
-- ✓ Calculating predictions with various transformations
-- ✓ Diagnosing and documenting the analysis process
+- Organizing methylation data and surrogate weights
+- Handling missing probes and observations
+- Calculating predictions with various transformations
+- Diagnosing and documenting the analysis process
 
 For more information, see the function documentation (`?surro_calc`, etc.) or visit the [package website](https://github.com/jagoode27/MethylSurroGetR).
 

@@ -1,22 +1,3 @@
-#' Sample Methylation Data for MethylSurroGetR Package
-#'
-#' This file contains sample datasets used in examples and testing for the MethylSurroGetR package.
-#' All datasets are designed to demonstrate package functionality with realistic but manageable data sizes.
-#'
-#' @section Methylation Data Matrices:
-#' The package includes four methylation data matrices demonstrating different data scenarios:
-#' \describe{
-#'   \item{\code{\link{beta_matrix_comp}}}{Complete beta values without missing data}
-#'   \item{\code{\link{beta_matrix_miss}}}{Beta values with strategic missing data patterns}
-#'   \item{\code{\link{mval_matrix_comp}}}{Complete M-values derived from beta_matrix_comp}
-#'   \item{\code{\link{mval_matrix_miss}}}{M-values with missing data derived from beta_matrix_miss}
-#' }
-#'
-#' @name sample_data
-#' @docType data
-#' @keywords datasets
-NULL
-
 #' Complete Beta Matrix without Missing Values
 #'
 #' A 15 x 5 matrix of methylation beta values representing complete data without missing observations.
@@ -34,7 +15,6 @@ NULL
 #' data(beta_matrix_comp)
 #' str(beta_matrix_comp)
 #'
-#' @keywords datasets
 "beta_matrix_comp"
 
 #' Beta Matrix with Missing Values
@@ -54,7 +34,6 @@ NULL
 #' data(beta_matrix_miss)
 #' str(beta_matrix_miss)
 #'
-#' @keywords datasets
 "beta_matrix_miss"
 
 #' Complete M-Values Matrix
@@ -74,7 +53,6 @@ NULL
 #' data(mval_matrix_comp)
 #' str(mval_matrix_comp)
 #'
-#' @keywords datasets
 "mval_matrix_comp"
 
 #' M-Values Matrix with Missing Values
@@ -94,7 +72,6 @@ NULL
 #' data(mval_matrix_miss)
 #' str(mval_matrix_miss)
 #'
-#' @keywords datasets
 "mval_matrix_miss"
 
 #' Regression Weights Data Frame
@@ -128,7 +105,6 @@ NULL
 #' logistic_weights <- setNames(wts_df$wt_prb, rownames(wts_df))
 #' poisson_weights <- setNames(wts_df$wt_cnt, rownames(wts_df))
 #'
-#' @keywords datasets
 "wts_df"
 
 #' Reference Values Data Frame
@@ -161,5 +137,4 @@ NULL
 #' ref_mean <- setNames(ref_df$mean, rownames(ref_df))
 #' ref_median <- setNames(ref_df$median, rownames(ref_df))
 #'
-#' @keywords datasets
 "ref_df"

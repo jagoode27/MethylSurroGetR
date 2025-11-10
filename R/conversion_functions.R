@@ -1,26 +1,23 @@
-#' Conversion Functions for M-Values and Beta Values
+#' Convert M-Values to Beta Values
 #'
-#' These functions convert methylation M-values to beta values and vice versa.
-#' Beta values represent methylation levels as proportions (0-1), while M-values
-#' are log2 ratios that provide better statistical properties for analysis.
+#' Converts methylation M-values to beta values. Beta values represent methylation
+#' levels as proportions (0-1), while M-values are log2 ratios that provide better
+#' statistical properties for analysis.
 #'
 #' @param methyl A matrix of methylation values with CpG sites as row names and samples as column names. All values must be numeric.
 #' @param in_place Logical. If \code{TRUE}, the conversion is performed in-place to save memory.
 #'        \strong{WARNING: This will permanently modify the original matrix.} Default is \code{FALSE}.
 #'
-#' @return For \code{convert_m_to_beta}, returns a matrix of beta values corresponding to the input M-values.
-#'
-#' For \code{convert_beta_to_m}, returns a matrix of M-values corresponding to the input beta values.
+#' @return A matrix of beta values corresponding to the input M-values.
 #'
 #' @details
 #' \strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50\%
 #' but will permanently modify the original data.
 #'
-#' \strong{Numerical Stability:} The functions automatically handle extreme beta values (0 or 1) that would otherwise
-#' result in infinite M-values by clamping them to a small epsilon away from the boundaries.
+#' \strong{Numerical Stability:} The function automatically handles extreme M-values that would result in
+#' beta values outside the expected range (0 to 1).
 #'
-#' \strong{Value Ranges:} Beta values should be between 0 and 1. Values outside this range will generate a warning
-#' but the conversion will proceed.
+#' @seealso \code{\link{convert_beta_to_m}} for the inverse conversion
 #'
 #' @examples
 #' # Load Methylation M-Values Matrix
@@ -39,20 +36,6 @@
 #' # mval_copy is now modified and contains beta values
 #' }
 #'
-#' # Load Methylation Beta Matrix
-#' data(beta_matrix_comp, package = "MethylSurroGetR")
-#' print(beta_matrix_comp)
-#'
-#' # Convert Beta Values to M-values
-#' m_values <- convert_beta_to_m(beta_matrix_comp)
-#' print(m_values)
-#'
-#' @name methylConversion
-NULL
-
-#' Convert M-Values to Beta Values
-#'
-#' @rdname methylConversion
 #' @export
 convert_m_to_beta <- function(methyl, in_place = FALSE) {
   # Check if the input is a matrix
@@ -107,7 +90,44 @@ convert_m_to_beta <- function(methyl, in_place = FALSE) {
 
 #' Convert Beta Values to M-Values
 #'
-#' @rdname methylConversion
+#' Converts methylation beta values to M-values. Beta values represent methylation
+#' levels as proportions (0-1), while M-values are log2 ratios that provide better
+#' statistical properties for analysis.
+#'
+#' @param methyl A matrix of methylation values with CpG sites as row names and samples as column names. All values must be numeric.
+#' @param in_place Logical. If \code{TRUE}, the conversion is performed in-place to save memory.
+#'        \strong{WARNING: This will permanently modify the original matrix.} Default is \code{FALSE}.
+#'
+#' @return A matrix of M-values corresponding to the input beta values.
+#'
+#' @details
+#' \strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50\%
+#' but will permanently modify the original data.
+#'
+#' \strong{Numerical Stability:} The function automatically handles extreme beta values (0 or 1) that would otherwise
+#' result in infinite M-values by clamping them to a small epsilon away from the boundaries.
+#'
+#' \strong{Value Ranges:} Beta values should be between 0 and 1. Values outside this range will generate a warning
+#' but the conversion will proceed.
+#'
+#' @seealso \code{\link{convert_m_to_beta}} for the inverse conversion
+#'
+#' @examples
+#' # Load Methylation Beta Matrix
+#' data(beta_matrix_comp, package = "MethylSurroGetR")
+#' print(beta_matrix_comp)
+#'
+#' # Convert Beta Values to M-values
+#' m_values <- convert_beta_to_m(beta_matrix_comp)
+#' print(m_values)
+#'
+#' # Convert in-place for memory efficiency (modifies original!)
+#' \dontrun{
+#' beta_copy <- beta_matrix_comp
+#' m_inplace <- convert_beta_to_m(beta_copy, in_place = TRUE)
+#' # beta_copy is now modified and contains M-values
+#' }
+#'
 #' @export
 convert_beta_to_m <- function(methyl, in_place = FALSE) {
   # Check if the input is a matrix
