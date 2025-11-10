@@ -1,10 +1,3 @@
-#' @keywords internal
-"_PACKAGE"
-
-## usethis namespace: start
-## usethis namespace: end
-NULL
-
 #' MethylSurroGetR: DNA Methylation Surrogate Calculations
 #'
 #' @description
@@ -60,13 +53,13 @@ NULL
 #'   \preformatted{
 #'   # Create surrogate object
 #'   my_surro <- surro_set(methyl_matrix, weights_vector, intercept = "Intercept")
-#'   
+#'
 #'   # Handle missing probes
 #'   my_surro <- reference_fill(my_surro, reference_values)
-#'   
+#'
 #'   # Impute missing observations (if needed)
 #'   my_surro <- impute_obs(my_surro, method = "mean")
-#'   
+#'
 #'   # Calculate predictions
 #'   predictions <- surro_calc(my_surro, transform = "linear")
 #'   }
@@ -94,7 +87,10 @@ NULL
 #'   \item Report bugs: \url{https://github.com/jagoode27/MethylSurroGetR/issues}
 #' }
 #'
-#' @docType package
-#' @name MethylSurroGetR-package
-#' @aliases MethylSurroGetR
+#' @aliases MethylSurroGetR MethylSurroGetR-package
+#' @keywords internal
+"_PACKAGE"
+
+## usethis namespace: start
+## usethis namespace: end
 NULL

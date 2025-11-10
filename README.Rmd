@@ -16,6 +16,10 @@ knitr::opts_chunk$set(
 # MethylSurroGetR
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/jagoode27/MethylSurroGetR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jagoode27/MethylSurroGetR/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![License: GPL (>= 3)](https://img.shields.io/badge/License-GPL%20%28%3E%3D%203%29-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Codecov test coverage](https://codecov.io/gh/jagoode27/MethylSurroGetR/graph/badge.svg)](https://app.codecov.io/gh/jagoode27/MethylSurroGetR)
 <!-- badges: end -->
 
 ### 🚧 Under Development 🚧
@@ -31,3 +35,39 @@ You can install the development version of MethylSurroGetR from GitHub with:
 # install.packages("remotes")
 remotes::install_github("jagoode27/MethylSurroGetR")
 ```
+
+## Example
+
+This is a basic example workflow:
+
+```{r example, eval=FALSE}
+library(MethylSurroGetR)
+
+# Load example data
+data(beta_matrix_comp)
+data(wts_df)
+data(ref_df)
+
+# Create weights vector
+wts_vec <- setNames(wts_df$wt_lin, rownames(wts_df))
+
+# Create surrogate object
+my_surro <- surro_set(
+  methyl = beta_matrix_comp,
+  weights = wts_vec,
+  intercept = "Intercept"
+)
+
+# Fill missing probes with reference values
+ref_vec <- setNames(ref_df$mean, rownames(ref_df))
+my_surro <- reference_fill(my_surro, reference = ref_vec)
+
+# Calculate predictions
+predictions <- surro_calc(my_surro, transform = "linear")
+```
+
+## Getting Help
+
+See the [Getting Started vignette](https://jagoode27.github.io/MethylSurroGetR/articles/MethylSurroGetR.html) for detailed examples and workflows.
+
+For bug reports and feature requests, please [open an issue](https://github.com/jagoode27/MethylSurroGetR/issues).
