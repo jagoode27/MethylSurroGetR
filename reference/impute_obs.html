@@ -5,11 +5,11 @@ It applies row-wise imputation based on a specified non-missing data proportion 
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">MethylSurroGetR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,8 +17,13 @@ It applies row-wise imputation based on a specified non-missing data proportion 
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/MethylSurroGetR.html">Get started</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fas fa-home fa-lg"></span></a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/MethylSurroGetR.html">Getting Started</a></li>
+  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/jagoode27/MethylSurroGetR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -41,7 +46,13 @@ It applies row-wise imputation based on a specified non-missing data proportion 
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">impute_obs</span><span class="op">(</span><span class="va">methyl_surro</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>, min_nonmiss_prop <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">impute_obs</span><span class="op">(</span></span>
+<span>  <span class="va">methyl_surro</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"median"</span><span class="op">)</span>,</span>
+<span>  min_nonmiss_prop <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  return_stats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -59,18 +70,39 @@ It applies row-wise imputation based on a specified non-missing data proportion 
 <dt id="arg-min-nonmiss-prop">min_nonmiss_prop<a class="anchor" aria-label="anchor" href="#arg-min-nonmiss-prop"></a></dt>
 <dd><p>The minimum proportion of non-missing data required in a probe (row) for the imputation to proceed. Must be a numeric value between 0 and 1.</p></dd>
 
+
+<dt id="arg-return-stats">return_stats<a class="anchor" aria-label="anchor" href="#arg-return-stats"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, detailed imputation statistics are added to the returned object. Default is <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>Logical. If <code>TRUE</code>, detailed progress messages are displayed. Default is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>methyl_surro</code> object with missing observations imputed, updating the methylation matrix as per the given method and threshold.</p>
+    <p>A <code>methyl_surro</code> object with missing observations imputed, updating the methylation matrix as per the given method and threshold.
+If <code>return_stats = TRUE</code>, an additional <code>imputation_stats</code> component is added containing detailed statistics about the imputation process.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The function uses vectorized operations for efficient processing of large matrices. Probes are only imputed if they meet the
+minimum non-missing data threshold and are not completely missing.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load the sample data</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">methyl_surro_miss</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">beta_matrix_miss</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">wts_df</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Apply mean imputation with a specified threshold for non-missing data in probes</span></span></span>
+<span class="r-in"><span><span class="co"># Create weight vector and methyl_surro object</span></span></span>
+<span class="r-in"><span><span class="va">wts_vec_lin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">wts_df</span><span class="op">$</span><span class="va">wt_lin</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">wts_df</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">methyl_surro_miss</span> <span class="op">&lt;-</span> <span class="fu"><a href="surro_set.html">surro_set</a></span><span class="op">(</span><span class="va">beta_matrix_miss</span>, <span class="va">wts_vec_lin</span>, <span class="st">"Intercept"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Added 5 missing probes with NA values (50.0% of weight probes missing from methylation data).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Filtered methylation matrix from 15 to 10 probes to match weights.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Apply mean imputation with a specified threshold</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">impute_obs</span><span class="op">(</span><span class="va">methyl_surro_miss</span>, <span class="st">"mean"</span>, min_nonmiss_prop <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Imputed 1 values in 1 probes using mean method.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 1 probes were not imputed because they did not meet the threshold. Use methyl_miss() to see missing probes.</span>
@@ -89,6 +121,53 @@ It applies row-wise imputation based on a specified non-missing data proportion 
 <span class="r-out co"><span class="r-pr">#&gt;</span> cg15        NA        NA        NA        NA         NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cg18        NA        NA        NA        NA         NA</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get detailed imputation statistics</span></span></span>
+<span class="r-in"><span><span class="va">result_with_stats</span> <span class="op">&lt;-</span> <span class="fu">impute_obs</span><span class="op">(</span><span class="va">methyl_surro_miss</span>, <span class="st">"mean"</span>,</span></span>
+<span class="r-in"><span>                                min_nonmiss_prop <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
+<span class="r-in"><span>                                return_stats <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                                verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating copy of methyl_surro object</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Starting imputation analysis...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Found 29 missing values across 10 probes (58.0% of total values missing)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Using mean imputation with minimum 50.0% non-missing data threshold</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Probe analysis:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - 3 probes are complete (30.0%)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - 5 probes are completely missing (50.0%)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - 2 probes have partial missing data (20.0%)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - 1 of 2 partial probes meet the 50.0% threshold for imputation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - 1 probes do not meet threshold</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Calculating row-wise means for imputation...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Performing imputation...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Imputation completed successfully:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - Imputed 1 missing values across 1 probes</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - Average imputation per probe: 1.0 values</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - 1 probes (10.0%) were not imputed due to insufficient data</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - Remaining missing values: 28 (56.0% of total)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Recommendation: 1 probes were skipped (average 40.0% completeness). Consider:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - Using reference_fill() to handle missing probes</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - Lowering min_nonmiss_prop threshold to 0.3</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> - Checking data quality with methyl_miss()</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Note: 5 completely missing probes detected. Use reference_fill() to address these before calculating surrogate values.</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result_with_stats</span><span class="op">$</span><span class="va">imputation_stats</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imputation Statistics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> =====================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Method: mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Threshold: 50.0% non-missing data required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Date: 2025-11-10 20:16:14.703267</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Probe Summary:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Total probes: 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Complete probes: 3 (30.0%)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Partially missing: 2 (20.0%)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Completely missing: 5 (50.0%)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Imputation Results:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Probes imputed: 1 of 2 eligible (50.0%)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Values imputed: 1 of 29 missing (3.4%)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Remaining missing: 28 values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Skipped probes: 1 (insufficient data)</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -96,11 +175,11 @@ It applies row-wise imputation based on a specified non-missing data proportion 
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Joshua A. Goode.</p>
+  <p>Developed by <a href="https://github.com/jagoode27" class="external-link">Joshua A. Goode</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

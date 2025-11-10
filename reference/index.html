@@ -3,11 +3,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">MethylSurroGetR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,8 +15,13 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/MethylSurroGetR.html">Get started</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Home"><span class="fa fas fa-home fa-lg"></span></a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/MethylSurroGetR.html">Getting Started</a></li>
+  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/jagoode27/MethylSurroGetR/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -31,12 +36,135 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="setting-up-surrogates">Setting Up Surrogates<a class="anchor" aria-label="anchor" href="#setting-up-surrogates"></a></h2>
+
+      <div class="section-desc"><p>Initialize your surrogate object</p></div>
+
+      <dl></dl></div><div class="section level2">
 
 
 
 
-    </div><div class="section level2">
+      <dl><dt>
+
+          <code><a href="surro_set.html">surro_set()</a></code>
+
+        </dt>
+        <dd>Create a methyl_surro Object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="missing-data-handling">Missing Data Handling<a class="anchor" aria-label="anchor" href="#missing-data-handling"></a></h2>
+
+      <div class="section-desc"><p>Assess and address missing methylation data</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="methyl_miss.html">methyl_miss()</a></code>
+
+        </dt>
+        <dd>Summarize Missing Data in methyl_surro Object</dd>
+
+        <dt>
+
+          <code><a href="reference_fill.html">reference_fill()</a></code>
+
+        </dt>
+        <dd>Fill Missing Probes in methyl_surro Object Using Reference Data</dd>
+
+        <dt>
+
+          <code><a href="impute_obs.html">impute_obs()</a></code>
+
+        </dt>
+        <dd>Impute Missing Observations in methyl_surro Object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="calculate-predictions">Calculate Predictions<a class="anchor" aria-label="anchor" href="#calculate-predictions"></a></h2>
+
+      <div class="section-desc"><p>Compute surrogate predictions from methylation data</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="surro_calc.html">surro_calc()</a></code>
+
+        </dt>
+        <dd>Calculate Predicted Values from methyl_surro Object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="data-conversion">Data Conversion<a class="anchor" aria-label="anchor" href="#data-conversion"></a></h2>
+
+      <div class="section-desc"><p>Convert between beta values and M-values</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="methylConversion.html">convert_m_to_beta()</a></code> <code><a href="methylConversion.html">convert_beta_to_m()</a></code>
+
+        </dt>
+        <dd>Conversion Functions for M-Values and Beta Values</dd>
+      </dl></div><div class="section level2">
+      <h2 id="print-methods">Print Methods<a class="anchor" aria-label="anchor" href="#print-methods"></a></h2>
+
+      <div class="section-desc"><p>S3 print methods for package objects</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="print.imputation_stats.html">print(<i>&lt;imputation_stats&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Print Method for imputation_stats Objects</dd>
+
+        <dt>
+
+          <code><a href="print.methyl_miss.html">print(<i>&lt;methyl_miss&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Print Method for methyl_miss Objects</dd>
+
+        <dt>
+
+          <code><a href="print.reference_fill_stats.html">print(<i>&lt;reference_fill_stats&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Print Method for reference_fill_stats Objects</dd>
+      </dl></div><div class="section level2">
+      <h2 id="utility-functions">Utility Functions<a class="anchor" aria-label="anchor" href="#utility-functions"></a></h2>
+
+      <div class="section-desc"><p>Helper functions for data generation</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="sample_data.html">sample_data</a></code>
+
+        </dt>
+        <dd>Sample Methylation Data for MethylSurroGetR Package</dd>
+      </dl></div><div class="section level2">
+      <h2 id="example-data">Example Data<a class="anchor" aria-label="anchor" href="#example-data"></a></h2>
+
+      <div class="section-desc"><p>Sample datasets included with the package</p></div>
+
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -47,136 +175,52 @@
 
         </dt>
         <dd>Complete Beta Matrix without Missing Values</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="beta_matrix_miss.html">beta_matrix_miss</a></code>
 
         </dt>
         <dd>Beta Matrix with Missing Values</dd>
-      </dl><dl><dt>
 
-          <code><a href="impute_obs.html">impute_obs()</a></code>
-
-        </dt>
-        <dd>Impute Missing Observations in methyl_surro Object</dd>
-      </dl><dl><dt>
-
-          <code><a href="methylConversion.html">convert_m_to_beta()</a></code> <code><a href="methylConversion.html">convert_beta_to_m()</a></code>
-
-        </dt>
-        <dd>Conversion Functions for M-Values and Beta Values</dd>
-      </dl><dl><dt>
-
-          <code><a href="methyl_miss.html">methyl_miss()</a></code>
-
-        </dt>
-        <dd>Summarize Missing Data in methyl_surro Object</dd>
-      </dl><dl><dt>
-
-          <code><a href="methyl_surro_comp.html">methyl_surro_comp</a></code>
-
-        </dt>
-        <dd>Constructed <code>methyl_surro</code> Object with Complete Data</dd>
-      </dl><dl><dt>
-
-          <code><a href="methyl_surro_miss.html">methyl_surro_miss</a></code>
-
-        </dt>
-        <dd>Constructed <code>methyl_surro</code> Object with Missing Values</dd>
-      </dl><dl><dt>
+        <dt>
 
           <code><a href="mval_matrix_comp.html">mval_matrix_comp</a></code>
 
         </dt>
-        <dd>Complete M-Values Matrix without Missing Values and its Associated Elements</dd>
-      </dl><dl><dt>
+        <dd>Complete M-Values Matrix</dd>
+
+        <dt>
 
           <code><a href="mval_matrix_miss.html">mval_matrix_miss</a></code>
 
         </dt>
         <dd>M-Values Matrix with Missing Values</dd>
-      </dl><dl><dt>
 
-          <code><a href="ref_df.html">ref_df</a></code>
-
-        </dt>
-        <dd>Reference Beta Values Data Frame</dd>
-      </dl><dl><dt>
-
-          <code><a href="ref_mat.html">ref_mat</a></code>
-
-        </dt>
-        <dd>Reference Beta Values Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="ref_vec_mean.html">ref_vec_mean</a></code>
-
-        </dt>
-        <dd>Reference Beta Values Vector of Mean Values</dd>
-      </dl><dl><dt>
-
-          <code><a href="ref_vec_median.html">ref_vec_median</a></code>
-
-        </dt>
-        <dd>Reference Beta Values Vector of Median Values</dd>
-      </dl><dl><dt>
-
-          <code><a href="reference_fill.html">reference_fill()</a></code>
-
-        </dt>
-        <dd>Fill Missing Probes in methyl_surro Object Using Reference Data</dd>
-      </dl><dl><dt>
-
-          <code><a href="surro_calc.html">surro_calc()</a></code>
-
-        </dt>
-        <dd>Calculate Predicted Values from methyl_surro Object</dd>
-      </dl><dl><dt>
-
-          <code><a href="surro_set.html">surro_set()</a></code>
-
-        </dt>
-        <dd>Create a methyl_surro Object</dd>
-      </dl><dl><dt>
+        <dt>
 
           <code><a href="wts_df.html">wts_df</a></code>
 
         </dt>
-        <dd>Weights Data Frame</dd>
-      </dl><dl><dt>
+        <dd>Regression Weights Data Frame</dd>
 
-          <code><a href="wts_mat.html">wts_mat</a></code>
+        <dt>
 
-        </dt>
-        <dd>Weights Matrix</dd>
-      </dl><dl><dt>
-
-          <code><a href="wts_vec_cnt.html">wts_vec_cnt</a></code>
+          <code><a href="ref_df.html">ref_df</a></code>
 
         </dt>
-        <dd>Poisson Regression Weights Vector</dd>
-      </dl><dl><dt>
-
-          <code><a href="wts_vec_lin.html">wts_vec_lin</a></code>
-
-        </dt>
-        <dd>Linear Regression Weights Vector</dd>
-      </dl><dl><dt>
-
-          <code><a href="wts_vec_prb.html">wts_vec_prb</a></code>
-
-        </dt>
-        <dd>Logistic Regression Weights Vector</dd>
+        <dd>Reference Values Data Frame</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Joshua A. Goode.</p>
+  <p>Developed by <a href="https://github.com/jagoode27" class="external-link">Joshua A. Goode</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
