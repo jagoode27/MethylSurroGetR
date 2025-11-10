@@ -66,11 +66,6 @@ reference:
     - print.methyl_miss
     - print.reference_fill_stats
 
-  - title: "Utility Functions"
-    desc: "Helper functions for data generation"
-    contents:
-    - sample_data
-
   - title: "Example Data"
     desc: "Sample datasets included with the package"
     contents:
