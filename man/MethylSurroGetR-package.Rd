@@ -4,12 +4,8 @@
 \name{MethylSurroGetR-package}
 \alias{MethylSurroGetR-package}
 \alias{MethylSurroGetR}
-\title{MethylSurroGetR: Get Predicted Values of DNA Methylation Surrogates}
+\title{MethylSurroGetR: DNA Methylation Surrogate Calculations}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
-
-MethylSurroGetR is an R package designed to facilitate the construction of DNA methylation surrogate biomarker values from existing studies. It provides comprehensive tools for handling missing methylation data through multiple imputation strategies, including mean/median imputation for missing observations and reference-based filling for missing probes. The package supports flexible surrogate calculation with linear, logistic, and Poisson transformations, comprehensive input validation, and detailed diagnostic reporting. Additional utilities include conversion between beta values and M-values, missing data analysis, and vectorized operations for efficient processing of large-scale methylation datasets.
-
 MethylSurroGetR provides a comprehensive toolkit for calculating DNA methylation
 surrogate biomarkers from existing studies. The package handles the complete workflow
 from data preparation through prediction calculation, with robust handling of missing
@@ -71,13 +67,13 @@ as rows and samples as columns
 \preformatted{
   # Create surrogate object
   my_surro <- surro_set(methyl_matrix, weights_vector, intercept = "Intercept")
-  
+
   # Handle missing probes
   my_surro <- reference_fill(my_surro, reference_values)
-  
+
   # Impute missing observations (if needed)
   my_surro <- impute_obs(my_surro, method = "mean")
-  
+
   # Calculate predictions
   predictions <- surro_calc(my_surro, transform = "linear")
   }
@@ -113,14 +109,6 @@ Useful links:
 }
 
 \seealso{
-Useful links:
-\itemize{
-  \item \url{https://github.com/jagoode27/MethylSurroGetR}
-  \item \url{https://jagoode27.github.io/MethylSurroGetR/}
-  \item Report bugs at \url{https://github.com/jagoode27/MethylSurroGetR/issues}
-}
-
-
 Useful links:
 \itemize{
   \item \url{https://github.com/jagoode27/MethylSurroGetR}
