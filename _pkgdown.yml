@@ -13,6 +13,7 @@ home:
   description: >
     Calculate predicted values from DNA methylation surrogates with
     comprehensive missing data handling and flexible transformations.
+  strip_header: false
 
 navbar:
   structure:
