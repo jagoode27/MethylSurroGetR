@@ -2,8 +2,8 @@
 % Please edit documentation in R/MethylSurroGetR-package.R
 \docType{package}
 \name{MethylSurroGetR-package}
-\alias{MethylSurroGetR-package}
 \alias{MethylSurroGetR}
+\alias{MethylSurroGetR-package}
 \title{MethylSurroGetR: DNA Methylation Surrogate Calculations}
 \description{
 MethylSurroGetR provides a comprehensive toolkit for calculating DNA methylation
@@ -121,4 +121,3 @@ Useful links:
 \strong{Maintainer}: Joshua A. Goode \email{jagoode@umich.edu} (\href{https://orcid.org/0000-0003-3290-0284}{ORCID})
 
 }
-\keyword{internal}

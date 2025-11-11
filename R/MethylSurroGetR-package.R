@@ -87,8 +87,6 @@
 #'   \item Report bugs: \url{https://github.com/jagoode27/MethylSurroGetR/issues}
 #' }
 #'
-#' @aliases MethylSurroGetR MethylSurroGetR-package
-#' @keywords internal
 "_PACKAGE"
 
 ## usethis namespace: start
