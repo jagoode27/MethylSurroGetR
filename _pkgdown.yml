@@ -13,7 +13,6 @@ home:
   description: >
     Calculate predicted values from DNA methylation surrogates with
     comprehensive missing data handling and flexible transformations.
-  strip_header: false
 
 navbar:
   structure:
@@ -59,6 +58,14 @@ reference:
     contents:
     - convert_beta_to_m
     - convert_m_to_beta
+
+  - title: "Object Classes"
+    desc: "Documentation for S3 object classes used in the package"
+    contents:
+    - methyl_surro
+    - methyl_miss-class
+    - imputation_stats
+    - reference_fill_stats
 
   - title: "Print Methods"
     desc: "S3 print methods for package objects"
