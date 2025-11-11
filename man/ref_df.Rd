@@ -25,9 +25,9 @@ Simulated data
 ref_df
 }
 \description{
-A data frame containing population-level reference values for methylation probes,
-used for imputing completely missing probes when target data lacks specific CpG sites.
-Values derived from large-scale population methylation studies.
+A data frame containing reference values for methylation probes
+in a simulated external sample, used for imputing completely
+missing probes when target data lacks specific CpG sites.
 }
 \examples{
 data(ref_df)

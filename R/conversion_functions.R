@@ -11,11 +11,9 @@
 #' @return A matrix of beta values corresponding to the input M-values.
 #'
 #' @details
-#' \strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50\%
-#' but will permanently modify the original data.
+#' \strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50 percent but will permanently modify the original data.
 #'
-#' \strong{Numerical Stability:} The function automatically handles extreme M-values that would result in
-#' beta values outside the expected range (0 to 1).
+#' \strong{Numerical Stability:} The function automatically handles extreme M-values that would result in beta values outside the expected range (0 to 1).
 #'
 #' @seealso \code{\link{convert_beta_to_m}} for the inverse conversion
 #'
@@ -101,7 +99,7 @@ convert_m_to_beta <- function(methyl, in_place = FALSE) {
 #' @return A matrix of M-values corresponding to the input beta values.
 #'
 #' @details
-#' \strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50\%
+#' \strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50 percent
 #' but will permanently modify the original data.
 #'
 #' \strong{Numerical Stability:} The function automatically handles extreme beta values (0 or 1) that would otherwise

@@ -109,9 +109,9 @@
 
 #' Reference Values Data Frame
 #'
-#' A data frame containing population-level reference values for methylation probes,
-#' used for imputing completely missing probes when target data lacks specific CpG sites.
-#' Values derived from large-scale population methylation studies.
+#' A data frame containing reference values for methylation probes
+#' in a simulated external sample, used for imputing completely
+#' missing probes when target data lacks specific CpG sites.
 #'
 #' @format A data frame with 20 rows (CpG probes) and 2 columns:
 #' \describe{

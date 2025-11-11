@@ -21,7 +21,7 @@ levels as proportions (0-1), while M-values are log2 ratios that provide better
 statistical properties for analysis.
 }
 \details{
-\strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50\\%
+\strong{Memory Usage:} For large matrices, setting \code{in_place = TRUE} can reduce memory usage by approximately 50 percent
 but will permanently modify the original data.
 
 \strong{Numerical Stability:} The function automatically handles extreme beta values (0 or 1) that would otherwise

@@ -25,7 +25,7 @@ If \code{return_diagnostics = FALSE}: A named vector of predicted values with na
 If \code{return_diagnostics = TRUE}: A list containing:
 \describe{
 \item{predictions}{The named vector of predicted values}
-\item{diagnostics}{A list of diagnostic information including missing data handling and calculation details}
+\item{diagnostics}{A list of diagnostic information including missing data handling and calculation details (see Diagnostics section)}
 }
 }
 \description{
@@ -45,6 +45,51 @@ The function performs validation and processing steps:
 \item Provides detailed feedback about data processing
 }
 }
+\section{Transformation Equations}{
+
+The surrogate biomarker value for each sample is calculated using the following equations,
+where \eqn{X} is the methylation matrix, \eqn{w} is the weight vector, and \eqn{b} is the intercept:
+
+\strong{Linear transformation (\code{transform = "linear"}):}
+\deqn{y = X^T w + b}
+This is the raw weighted sum of methylation values, suitable for continuous outcomes
+such as estimated cell counts or continuous biomarker values.
+
+\strong{Count transformation (\code{transform = "count"}):}
+\deqn{y = \exp(X^T w + b)}
+This applies an exponential transformation to the linear predictor, appropriate for
+count-based outcomes following a log-linear model (e.g., Poisson regression results).
+Values are constrained to be positive.
+
+\strong{Probability transformation (\code{transform = "probability"}):}
+\deqn{y = \frac{1}{1 + \exp(-(X^T w + b))}}
+This applies the inverse logit (logistic) transformation, converting the linear predictor
+to a probability scale (range: 0 to 1). Appropriate for binary outcomes or risk scores derived
+from logistic regression models.
+}
+
+\section{Diagnostics}{
+
+When \code{return_diagnostics = TRUE}, the function returns a list where the \code{diagnostics}
+component contains detailed information about the calculation:
+\describe{
+\item{transform}{Character string indicating which transformation was applied}
+\item{n_samples_original}{Number of samples in the input methylation matrix}
+\item{n_probes_original}{Number of probes (rows) in the input methylation matrix}
+\item{n_weights}{Number of weights provided}
+\item{intercept_used}{Logical indicating whether an intercept was included}
+\item{n_common_probes}{Number of probes present in both weights and methylation data}
+\item{n_missing_in_weights}{Number of probes in methylation data without corresponding weights}
+\item{n_missing_in_methyl}{Number of weight probes not found in methylation data}
+\item{n_completely_missing_probes}{Number of probes with all NA values (set to zero)}
+\item{n_samples_with_missing}{Number of samples containing any NA values (removed)}
+\item{probes_set_to_zero}{Same as n_completely_missing_probes}
+\item{samples_removed}{Same as n_samples_with_missing}
+\item{n_final_samples}{Number of samples in the final prediction vector}
+\item{final_result_range}{Named numeric vector with min and max values of predictions}
+}
+}
+
 \examples{
 # Load sample data
 data(beta_matrix_comp, package = "MethylSurroGetR")
