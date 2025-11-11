@@ -1,16 +1,4 @@
-# MethylSurroGetR: Get Predicted Values of DNA Methylation Surrogates
-
-MethylSurroGetR is an R package designed to facilitate the construction
-of DNA methylation surrogate biomarker values from existing studies. It
-provides comprehensive tools for handling missing methylation data
-through multiple imputation strategies, including mean/median imputation
-for missing observations and reference-based filling for missing probes.
-The package supports flexible surrogate calculation with linear,
-logistic, and Poisson transformations, comprehensive input validation,
-and detailed diagnostic reporting. Additional utilities include
-conversion between beta values and M-values, missing data analysis, and
-vectorized operations for efficient processing of large-scale
-methylation datasets.
+# MethylSurroGetR: DNA Methylation Surrogate Calculations
 
 MethylSurroGetR provides a comprehensive toolkit for calculating DNA
 methylation surrogate biomarkers from existing studies. The package
@@ -144,14 +132,6 @@ Useful links:
 - Report bugs: <https://github.com/jagoode27/MethylSurroGetR/issues>
 
 ## See also
-
-Useful links:
-
-- <https://github.com/jagoode27/MethylSurroGetR>
-
-- <https://jagoode27.github.io/MethylSurroGetR/>
-
-- Report bugs at <https://github.com/jagoode27/MethylSurroGetR/issues>
 
 Useful links:
 

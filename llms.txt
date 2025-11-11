@@ -20,6 +20,45 @@ with:
 remotes::install_github("jagoode27/MethylSurroGetR")
 ```
 
+## Example
+
+This is a basic example workflow:
+
+``` r
+library(MethylSurroGetR)
+
+# Load example data
+data(beta_matrix_comp)
+data(wts_df)
+data(ref_df)
+
+# Create weights vector
+wts_vec <- setNames(wts_df$wt_lin, rownames(wts_df))
+
+# Create surrogate object
+my_surro <- surro_set(
+  methyl = beta_matrix_comp,
+  weights = wts_vec,
+  intercept = "Intercept"
+)
+
+# Fill missing probes with reference values
+ref_vec <- setNames(ref_df$mean, rownames(ref_df))
+my_surro <- reference_fill(my_surro, reference = ref_vec)
+
+# Calculate predictions
+predictions <- surro_calc(my_surro, transform = "linear")
+```
+
+## Getting Help
+
+See the [Getting Started
+vignette](https://jagoode27.github.io/MethylSurroGetR/articles/MethylSurroGetR.html)
+for detailed examples and workflows.
+
+For bug reports and feature requests, please [open an
+issue](https://github.com/jagoode27/MethylSurroGetR/issues).
+
 # Package index
 
 ## Setting Up Surrogates
@@ -55,6 +94,19 @@ Convert between beta values and M-values
   : Convert Beta Values to M-Values
 - [`convert_m_to_beta()`](https://jagoode27.github.io/MethylSurroGetR/reference/convert_m_to_beta.md)
   : Convert M-Values to Beta Values
+
+## Object Classes
+
+Documentation for S3 object classes used in the package
+
+- [`methyl_surro`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_surro.md)
+  : methyl_surro Objects
+- [`methyl_miss-class`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_miss-class.md)
+  : methyl_miss Objects
+- [`imputation_stats`](https://jagoode27.github.io/MethylSurroGetR/reference/imputation_stats.md)
+  : imputation_stats Objects
+- [`reference_fill_stats`](https://jagoode27.github.io/MethylSurroGetR/reference/reference_fill_stats.md)
+  : reference_fill_stats Objects
 
 ## Print Methods
 

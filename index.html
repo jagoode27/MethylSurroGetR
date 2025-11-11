@@ -67,7 +67,7 @@
 </h1>
 </div>
 <!-- badges: start -->
-<!-- badges: end -->
+
 <div class="section level3">
 <h3 id="id_-under-development-">🚧 Under Development 🚧<a class="anchor" aria-label="anchor" href="#id_-under-development-"></a>
 </h3>
@@ -81,6 +81,41 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jagoode27/MethylSurroGetR"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>This is a basic example workflow:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jagoode27/MethylSurroGetR" class="external-link">MethylSurroGetR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load example data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">beta_matrix_comp</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">wts_df</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ref_df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create weights vector</span></span>
+<span><span class="va">wts_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">wts_df</span><span class="op">$</span><span class="va">wt_lin</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">wts_df</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create surrogate object</span></span>
+<span><span class="va">my_surro</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/surro_set.html">surro_set</a></span><span class="op">(</span></span>
+<span>  methyl <span class="op">=</span> <span class="va">beta_matrix_comp</span>,</span>
+<span>  weights <span class="op">=</span> <span class="va">wts_vec</span>,</span>
+<span>  intercept <span class="op">=</span> <span class="st">"Intercept"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fill missing probes with reference values</span></span>
+<span><span class="va">ref_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html" class="external-link">setNames</a></span><span class="op">(</span><span class="va">ref_df</span><span class="op">$</span><span class="va">mean</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">ref_df</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">my_surro</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/reference_fill.html">reference_fill</a></span><span class="op">(</span><span class="va">my_surro</span>, reference <span class="op">=</span> <span class="va">ref_vec</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calculate predictions</span></span>
+<span><span class="va">predictions</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/surro_calc.html">surro_calc</a></span><span class="op">(</span><span class="va">my_surro</span>, transform <span class="op">=</span> <span class="st">"linear"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="getting-help">Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<p>See the <a href="https://jagoode27.github.io/MethylSurroGetR/articles/MethylSurroGetR.html">Getting Started vignette</a> for detailed examples and workflows.</p>
+<p>For bug reports and feature requests, please <a href="https://github.com/jagoode27/MethylSurroGetR/issues" class="external-link">open an issue</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -115,7 +150,15 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jagoode27/MethylSurroGetR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/jagoode27/MethylSurroGetR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://www.gnu.org/licenses/gpl-3.0" class="external-link"><img src="https://img.shields.io/badge/License-GPL%20%28%3E%3D%203%29-blue.svg" alt="License: GPL (&gt;= 3)"></a></li>
+<li><a href="https://app.codecov.io/gh/jagoode27/MethylSurroGetR" class="external-link"><img src="https://codecov.io/gh/jagoode27/MethylSurroGetR/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>

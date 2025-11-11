@@ -34,6 +34,19 @@ Convert between beta values and M-values
 - [`convert_m_to_beta()`](https://jagoode27.github.io/MethylSurroGetR/reference/convert_m_to_beta.md)
   : Convert M-Values to Beta Values
 
+## Object Classes
+
+Documentation for S3 object classes used in the package
+
+- [`methyl_surro`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_surro.md)
+  : methyl_surro Objects
+- [`methyl_miss-class`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_miss-class.md)
+  : methyl_miss Objects
+- [`imputation_stats`](https://jagoode27.github.io/MethylSurroGetR/reference/imputation_stats.md)
+  : imputation_stats Objects
+- [`reference_fill_stats`](https://jagoode27.github.io/MethylSurroGetR/reference/reference_fill_stats.md)
+  : reference_fill_stats Objects
+
 ## Print Methods
 
 S3 print methods for package objects
