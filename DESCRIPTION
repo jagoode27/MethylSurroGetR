@@ -1,22 +1,22 @@
 Package: MethylSurroGetR
 Title: Get Predicted Values of DNA Methylation Surrogates
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person("Joshua A.", "Goode", , "jagoode@umich.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-3290-0284"))
-Description: MethylSurroGetR is an R package designed to facilitate the
-    construction of DNA methylation surrogate biomarker values from existing
-    studies. It provides comprehensive tools for handling missing methylation
-    data through multiple imputation strategies, including mean/median imputation
-    for missing observations and reference-based filling for missing probes.
-    The package supports flexible surrogate calculation with linear, logistic,
-    and Poisson transformations, comprehensive input validation, and detailed
-    diagnostic reporting. Additional utilities include conversion between
-    beta values and M-values, as well as missing data analysis.
+Description: Facilitates the construction of DNA methylation surrogate
+    biomarker values from existing studies. Provides tools for handling
+    missing methylation data through various imputation strategies,
+    including mean/median imputation for missing observations and
+    reference-based filling for missing probes. Supports flexible surrogate
+    calculation with linear, probability (logistic), and count (Poisson)
+    transformations, input validation, and diagnostic reporting. Additional
+    utilities include conversion between beta values and M-values and
+    missing data analysis.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Suggests: 
     knitr,
     kableExtra,
@@ -27,8 +27,9 @@ Config/testthat/edition: 3
 URL: https://github.com/jagoode27/MethylSurroGetR, https://jagoode27.github.io/MethylSurroGetR/
 BugReports: https://github.com/jagoode27/MethylSurroGetR/issues
 Depends: 
-    R (>= 4.0)
+    R (>= 4.1)
 Imports:
-    stats
+    stats,
+    utils
 LazyData: true
 VignetteBuilder: knitr
