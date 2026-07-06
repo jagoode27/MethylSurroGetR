@@ -138,3 +138,50 @@
 #' ref_median <- setNames(ref_df$median, rownames(ref_df))
 #'
 "ref_df"
+
+#' Complete methyl_surro Object
+#'
+#' A \code{methyl_surro} object built from complete methylation data, with all
+#' weight probes present. Structurally missing probes have been filled from
+#' reference means using \code{\link{reference_fill}}, so the methylation matrix
+#' contains no missing values.
+#'
+#' @format An object of class \code{methyl_surro}: a list with three components:
+#' \describe{
+#'   \item{methyl}{A 10 x 5 numeric matrix (weight probes x samples) with no missing values.}
+#'   \item{weights}{A named numeric vector of 10 linear regression weights (intercept removed).}
+#'   \item{intercept}{The numeric intercept value.}
+#' }
+#'
+#' @source Built from \code{\link{beta_matrix_comp}}, \code{\link{wts_df}}, and
+#'   \code{\link{ref_df}} via \code{surro_set()} and \code{reference_fill()}
+#' @seealso \code{\link{methyl_surro_miss}}, \code{\link{surro_set}}, \code{\link{reference_fill}}, \code{\link{surro_calc}}
+#'
+#' @examples
+#' data(methyl_surro_comp)
+#' str(methyl_surro_comp)
+#'
+"methyl_surro_comp"
+
+#' methyl_surro Object with Missing Data
+#'
+#' A \code{methyl_surro} object built from methylation data that contains both
+#' partially missing observations and completely missing probes. Missing data
+#' has not been filled, making this object useful for demonstrating
+#' \code{\link{methyl_miss}}, \code{\link{impute_obs}}, and \code{\link{reference_fill}}.
+#'
+#' @format An object of class \code{methyl_surro}: a list with three components:
+#' \describe{
+#'   \item{methyl}{A 10 x 5 numeric matrix (weight probes x samples) containing missing values, including completely missing probes.}
+#'   \item{weights}{A named numeric vector of 10 linear regression weights (intercept removed).}
+#'   \item{intercept}{The numeric intercept value.}
+#' }
+#'
+#' @source Built from \code{\link{beta_matrix_miss}} and \code{\link{wts_df}} via \code{surro_set()}
+#' @seealso \code{\link{methyl_surro_comp}}, \code{\link{surro_set}}, \code{\link{methyl_miss}}, \code{\link{impute_obs}}
+#'
+#' @examples
+#' data(methyl_surro_miss)
+#' str(methyl_surro_miss)
+#'
+"methyl_surro_miss"
