@@ -6,6 +6,7 @@ gc()
 
 # Load packages
 library(tidyverse)
+devtools::load_all()
 
 # Set the seed for reproducibility
 set.seed(123)
@@ -126,7 +127,7 @@ beta_matrix_comp <- full_matrix |>
 miss_index <- sample(1:length(beta_matrix_comp),
                      round(length(beta_matrix_comp) * sim$miss_prop, 0))
 beta_matrix_miss <- beta_matrix_comp
-beta_matrix_miss[miss_index] <-NA
+beta_matrix_miss[miss_index] <- NA
 rm(miss_index)
 
 # Create the m-value versions matrix for sample
@@ -143,65 +144,33 @@ ref_df <- full_matrix |>
   bind_rows() |>
   `rownames<-`(paste0("cg", sprintf(paste0("%0", 2, "d"), 1:sim$n_ref)))
 
-# Generate matrix version of reference values
-ref_mat <- as.matrix(ref_df)
-
-# Generate vector versions of reference values
-ref_vec_mean <- ref_df |>
-  pull(mean) |>
-  `names<-`(rownames(ref_df))
-ref_vec_median <- ref_df |>
-  pull(median) |>
-  `names<-`(rownames(ref_df))
-
-# Generate matrix version of weights
-wts_mat <- as.matrix(wts_df)
-
-# Generate vector versions of weights
-wts_vec_lin <- wts_df |>
-  pull(wt_lin) |>
-  `names<-`(rownames(wts_df))
-wts_vec_prb <- wts_df |>
-  pull(wt_prb) |>
-  `names<-`(rownames(wts_df))
-wts_vec_cnt <- wts_df |>
-  pull(wt_cnt) |>
-  `names<-`(rownames(wts_df))
-
 # Create a complete methyl_surro object
+wts_vec_lin <- with(wts_df, setNames(wt_lin, rownames(wts_df)))[!is.na(wts_df$wt_lin)]
+ref_vec_mean <- with(ref_df, setNames(mean, rownames(ref_df)))[!is.na(ref_df$mean)]
 methyl_surro_comp <- surro_set(methyl = beta_matrix_comp,
                                weights = wts_vec_lin,
                                intercept = "Intercept") |>
   reference_fill(reference = ref_vec_mean)
 
 # Create a methyl_surro object with missing values
+wts_vec_lin <- with(wts_df, setNames(wt_lin, rownames(wts_df)))[!is.na(wts_df$wt_lin)]
 methyl_surro_miss <- surro_set(methyl = beta_matrix_miss,
                                weights = wts_vec_lin,
                                intercept = "Intercept")
 
 # Clean up
-rm(list = setdiff(ls(), c("beta_matrix_comp", "beta_matrix_miss",
-                          "mval_matrix_comp", "mval_matrix_miss",
-                          "wts_df", "wts_mat", "wts_vec_lin",
-                          "wts_vec_prb", "wts_vec_cnt",
-                          "ref_df", "ref_mat",
-                          "ref_vec_mean", "ref_vec_median",
-                          "methyl_surro_miss", "methyl_surro_comp")))
+rm(list = setdiff(ls(), c(
+  "beta_matrix_comp", "beta_matrix_miss",
+  "mval_matrix_comp", "mval_matrix_miss",
+  "wts_df", "ref_df",
+  "methyl_surro_miss", "methyl_surro_comp")
+))
 
 # Export to package
-usethis::use_data(beta_matrix_comp,
-                  beta_matrix_miss,
-                  mval_matrix_comp,
-                  mval_matrix_miss,
-                  wts_df,
-                  wts_mat,
-                  wts_vec_lin,
-                  wts_vec_prb,
-                  wts_vec_cnt,
-                  ref_df,
-                  ref_mat,
-                  ref_vec_mean,
-                  ref_vec_median,
-                  methyl_surro_comp,
-                  methyl_surro_miss,
-                  overwrite = TRUE)
+usethis::use_data(
+  beta_matrix_comp, beta_matrix_miss,
+  mval_matrix_comp, mval_matrix_miss,
+  wts_df, ref_df,
+  methyl_surro_comp, methyl_surro_miss,
+  overwrite = TRUE
+)
