@@ -93,11 +93,6 @@ as rows and samples as columns
 }
 }
 
-\section{Authors}{
-
-Joshua A. Goode \email{jagoode@umich.edu} (ORCID: 0000-0003-3290-0284)
-}
-
 \section{See Also}{
 
 Useful links:
