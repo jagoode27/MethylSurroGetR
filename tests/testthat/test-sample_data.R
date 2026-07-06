@@ -133,7 +133,7 @@ test_that("mval_matrix_comp is correct", {
   expect_equal(mval_matrix_comp, expected_mval_comp, tolerance = 0.0001)
 })
 
-test_that("mval_matrix_comp is correct", {
+test_that("mval_matrix_miss is correct", {
 
   # load sample data
   data(mval_matrix_miss)
