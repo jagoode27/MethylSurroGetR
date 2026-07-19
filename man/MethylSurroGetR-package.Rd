@@ -53,6 +53,8 @@ The package includes example datasets for learning and testing:
 \item{\code{\link{mval_matrix_miss}}}{M-value matrix with missing values}
 \item{\code{\link{wts_df}}}{Example surrogate weights with three transformation types}
 \item{\code{\link{ref_df}}}{Reference values for missing probe imputation}
+\item{\code{\link{methyl_surro_comp}}}{Example complete \code{methyl_surro} object}
+\item{\code{\link{methyl_surro_miss}}}{Example \code{methyl_surro} object with missing data}
 }
 }
 

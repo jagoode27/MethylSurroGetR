@@ -206,6 +206,13 @@ surro_calc <- function(methyl_surro,
     message(sprintf("%d samples omitted. Use impute_obs().", omitted_samples))
   }
 
+  # Guard: if every sample was removed, there is nothing to compute
+  if (ncol(methyl) == 0) {
+    stop("All samples were removed due to missing values; no predictions can be ",
+         "calculated. Use reference_fill() and/or impute_obs() to address missing ",
+         "data before calling surro_calc().")
+  }
+
   # Sort the weights to match the order of the rows in the methylation matrix
   sorted_weights <- weights[rownames(methyl)]
 

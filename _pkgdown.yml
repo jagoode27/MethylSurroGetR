@@ -83,6 +83,8 @@ reference:
     - mval_matrix_miss
     - wts_df
     - ref_df
+    - methyl_surro_comp
+    - methyl_surro_miss
 
 authors:
   Joshua A. Goode:

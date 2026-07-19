@@ -19,11 +19,11 @@ of DNA methylation surrogate biomarker values from existing studies. It
 provides comprehensive tools for handling missing methylation data
 through various imputation strategies, including mean/median imputation
 for missing observations and reference-based filling for missing probes.
-The package supports flexible surrogate calculation with linear,
-logistic, and Poisson transformations, comprehensive input validation,
-and detailed diagnostic reporting. Additional utilities include
-conversion between beta values and M-values, as well as missing data
-analysis.
+The package supports flexible surrogate calculation with “linear”,
+“probability” (logistic), and “count” (Poisson) transformations,
+comprehensive input validation, and detailed diagnostic reporting.
+Additional utilities include conversion between beta values and
+M-values, as well as missing data analysis.
 
 ## Installation
 

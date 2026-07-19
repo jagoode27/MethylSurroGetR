@@ -18,27 +18,31 @@ containing:
 \code{"all"} (both).}
 \item{\code{timestamp}}{POSIXct timestamp of when filling was performed.}
 \item{\code{n_total_probes}}{Total number of probes in the methylation matrix.}
-\item{\code{n_total_samples}}{Total number of samples in the methylation matrix.}
-\item{\code{n_completely_missing_probes_before}}{Number of completely missing probes
-before filling.}
-\item{\code{n_completely_missing_probes_after}}{Number of completely missing probes
+\item{\code{n_samples}}{Total number of samples in the methylation matrix.}
+\item{\code{n_complete_probes}}{Number of probes with no missing values after filling.}
+\item{\code{n_completely_missing_probes}}{Number of completely missing probes remaining
 after filling.}
-\item{\code{n_probes_filled}}{Number of completely missing probes that were filled.}
-\item{\code{n_obs_filled}}{Number of individual missing observations that were filled
-(in partially missing probes).}
-\item{\code{n_total_values_filled}}{Total number of values filled (sum of probes filled
-× samples + individual observations filled).}
-\item{\code{n_missing_before}}{Total missing values before filling.}
-\item{\code{n_missing_after}}{Total missing values after filling.}
-\item{\code{fill_rate}}{Proportion of originally missing values that were filled (0 to 1).}
-\item{\code{probes_filled}}{Character vector of CpG probe IDs for completely missing
-probes that were filled.}
-\item{\code{obs_filled}}{Character vector of CpG probe IDs for probes that had
+\item{\code{n_partially_missing_probes}}{Number of partially missing probes remaining
+after filling.}
+\item{\code{n_reference_probes}}{Number of probes available in the reference vector.}
+\item{\code{n_probes_filled_complete}}{Number of completely missing probes that were
+filled.}
+\item{\code{n_probes_filled_partial}}{Number of partially missing probes that had
 individual observations filled.}
-\item{\code{values_filled_per_probe}}{Named numeric vector showing the number of values
-filled for each probe (only present when \code{return_stats = TRUE}).}
-\item{\code{probes_not_in_reference}}{Character vector of CpG probe IDs that were
-missing but not present in the reference values (only present when applicable).}
+\item{\code{n_values_filled_complete}}{Number of values filled in completely missing
+probes.}
+\item{\code{n_values_filled_partial}}{Number of values filled in partially missing
+probes.}
+\item{\code{n_total_values_filled}}{Total number of values filled (complete + partial).}
+\item{\code{n_missing_before_filling}}{Total missing values before filling.}
+\item{\code{n_missing_after_filling}}{Total missing values remaining after filling.}
+\item{\code{fill_rate}}{Proportion of originally missing values that were filled (0 to 1).}
+\item{\code{probes_filled_complete}}{Character vector of CpG probe IDs for completely
+missing probes that were filled.}
+\item{\code{probes_filled_partial}}{Character vector of CpG probe IDs for probes that had
+individual observations filled.}
+\item{\code{reference_range}}{Named numeric vector (\code{min}, \code{max}) giving the
+range of the reference values used.}
 }
 }
 
@@ -69,10 +73,10 @@ stats$n_total_values_filled
 stats$fill_rate
 
 # View which probes were filled
-stats$probes_filled
+stats$probes_filled_complete
 
 # View detailed filling counts
-stats$values_filled_per_probe
+stats$n_values_filled_complete
 }
 }
 

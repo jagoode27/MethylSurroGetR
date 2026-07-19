@@ -575,3 +575,22 @@ test_that("surro_calc() diagnostics contain correct information", {
   expect_true(diag$final_result_range["min"] >= 0)
   expect_true(diag$final_result_range["max"] <= 1)
 })
+
+test_that("surro_calc() errors when all samples are removed", {
+  # every sample has a missing value in a partially-missing probe,
+  # so no probe is zeroed and every column gets dropped
+  all_removed_matrix <- matrix(c(
+    0.1, 0.2, NA,
+    NA,  NA,  0.5
+  ), nrow = 2, byrow = TRUE,
+  dimnames = list(c("cg02", "cg07"), c("s1", "s2", "s3")))
+
+  all_removed_surro <- list(
+    methyl = all_removed_matrix,
+    weights = c(cg02 = 1.0, cg07 = 2.0),
+    intercept = 0.5
+  )
+  class(all_removed_surro) <- "methyl_surro"
+
+  expect_error(surro_calc(all_removed_surro), "no predictions can be")
+})
