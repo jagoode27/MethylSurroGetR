@@ -1,5 +1,13 @@
 # Package index
 
+## Package Overview
+
+High-level introduction to the package
+
+- [`MethylSurroGetR`](https://jagoode27.github.io/MethylSurroGetR/reference/MethylSurroGetR-package.md)
+  [`MethylSurroGetR-package`](https://jagoode27.github.io/MethylSurroGetR/reference/MethylSurroGetR-package.md)
+  : MethylSurroGetR: DNA Methylation Surrogate Calculations
+
 ## Setting Up Surrogates
 
 Initialize your surrogate object
@@ -74,3 +82,7 @@ Sample datasets included with the package
   : Regression Weights Data Frame
 - [`ref_df`](https://jagoode27.github.io/MethylSurroGetR/reference/ref_df.md)
   : Reference Values Data Frame
+- [`methyl_surro_comp`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_surro_comp.md)
+  : Complete methyl_surro Object
+- [`methyl_surro_miss`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_surro_miss.md)
+  : methyl_surro Object with Missing Data

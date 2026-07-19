@@ -30,8 +30,8 @@ A matrix of M-values corresponding to the input beta values.
 ## Details
 
 **Memory Usage:** For large matrices, setting `in_place = TRUE` can
-reduce memory usage by approximately 50\\ but will permanently modify
-the original data.
+reduce memory usage by approximately 50 percent but will permanently
+modify the original data.
 
 **Numerical Stability:** The function automatically handles extreme beta
 values (0 or 1) that would otherwise result in infinite M-values by

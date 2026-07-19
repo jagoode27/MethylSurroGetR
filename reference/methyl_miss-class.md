@@ -73,6 +73,7 @@ The `summary` component contains:
 Objects are created using
 [`methyl_miss`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_miss.md):
 
+
     # Create methyl_surro object
     my_surro <- surro_set(beta_matrix_miss, weights_vec, "Intercept")
 
@@ -82,6 +83,7 @@ Objects are created using
 ## Accessing Information
 
 Components can be accessed using standard list notation:
+
 
     # View probes with partial missingness
     miss_info$missing_obs
@@ -96,6 +98,7 @@ Components can be accessed using standard list notation:
 ## Print Method
 
 The package provides a `print` method that displays a formatted summary:
+
 
     print(miss_info)
 

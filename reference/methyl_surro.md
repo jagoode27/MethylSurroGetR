@@ -38,6 +38,7 @@ containing:
 Objects are created using
 [`surro_set`](https://jagoode27.github.io/MethylSurroGetR/reference/surro_set.md):
 
+
     # Load data
     data(beta_matrix_comp)
     data(wts_df)
@@ -55,6 +56,7 @@ Objects are created using
 ## Accessing Components
 
 Components can be accessed using standard list notation:
+
 
     # Access methylation matrix
     methyl_data <- my_surro$methyl
@@ -101,6 +103,7 @@ components:
 Once properly prepared, `methyl_surro` objects are used with
 [`surro_calc`](https://jagoode27.github.io/MethylSurroGetR/reference/surro_calc.md)
 to calculate surrogate predictions:
+
 
     # Calculate predictions
     predictions <- surro_calc(my_surro, transform = "linear")

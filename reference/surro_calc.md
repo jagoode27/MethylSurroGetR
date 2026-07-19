@@ -52,7 +52,7 @@ A list containing:
 - diagnostics:
 
   A list of diagnostic information including missing data handling and
-  calculation details
+  calculation details (see Diagnostics section)
 
 ## Details
 
@@ -67,6 +67,91 @@ The function performs validation and processing steps:
 - Calculates weighted sums and applies transformations
 
 - Provides detailed feedback about data processing
+
+## Transformation Equations
+
+The surrogate biomarker value for each sample is calculated using the
+following equations, where \\X\\ is the methylation matrix, \\w\\ is the
+weight vector, and \\b\\ is the intercept:
+
+**Linear transformation (`transform = "linear"`):** \$\$y = X^T w +
+b\$\$ This is the raw weighted sum of methylation values, suitable for
+continuous outcomes such as estimated cell counts or continuous
+biomarker values.
+
+**Count transformation (`transform = "count"`):** \$\$y = \exp(X^T w +
+b)\$\$ This applies an exponential transformation to the linear
+predictor, appropriate for count-based outcomes following a log-linear
+model (e.g., Poisson regression results). Values are constrained to be
+positive.
+
+**Probability transformation (`transform = "probability"`):** \$\$y =
+\frac{1}{1 + \exp(-(X^T w + b))}\$\$ This applies the inverse logit
+(logistic) transformation, converting the linear predictor to a
+probability scale (range: 0 to 1). Appropriate for binary outcomes or
+risk scores derived from logistic regression models.
+
+## Diagnostics
+
+When `return_diagnostics = TRUE`, the function returns a list where the
+`diagnostics` component contains detailed information about the
+calculation:
+
+- transform:
+
+  Character string indicating which transformation was applied
+
+- n_samples_original:
+
+  Number of samples in the input methylation matrix
+
+- n_probes_original:
+
+  Number of probes (rows) in the input methylation matrix
+
+- n_weights:
+
+  Number of weights provided
+
+- intercept_used:
+
+  Logical indicating whether an intercept was included
+
+- n_common_probes:
+
+  Number of probes present in both weights and methylation data
+
+- n_missing_in_weights:
+
+  Number of probes in methylation data without corresponding weights
+
+- n_missing_in_methyl:
+
+  Number of weight probes not found in methylation data
+
+- n_completely_missing_probes:
+
+  Number of probes with all NA values (set to zero)
+
+- n_samples_with_missing:
+
+  Number of samples containing any NA values (removed)
+
+- probes_set_to_zero:
+
+  Same as n_completely_missing_probes
+
+- samples_removed:
+
+  Same as n_samples_with_missing
+
+- n_final_samples:
+
+  Number of samples in the final prediction vector
+
+- final_result_range:
+
+  Named numeric vector with min and max values of predictions
 
 ## Examples
 

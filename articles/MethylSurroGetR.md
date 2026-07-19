@@ -14,6 +14,7 @@ example data.
 ### Installation
 
 ``` r
+
 library(MethylSurroGetR)
 ```
 
@@ -40,6 +41,7 @@ Let’s walk through each step with examples.
 The package includes sample datasets for demonstration:
 
 ``` r
+
 # Load example methylation data (beta values)
 data(beta_matrix_comp)
 
@@ -60,9 +62,11 @@ head(beta_matrix_comp)
 #> cg08 0.8895393 0.6928034 0.64050681 0.9942698 0.6557058
 ```
 
-The methylation matrix should have: - CpG sites as **rows** (with CpG
-names as row names) - Samples as **columns** - Beta values (0-1 scale)
-as entries
+The methylation matrix should have:
+
+- CpG sites as **rows** (with CpG names as row names)
+- Samples as **columns**
+- Beta values (0-1 scale) as entries
 
 ### Step 2: Create a Surrogate Object
 
@@ -71,6 +75,7 @@ Use
 to combine your methylation data with surrogate weights:
 
 ``` r
+
 # Extract weights as a named vector
 wts_vec <- setNames(wts_df$wt_lin, rownames(wts_df))
 
@@ -97,10 +102,11 @@ str(my_surro)
 #>  - attr(*, "class")= chr "methyl_surro"
 ```
 
-**Key points:** - `weights` should be a named numeric vector with CpG
-names - `intercept` specifies which weight element is the intercept
-term - The function automatically aligns probes and adds missing ones as
-NA
+**Key points:**
+
+- `weights` should be a named numeric vector with CpG names
+- `intercept` specifies which weight element is the intercept term
+- The function automatically aligns probes and adds missing ones as NA
 
 ### Step 3: Fill Missing Probes
 
@@ -108,6 +114,7 @@ If your data is missing probes needed by the surrogate, use reference
 values:
 
 ``` r
+
 # Extract reference values
 ref_vec <- setNames(ref_df$mean, rownames(ref_df))
 
@@ -131,6 +138,7 @@ my_surro <- reference_fill(
 Now calculate the surrogate predictions:
 
 ``` r
+
 # Calculate linear predictions
 predictions <- surro_calc(
   methyl_surro = my_surro,
@@ -142,9 +150,11 @@ print(predictions)
 #> 1.197718 1.200473 1.206967 1.199796 1.198156
 ```
 
-**Available transformations:** - `"linear"` - No transformation
-(default) - `"probability"` - Logistic transformation (1 / (1 +
-exp(-x))) - `"count"` - Exponential transformation (exp(x))
+**Available transformations:**
+
+- `"linear"` - No transformation (default)
+- `"probability"` - Logistic transformation (1 / (1 + exp(-x)))
+- `"count"` - Exponential transformation (exp(x))
 
 ## Handling Missing Data
 
@@ -155,6 +165,7 @@ Use
 to assess missing data patterns:
 
 ``` r
+
 # Load data with missing values
 data(beta_matrix_miss)
 
@@ -201,6 +212,7 @@ For probes with partial missingness, use
 [`impute_obs()`](https://jagoode27.github.io/MethylSurroGetR/reference/impute_obs.md):
 
 ``` r
+
 # Impute using row means
 surro_imputed <- impute_obs(
   methyl_surro = surro_miss,
@@ -242,6 +254,7 @@ surro_imputed <- impute_obs(
 ### Complete Workflow with Missing Data
 
 ``` r
+
 # Start with missing data
 data(beta_matrix_miss)
 data(wts_df)
@@ -273,9 +286,10 @@ print(predictions_miss)
 
 ### Linear Surrogates
 
-For continuous outcomes (e.g., estimated white blood cell counts):
+For continuous outcomes:
 
 ``` r
+
 wts_linear <- setNames(wts_df$wt_lin, rownames(wts_df))
 
 predictions_linear <- beta_matrix_comp |>
@@ -293,9 +307,10 @@ print(predictions_linear)
 
 ### Probability Surrogates
 
-For binary outcomes (e.g., disease risk):
+For binary outcomes:
 
 ``` r
+
 wts_prob <- setNames(wts_df$wt_prb, rownames(wts_df))
 
 predictions_prob <- beta_matrix_comp |>
@@ -313,9 +328,10 @@ print(predictions_prob)
 
 ### Count Surrogates
 
-For count outcomes (e.g., cell counts):
+For count outcomes:
 
 ``` r
+
 wts_count <- setNames(wts_df$wt_cnt, rownames(wts_df))
 
 predictions_count <- beta_matrix_comp |>
@@ -337,6 +353,7 @@ Some analyses use M-values instead of beta values. The package provides
 conversion functions:
 
 ``` r
+
 # Load M-value data
 data(mval_matrix_comp)
 
@@ -357,6 +374,7 @@ all.equal(beta_matrix_comp,
 ### Getting Diagnostic Information
 
 ``` r
+
 # Get detailed diagnostics
 results <- surro_calc(
   my_surro,
@@ -387,6 +405,7 @@ str(results$diagnostics)
 ### Getting Imputation Statistics
 
 ``` r
+
 # Get detailed imputation statistics
 surro_with_stats <- impute_obs(
   surro_miss,
@@ -401,7 +420,7 @@ print(surro_with_stats$imputation_stats)
 #> =====================
 #> Method: mean
 #> Threshold: 0.0% non-missing data required
-#> Date: 2025-11-11 01:13:36.978055
+#> Date: 2026-07-19 22:11:26.461069
 #> 
 #> Probe Summary:
 #> - Total probes: 10
@@ -420,6 +439,7 @@ print(surro_with_stats$imputation_stats)
 For detailed information during processing:
 
 ``` r
+
 # Verbose mode for debugging
 predictions_verbose <- surro_calc(
   my_surro,
@@ -433,18 +453,13 @@ predictions_verbose <- surro_calc(
 1.  **Always check for missing data** using
     [`methyl_miss()`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_miss.md)
     before calculation
-
 2.  **Use appropriate reference values** when filling missing probes
     (ideally from the same platform and tissue type)
-
 3.  **Set reasonable thresholds** for imputation (e.g.,
     `min_nonmiss_prop = 0.5`)
-
 4.  **Choose the correct transformation** based on how the surrogate was
     developed
-
 5.  **Validate results** by comparing to known values or expected ranges
-
 6.  **Document your workflow** including software versions and
     parameters
 
@@ -495,10 +510,11 @@ website](https://github.com/jagoode27/MethylSurroGetR).
 ## Session Information
 
 ``` r
+
 sessionInfo()
-#> R version 4.5.2 (2025-10-31)
+#> R version 4.6.1 (2026-06-24)
 #> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 24.04.3 LTS
+#> Running under: Ubuntu 24.04.4 LTS
 #> 
 #> Matrix products: default
 #> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -517,14 +533,14 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] MethylSurroGetR_0.0.0.9000
+#> [1] MethylSurroGetR_0.1.0
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] digest_0.6.37     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    
-#>  [5] xfun_0.54         cachem_1.1.0      knitr_1.50        htmltools_0.5.8.1
-#>  [9] rmarkdown_2.30    lifecycle_1.0.4   cli_3.6.5         sass_0.4.10      
-#> [13] pkgdown_2.2.0     textshaping_1.0.4 jquerylib_0.1.4   systemfonts_1.3.1
-#> [17] compiler_4.5.2    tools_4.5.2       ragg_1.5.0        evaluate_1.0.5   
-#> [21] bslib_0.9.0       yaml_2.3.10       jsonlite_2.0.0    rlang_1.1.6      
-#> [25] fs_1.6.6
+#>  [1] digest_0.6.39     desc_1.4.3        R6_2.6.1          fastmap_1.2.0    
+#>  [5] xfun_0.60         cachem_1.1.0      knitr_1.51        htmltools_0.5.9  
+#>  [9] rmarkdown_2.31    lifecycle_1.0.5   cli_3.6.6         sass_0.4.10      
+#> [13] pkgdown_2.2.1     textshaping_1.0.5 jquerylib_0.1.4   systemfonts_1.3.2
+#> [17] compiler_4.6.1    tools_4.6.1       ragg_1.5.2        bslib_0.11.0     
+#> [21] evaluate_1.0.5    yaml_2.3.12       otel_0.2.0        jsonlite_2.0.0   
+#> [25] rlang_1.3.0       fs_2.1.0
 ```

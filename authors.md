@@ -10,14 +10,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/jagoode27/MethylSurroGetR/blob/master/DESCRIPTION)
 
-Goode J (2025). *MethylSurroGetR: Get Predicted Values of DNA
-Methylation Surrogates*. R package version 0.0.0.9000,
+Goode J (2026). *MethylSurroGetR: Get Predicted Values of DNA
+Methylation Surrogates*. R package version 0.1.0,
 <https://github.com/jagoode27/MethylSurroGetR>.
 
     @Manual{,
       title = {MethylSurroGetR: Get Predicted Values of DNA Methylation Surrogates},
       author = {Joshua A. Goode},
-      year = {2025},
-      note = {R package version 0.0.0.9000},
+      year = {2026},
+      note = {R package version 0.1.0},
       url = {https://github.com/jagoode27/MethylSurroGetR},
     }

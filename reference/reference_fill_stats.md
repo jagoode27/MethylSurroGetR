@@ -25,69 +25,80 @@ A `reference_fill_stats` object is a list with class
 
   Total number of probes in the methylation matrix.
 
-- `n_total_samples`:
+- `n_samples`:
 
   Total number of samples in the methylation matrix.
 
-- `n_completely_missing_probes_before`:
+- `n_complete_probes`:
 
-  Number of completely missing probes before filling.
+  Number of probes with no missing values after filling.
 
-- `n_completely_missing_probes_after`:
+- `n_completely_missing_probes`:
 
-  Number of completely missing probes after filling.
+  Number of completely missing probes remaining after filling.
 
-- `n_probes_filled`:
+- `n_partially_missing_probes`:
+
+  Number of partially missing probes remaining after filling.
+
+- `n_reference_probes`:
+
+  Number of probes available in the reference vector.
+
+- `n_probes_filled_complete`:
 
   Number of completely missing probes that were filled.
 
-- `n_obs_filled`:
+- `n_probes_filled_partial`:
 
-  Number of individual missing observations that were filled (in
-  partially missing probes).
+  Number of partially missing probes that had individual observations
+  filled.
+
+- `n_values_filled_complete`:
+
+  Number of values filled in completely missing probes.
+
+- `n_values_filled_partial`:
+
+  Number of values filled in partially missing probes.
 
 - `n_total_values_filled`:
 
-  Total number of values filled (sum of probes filled × samples +
-  individual observations filled).
+  Total number of values filled (complete + partial).
 
-- `n_missing_before`:
+- `n_missing_before_filling`:
 
   Total missing values before filling.
 
-- `n_missing_after`:
+- `n_missing_after_filling`:
 
-  Total missing values after filling.
+  Total missing values remaining after filling.
 
 - `fill_rate`:
 
   Proportion of originally missing values that were filled (0 to 1).
 
-- `probes_filled`:
+- `probes_filled_complete`:
 
   Character vector of CpG probe IDs for completely missing probes that
   were filled.
 
-- `obs_filled`:
+- `probes_filled_partial`:
 
   Character vector of CpG probe IDs for probes that had individual
   observations filled.
 
-- `values_filled_per_probe`:
+- `reference_range`:
 
-  Named numeric vector showing the number of values filled for each
-  probe (only present when `return_stats = TRUE`).
-
-- `probes_not_in_reference`:
-
-  Character vector of CpG probe IDs that were missing but not present in
-  the reference values (only present when applicable).
+  Named numeric vector (`min`, `max`) giving the range of the reference
+  values used.
 
 ## Creating reference_fill_stats Objects
 
 Objects are created automatically when calling
 [`reference_fill`](https://jagoode27.github.io/MethylSurroGetR/reference/reference_fill.md)
 with `return_stats = TRUE`:
+
 
     # Perform reference filling with statistics
     result <- reference_fill(
@@ -104,19 +115,21 @@ with `return_stats = TRUE`:
 
 Components can be accessed using standard list notation:
 
+
     # View filling summary
     stats$n_total_values_filled
     stats$fill_rate
 
     # View which probes were filled
-    stats$probes_filled
+    stats$probes_filled_complete
 
     # View detailed filling counts
-    stats$values_filled_per_probe
+    stats$n_values_filled_complete
 
 ## Print Method
 
 The package provides a `print` method that displays a formatted summary:
+
 
     print(stats)
 

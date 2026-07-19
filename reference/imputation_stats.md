@@ -90,6 +90,7 @@ Objects are created automatically when calling
 [`impute_obs`](https://jagoode27.github.io/MethylSurroGetR/reference/impute_obs.md)
 with `return_stats = TRUE`:
 
+
     # Perform imputation with statistics
     result <- impute_obs(
       my_surro,
@@ -105,6 +106,7 @@ with `return_stats = TRUE`:
 
 Components can be accessed using standard list notation:
 
+
     # View imputation summary
     stats$n_values_imputed
     stats$imputation_rate
@@ -118,6 +120,7 @@ Components can be accessed using standard list notation:
 ## Print Method
 
 The package provides a `print` method that displays a formatted summary:
+
 
     print(stats)
 

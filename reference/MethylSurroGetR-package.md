@@ -74,6 +74,14 @@ The package includes example datasets for learning and testing:
 
   Reference values for missing probe imputation
 
+- [`methyl_surro_comp`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_surro_comp.md):
+
+  Example complete `methyl_surro` object
+
+- [`methyl_surro_miss`](https://jagoode27.github.io/MethylSurroGetR/reference/methyl_surro_miss.md):
+
+  Example `methyl_surro` object with missing data
+
 ## Getting Started
 
 To get started with MethylSurroGetR:
@@ -84,6 +92,7 @@ To get started with MethylSurroGetR:
 2.  Obtain surrogate weights from a published study or your own model
 
 3.  Follow the basic workflow:
+
 
           # Create surrogate object
           my_surro <- surro_set(methyl_matrix, weights_vector, intercept = "Intercept")
@@ -116,20 +125,6 @@ To get started with MethylSurroGetR:
 - Memory-efficient operations for large-scale datasets
 
 - Extensive test coverage ensuring reliability
-
-## Authors
-
-Joshua A. Goode <jagoode@umich.edu> (ORCID: 0000-0003-3290-0284)
-
-## See Also
-
-Useful links:
-
-- Package website: <https://jagoode27.github.io/MethylSurroGetR/>
-
-- GitHub repository: <https://github.com/jagoode27/MethylSurroGetR>
-
-- Report bugs: <https://github.com/jagoode27/MethylSurroGetR/issues>
 
 ## See also
 
