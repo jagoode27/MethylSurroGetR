@@ -95,16 +95,6 @@ as rows and samples as columns
 }
 }
 
-\section{See Also}{
-
-Useful links:
-\itemize{
-\item Package website: \url{https://jagoode27.github.io/MethylSurroGetR/}
-\item GitHub repository: \url{https://github.com/jagoode27/MethylSurroGetR}
-\item Report bugs: \url{https://github.com/jagoode27/MethylSurroGetR/issues}
-}
-}
-
 \seealso{
 Useful links:
 \itemize{

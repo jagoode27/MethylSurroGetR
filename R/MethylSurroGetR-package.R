@@ -78,14 +78,6 @@
 #'   \item Extensive test coverage ensuring reliability
 #' }
 #'
-#' @section See Also:
-#' Useful links:
-#' \itemize{
-#'   \item Package website: \url{https://jagoode27.github.io/MethylSurroGetR/}
-#'   \item GitHub repository: \url{https://github.com/jagoode27/MethylSurroGetR}
-#'   \item Report bugs: \url{https://github.com/jagoode27/MethylSurroGetR/issues}
-#' }
-#'
 "_PACKAGE"
 
 ## usethis namespace: start

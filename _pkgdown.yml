@@ -36,6 +36,11 @@ navbar:
       href: news/index.html
 
 reference:
+  - title: "Package Overview"
+    desc: "High-level introduction to the package"
+    contents:
+    - MethylSurroGetR-package
+
   - title: "Setting Up Surrogates"
     desc: "Initialize your surrogate object"
     contents:

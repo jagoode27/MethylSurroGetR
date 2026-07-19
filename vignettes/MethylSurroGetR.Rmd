@@ -60,6 +60,7 @@ head(beta_matrix_comp)
 ```
 
 The methylation matrix should have:
+
 - CpG sites as **rows** (with CpG names as row names)
 - Samples as **columns**
 - Beta values (0-1 scale) as entries
@@ -84,6 +85,7 @@ str(my_surro)
 ```
 
 **Key points:**
+
 - `weights` should be a named numeric vector with CpG names
 - `intercept` specifies which weight element is the intercept term
 - The function automatically aligns probes and adds missing ones as NA
@@ -125,6 +127,7 @@ print(predictions)
 ```
 
 **Available transformations:**
+
 - `"linear"` - No transformation (default)
 - `"probability"` - Logistic transformation (1 / (1 + exp(-x)))
 - `"count"` - Exponential transformation (exp(x))
@@ -204,7 +207,7 @@ print(predictions_miss)
 
 ## Linear Surrogates
 
-For continuous outcomes (e.g., estimated white blood cell counts):
+For continuous outcomes:
 
 ```{r linear-example}
 wts_linear <- setNames(wts_df$wt_lin, rownames(wts_df))
@@ -219,7 +222,7 @@ print(predictions_linear)
 
 ## Probability Surrogates
 
-For binary outcomes (e.g., disease risk):
+For binary outcomes:
 
 ```{r probability-example}
 wts_prob <- setNames(wts_df$wt_prb, rownames(wts_df))
@@ -234,7 +237,7 @@ print(predictions_prob)
 
 ## Count Surrogates
 
-For count outcomes (e.g., cell counts):
+For count outcomes:
 
 ```{r count-example}
 wts_count <- setNames(wts_df$wt_cnt, rownames(wts_df))
@@ -312,15 +315,10 @@ predictions_verbose <- surro_calc(
 # Best Practices
 
 1. **Always check for missing data** using `methyl_miss()` before calculation
-
 2. **Use appropriate reference values** when filling missing probes (ideally from the same platform and tissue type)
-
 3. **Set reasonable thresholds** for imputation (e.g., `min_nonmiss_prop = 0.5`)
-
 4. **Choose the correct transformation** based on how the surrogate was developed
-
 5. **Validate results** by comparing to known values or expected ranges
-
 6. **Document your workflow** including software versions and parameters
 
 # Common Issues and Solutions
